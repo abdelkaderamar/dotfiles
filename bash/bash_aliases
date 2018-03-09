@@ -1,0 +1,22 @@
+# ls
+alias ls='ls --color=auto'
+alias l='ls -1'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lrt='ls -rtl'
+
+# grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias mv='mv -vi'
+alias rm='rm -vi'
+alias cp='cp -vi'
+alias ..='cd ..'
+
+# misc
+alias dus='du -sm * | sort -n'
+alias filezilla='filezilla -a="$(pwd)"'
+alias video_find="find -name '*mp4' -o -name '*mkv' -o -name '*avi' | sort"
