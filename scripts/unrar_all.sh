@@ -4,6 +4,7 @@ shopt -s nullglob
 
 CMD="nice unrar x"
 FAIL_DIR=failed
+SLEEP_TIME=0
 LOG=unrar_all.log
 
 ### Logging ###############################################
@@ -42,9 +43,23 @@ function post_uncompress()
     e_error "unrar failed"
     mv -v "$@" "$FAIL_DIR"
   fi
+  sleep $SLEEP_TIME
 }
 
 ### Options ###############################################
+while [ $# -gt 0 ]
+do
+  case "$1" in
+    '-f') shift
+    FAIL_DIR=$1
+    ;;
+    '-s') shift
+    SLEEP_TIME=$1
+    ;;
+  esac
+  shift
+done
+
 
 initialize
 
@@ -76,5 +91,10 @@ do
   $CMD "$f" >> "$LOG"
   post_uncompress $? "$f"
 done
-A=aapap*aa
-echo $A
+
+if [ -d "$FAIL_DIR" -a -z "$(ls -A $FAIL_DIR)" ]
+then
+  rmdir "$FAIL_DIR"
+else
+  e_error "Directory [$FAIL_DIR] not empty"
+fi
