@@ -34,6 +34,8 @@ echo $DOTFILES_DIR
 
 e_header "Starting dotfile installation ..."
 
+source "$DOTFILES_DIR/init/create_dirs.sh"
+
 source "$DOTFILES_DIR/init/apt.sh"
 
 source "$DOTFILES_DIR/bash/bash_setup.sh"
