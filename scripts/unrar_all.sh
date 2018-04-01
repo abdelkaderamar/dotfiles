@@ -8,18 +8,7 @@ SLEEP_TIME=0
 LOG=unrar_all.log
 
 ### Logging ###############################################
-function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
-function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
-function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
-function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
-function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
-function echo_and_exit()
-{
-  exit_code=$1
-  shift
-  e_error "$@"
-  exit $exit_code
-}
+source $HOME/.bash_logging
 
 ### Initialize the environment ############################
 function initialize()

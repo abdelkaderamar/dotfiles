@@ -20,3 +20,9 @@ alias ..='cd ..'
 alias dus='du -sm * | sort -n'
 alias filezilla='filezilla -a="$(pwd)"'
 alias video_find="find -name '*mp4' -o -name '*mkv' -o -name '*avi' | sort"
+
+# smv script aliases
+for h in $(grep '^Host' ~/.ssh/config  | sed 's/^Host [ ]*\(.*\)[ ]*/\1/')
+do
+  alias $h-smv="smv.sh -h $h"
+done

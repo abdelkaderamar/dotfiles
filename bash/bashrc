@@ -18,8 +18,14 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Prompt
 export PS1='$(if [[ $? -eq 0 ]]; then echo "\[\033[0;32m\]:)"; else echo "\[\033[01;31m\]:("; fi) \[\033[1;35m\][\[\033[0;32m\]\u\[\033[1;35m\]@\[\033[1;34m\]\h\[\033[1;35m\]:\[\033[01;31m\]\w\[\033[1;35m\]]#\[\033[0m\] '
 
+# Aliases
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
+fi
+
+# Functions
+if [ -f ~/.bash_functions ]; then
+  . ~/.bash_functions
 fi
 
 # bash completion
@@ -33,3 +39,7 @@ fi
 
 # default editor
 export EDITOR=vim
+
+# scripts directory
+SCRIPT_DIR=$HOME/share/bash
+export PATH=${SCRIPT_DIR}:$PATH
