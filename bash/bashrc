@@ -43,3 +43,8 @@ export EDITOR=vim
 # scripts directory
 SCRIPT_DIR=$HOME/share/bash
 export PATH=${SCRIPT_DIR}:$PATH
+
+# bash personal info
+if [ -f ~/.bash_info ]; then
+  . ~/.bash_info
+fi
