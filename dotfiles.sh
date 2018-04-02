@@ -1,4 +1,4 @@
-#!/bin/bash -u
+#!/bin/bash 
 
 [[ "$1" == "source" ]] || \
 
