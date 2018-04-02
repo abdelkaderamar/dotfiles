@@ -17,6 +17,7 @@ do_link "$DOTFILES_DIR"/bash/functions "$HOME/.bash_functions"
 do_link "$DOTFILES_DIR"/bash/bash_logging "$HOME/.bash_logging"
 
 e_header "Creating links to scripts"
+mkdir -p "$HOME"/share/bash
 for s in "$DOTFILES_DIR"/scripts/*.sh
 do
   name=$(basename "$s")
