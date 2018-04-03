@@ -3,7 +3,7 @@ archi=$(uname -m)
 RCLONE_VERSION=v1.40
 rclone_suffix=''
 case "$archi" in
-  "arm6l")  rclone_suffix=arm;;
+  "armv6l")  rclone_suffix=arm;;
   "i686")   rclone_suffix=386;;
   "x86_64") rclone_suffix=amd64;;
   *);;
