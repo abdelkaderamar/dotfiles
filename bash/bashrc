@@ -48,3 +48,9 @@ export PATH=${SCRIPT_DIR}:$PATH
 if [ -f ~/.bash_info ]; then
   . ~/.bash_info
 fi
+
+# PATH
+if [ -d ~/Software/bin ]
+then
+  export PATH=$HOME/Software/bin:$PATH
+fi
