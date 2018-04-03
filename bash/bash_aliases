@@ -26,3 +26,6 @@ for h in $(grep '^Host' ~/.ssh/config  | sed 's/^Host [ ]*\(.*\)[ ]*/\1/')
 do
   alias $h-smv="smv.sh -h $h"
 done
+
+# rclone_mv aliases
+alias hubic_mv='rclone_mv.sh hubic default/Media'
