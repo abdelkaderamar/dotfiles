@@ -10,7 +10,7 @@ mkdir -p "$CLOUD_DIR"/GDrive
 e_header "Creating software directory"
 
 SOFT_DIR=${HOME}/Software
-mkdir -p "$SOFT_DIR"
+mkdir -p "$SOFT_DIR"/bin
 
 ### Development directory
 
