@@ -37,7 +37,7 @@ fi
 
 SERVICE="$1"
 shift
-BASE_DIR="$SERVICE":"$2"
+BASE_DIR="$SERVICE":"$1"
 shift
 
 for dir in "$@"
