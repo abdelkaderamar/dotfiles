@@ -55,6 +55,8 @@ then
   exit 0
 fi
 
+append "$LOG_FILE" "###########################################################"
+append "$LOG_FILE" "Starting at $(date)"
 append "$LOG_FILE" "Moving to host $HOST the following files/directory:"
 for file in "${FILES[@]}"
 do
@@ -76,3 +78,6 @@ do
     append "$LOG_FILE"  "failed to copy remotely $file (error code=[$res])" >> $LOG_FILE
   fi
 done
+
+append "$LOG_FILE" "Done at $(date)"
+append "$LOG_FILE" "###########################################################"
