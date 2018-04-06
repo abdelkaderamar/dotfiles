@@ -66,7 +66,7 @@ ssh "$HOST" "mkdir -p $REMOTE_DIR"
 for file in "${FILES[@]}"
 do
   append "$LOG_FILE"  "Start copying [$file] ...."
-  scp -r "$file" rasp:"$REMOTE_DIR" >> "$LOG_FILE" 2>&1
+  scp -r "$file" "$HOST":"$REMOTE_DIR" >> "$LOG_FILE" 2>&1
   res=$?
   if [ $res -eq 0 ]
   then
