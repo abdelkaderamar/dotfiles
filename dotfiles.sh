@@ -62,6 +62,11 @@ then
   source "$DOTFILES_DIR"/init/soft.sh
 fi
 
+if ( $OPT_DEV_SETUP )
+then
+  source "$DOTFILES_DIR"/init/dev.sh
+fi
+
 if ( $OPT_BASH_SETUP )
 then
   source "$DOTFILES_DIR/bash/bash_setup.sh"

@@ -1,4 +1,5 @@
 archi=$(uname -m)
+
 # RClone installation
 RCLONE_VERSION=v1.40
 rclone_suffix=''
