@@ -48,14 +48,16 @@ else
   gtest_filename=release-${GTEST_VERSION}.tar.gz
   gtest_url=https://github.com/google/googletest/archive/${gtest_filename}
   tmp_dir=$(mktemp -d)
+  CXX_PATH=$(which g++)
   cd $tmp_dir && e_arrow downloading ... && \
     wget -q "$gtest_url" && tar xf $gtest_filename  && \
     mkdir build && cd build && \
-    cmake ../googletest-release-${GTEST_VERSION} > /dev/null && \
+    cmake ../googletest-release-${GTEST_VERSION} \
+          -DCMAKE_CXX_COMPILER=${CXX_PATH} > /tmp/gtest_cmake.log && \
     e_arrow building ... && \
-    make -j 2 > /dev/null && \
+    make -j 2 > /tmp/gtest_make.log && \
     e_arrow installing ... && \
-    sudo make install > /dev/null && \
+    sudo make install > /tmp/gtest_install.log && \
     rm -fr "${tmp_dir}"
 fi
 e_arrow "Gtest installaton done with error code $?"
@@ -72,16 +74,16 @@ else
   git clone https://github.com/quickfix/quickfix.git && \
   cd quickfix && \
   e_arrow building ... && \
-  ./bootstrap  > bootstrap.log 2>&1 && \
-  ./configure  > configure.log 2>&1 && \
-  make -j 2 > make.log 2>&1 && \
+  ./bootstrap  > /tmp/quickfix_bootstrap.log 2>&1 && \
+  ./configure  > /tmp/quickfix_configure.log 2>&1 && \
+  make -j 2 > /tmp/quickfix_make.log 2>&1 && \
   e_arrow installing ... && \
-  sudo make install > install.log && rm -fr $tmp_dir
+  sudo make install > /tmp/quickfix_install.log && rm -fr $tmp_dir
   res=$?
   if [ $res -ne 0 ]
   then
     e_error "quickfix installaton done with error code $res"
-    e_arrow Check directory $tmp_dir/build
+    e_arrow Check log files /tmp/quickfix_*
   else
     e_arrow "quickfix installaton done with error code $res"
   fi
