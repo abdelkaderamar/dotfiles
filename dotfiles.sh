@@ -64,7 +64,9 @@ if ( $OPT_APT_INSTALL )
 then
   if ( $OPT_DEV_SETUP )
   then
-    apt_packages+=(libgtest-dev)
+    apt_packages+=(lcov)
+    apt_packages+=(gcovr)
+    apt_packages+=(libboost-all-dev)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi
