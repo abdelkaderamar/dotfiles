@@ -1,6 +1,3 @@
-apt_keys=()
-declare -A apt_sources
-apt_packages=()
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
@@ -35,7 +32,7 @@ e_header "Updating APT"
 $DO sudo apt-get -qq update
 
 # Install APT packages
-e_header "Installing APT packages (${#apt_packages[@]})"
+e_header "Installing APT packages (${apt_packages[@]})"
 for package in "${apt_packages[@]}"; do
     e_arrow "$package"
     $DO sudo apt-get -qq install "$package"

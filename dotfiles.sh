@@ -44,6 +44,14 @@ function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
 function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
 ############################################################
 
+apt_keys=()
+declare -A apt_sources
+apt_packages=()
+
+export apt_keys
+export apt_sources
+export apt_packages
+
 DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo $DOTFILES_DIR
@@ -54,6 +62,10 @@ source "$DOTFILES_DIR/init/create_dirs.sh"
 
 if ( $OPT_APT_INSTALL )
 then
+  if ( $OPT_DEV_SETUP )
+  then
+    apt_packages+=(libgtest-dev)
+  fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi
 
