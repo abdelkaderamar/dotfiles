@@ -1,3 +1,5 @@
+# For ccmake 
+apt_packages+=(libncurses5-dev)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
