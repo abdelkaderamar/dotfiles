@@ -1,5 +1,8 @@
-# For ccmake 
+# For ccmake
 apt_packages+=(libncurses5-dev)
+
+# CIFS filesystem (freebox disk mount)
+apt_package+=(cifs-utils)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')

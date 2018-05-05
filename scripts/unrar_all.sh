@@ -6,6 +6,7 @@ CMD="nice unrar x"
 FAIL_DIR=failed
 SLEEP_TIME=0
 LOG=unrar_all.log
+FILES_TO_DEL=()
 
 ### Logging ###############################################
 source $HOME/.bash_logging
@@ -32,6 +33,13 @@ function post_uncompress()
     e_error "unrar failed"
     mv -v "$@" "$FAIL_DIR"
   fi
+  if [ ${#FILES_TO_DEL[@]} -gt 0 ]
+  then
+    for extension in ${FILES_TO_DEL[@]}
+    do
+      rm -f *.${extension}
+    done
+  fi
   sleep $SLEEP_TIME
 }
 
@@ -44,6 +52,9 @@ do
     ;;
     '-s') shift
     SLEEP_TIME=$1
+    ;;
+    '-del')  shift
+    FILES_TO_DEL+=($1)
     ;;
   esac
   shift
