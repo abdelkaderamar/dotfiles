@@ -39,24 +39,3 @@ function dirndmv()
 
   mkdir -p "$dir" && mv -vi "$@" "$dir"
 }
-
-### Unzip all the files in the current directory. If the
-### operation succeed, the zip file is removed
-unzip_all()
-{
-  for i in *.zip
-  do
-    if [ "$i" == '*.zip' ]
-    then
-      echo "No .zip files found"
-      break;
-    fi
-    unzip "$i" -d "$extract_dir"
-    if [ $? -ne 0 ]
-    then
-      mv -v "$i" "${FAIL_DIR}"/
-    else
-      rm -v "$i"
-    fi
-  done
-}
