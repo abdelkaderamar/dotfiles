@@ -1,6 +1,6 @@
 archi=$(uname -m)
 
-# RClone installation
+### RClone installation
 RCLONE_VERSION=v1.40
 rclone_suffix=''
 case "$archi" in
@@ -22,3 +22,11 @@ then
 else
   e_warn "Unknwon architecture [$rclone_suffix]=> rclone will not be installed"
 fi
+
+### Atom installation
+tmp_dir=$(mktemp -d)
+e_arrow Atom installation
+cd $tmp_dir && wget https://atom.io/download/deb && \
+	sudo apt-get install -y gconf2 gconf-service && \
+	sudo dpkg --install deb && rm -f deb 
+
