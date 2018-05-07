@@ -64,11 +64,13 @@ if ( $OPT_APT_INSTALL )
 then
   if ( $OPT_DEV_SETUP )
   then
+    apt_packages+=(gcc clang)
     apt_packages+=(git)
     apt_packages+=(lcov)
     apt_packages+=(gcovr)
     apt_packages+=(libboost-all-dev)
     apt_packages+=(libtool autoconf)
+    apt_packages+=(libncurses5-dev cmake cmake-curses-gui)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi

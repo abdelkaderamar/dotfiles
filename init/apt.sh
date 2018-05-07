@@ -1,8 +1,13 @@
 # For ccmake
-apt_packages+=(libncurses5-dev)
 
 # CIFS filesystem (freebox disk mount)
-apt_package+=(cifs-utils)
+apt_packages+=(cifs-utils)
+
+# vim, emacs, latex
+apt_packages+=(vim emacs texlive-latex-base texlive-latex-extra)
+
+# some tools
+apt_packages+=(tree)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
@@ -31,6 +36,10 @@ for source in "${!apt_sources[@]}"
 do
     $DO sudo sh -c "echo '${apt_sources[$source]}' >  /etc/apt/sources.list.d/$source.list"
 done
+
+# Oracle Java PPA
+sudo add-apt-repository -y ppa:webupd8team/java
+apt_packages+=(oracle-java8-installer)
 
 # Updating APT
 e_header "Updating APT"
