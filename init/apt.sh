@@ -7,7 +7,7 @@ apt_packages+=(cifs-utils)
 apt_packages+=(vim emacs texlive-latex-base texlive-latex-extra)
 
 # some tools
-apt_packages+=(tree ttyrec calibre)
+apt_packages+=(tree ttyrec calibre curl)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')

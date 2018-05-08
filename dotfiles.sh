@@ -74,6 +74,7 @@ then
     apt_packages+=(libtool autoconf)
     apt_packages+=(libncurses5-dev cmake cmake-curses-gui)
     apt_packages+=(ruby-dev)
+    apt_packages+=(clang-format)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi

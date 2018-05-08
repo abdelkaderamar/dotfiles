@@ -23,3 +23,11 @@ do
   name=$(basename "$s")
   do_link "$s" "$HOME"/share/bash/"$name"
 done
+
+e_header "Creating links to cmake files"
+mkdir -p "$HOME"/share/cmake
+for f in "$DOTFILES_DIR"/share/*.cmake
+do
+  name=$(basename "$f")
+  do_link "$f" "$HOME"/share/cmake/"$name"
+done
