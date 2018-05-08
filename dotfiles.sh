@@ -65,12 +65,15 @@ then
   if ( $OPT_DEV_SETUP )
   then
     apt_packages+=(gcc clang)
+    # To compile gcc from sources
+    apt_packages+=(libgmp-dev libmpc-dev libmpfr-dev gcc-multilib libc6-dev-i386)
     apt_packages+=(git)
     apt_packages+=(lcov)
     apt_packages+=(gcovr)
     apt_packages+=(libboost-all-dev)
     apt_packages+=(libtool autoconf)
     apt_packages+=(libncurses5-dev cmake cmake-curses-gui)
+    apt_packages+=(ruby-dev)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi
