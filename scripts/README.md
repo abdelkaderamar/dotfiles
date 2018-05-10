@@ -4,7 +4,7 @@ These are some script I am using for personal purposes.
 ## execute_then_sms.sh
 
 This script executes a command then sends an SMS indicating the execution
-status. It depends on [sms.sh](#sms.sh) script described below.
+status. It depends on [sms.sh](##sms.sh) script described below.
 
 **Syntax**
 ```bash
