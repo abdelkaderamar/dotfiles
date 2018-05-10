@@ -4,8 +4,8 @@
 apt_packages+=(cifs-utils)
 
 # vim, emacs, latex
-apt_packages+=(vim emacs texlive-latex-base texlive-latex-extra)
-
+apt_packages+=(vim emacs)
+apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra)
 # some tools
 apt_packages+=(tree ttyrec calibre curl)
 

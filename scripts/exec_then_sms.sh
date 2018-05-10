@@ -29,9 +29,14 @@ res=$?
 
 if [ $res -eq 0 ]
 then
-  MSG_TO_SEND="SUCCESS. Command [$CMD] succeed at $(date)"
+  STATUS="SUCCESS"
+  verb="succeed"
 else
-  MSG_TO_SEND="ERROR. Command [$CMD] failed at $(date)"
+  STATUS="ERROR"
+  verb="failed"
 fi
+HOSTNAME=$(hostname)
+
+MSG_TO_SEND="$STATUS. Command [$CMD] $verb at $(date) on host [$HOSTNAME]"
 
 sms.sh "$MSG_TO_SEND"
