@@ -4,7 +4,7 @@ These are some script I am using for personal purposes.
 ## execute_then_sms.sh
 
 This script executes a command then sends an SMS indicating the execution
-status. It depends on [sms.sh](#sms-sh) script described below.
+status. It depends on [sms.sh](#sms) script described below.
 
 **Syntax**
 ```bash
@@ -48,7 +48,7 @@ Where
   -r is used to rename file. Otherwise only a preview if displayed
 ```
 
-## sms.sh
+## sms
 
 This script is used to text a message using *free mobile* service. The
 variables FREE_USER and FREE_PASS must be set.
