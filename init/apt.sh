@@ -1,11 +1,14 @@
 # For ccmake
 
 # CIFS filesystem (freebox disk mount)
-apt_packages+=(cifs-utils)
+apt_packages+=(openssh-server net-tools cifs-utils cuneiform)
+
+# virtualbox
+apt_packages+=(virtualbox-qt)
 
 # vim, emacs, latex
 apt_packages+=(vim emacs)
-apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra)
+apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra texlive-extra-utils)
 # some tools
 apt_packages+=(tree ttyrec calibre curl)
 
