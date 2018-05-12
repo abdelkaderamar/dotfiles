@@ -1,7 +1,8 @@
 # For ccmake
 
-# CIFS filesystem (freebox disk mount)
-apt_packages+=(openssh-server net-tools cifs-utils cuneiform)
+# CIFS filesystem (freebox disk mount), ssh, ocr, cpupower, ...
+apt_packages+=(openssh-server net-tools cifs-utils cuneiform linux-tools-common)
+apt_packages+=(linux-tools-4.15.0-20-generic)
 
 # virtualbox
 apt_packages+=(virtualbox-qt)

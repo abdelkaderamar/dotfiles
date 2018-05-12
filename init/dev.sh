@@ -5,6 +5,20 @@ then
   export LD_LIBRARY_PATH=/usr/local/lib
 fi
 
+function create_tmp_and_download()
+{
+  local LIBRARY_NAME=$1
+  local DOWNLOAD_URL=$2
+  e_header "Installing $LIBRARY_NAME library (master branch)"
+  tmp_dir=$(mktemp -d)
+  cd $tmp_dir && e_arrow downloading ... && \
+  git clone "$DOWNLOAD_URL" && \
+  return 0
+
+  e_error "Failed to download $LIBRARY_NAME"
+  return 1
+}
+
 # Go language
 GO_VERSION=1.10.1
 go_suffix=''
@@ -89,3 +103,32 @@ else
   fi
 fi
 # End Quickfix installation
+
+# Google Benchmark library
+if [ -f /usr/local/include/benchmark/benchmark.h ]
+then
+  e_arrow "Benchmark is already installed"
+else
+  e_header "Installing benchmark library (master branch)"
+  create_tmp_and_download "benchmark" "https://github.com/google/benchmark.git"
+  if [ $? -eq 0 ]
+  then
+    e_arrow building .. && \
+    cd benchmark && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=RELEASE && \
+    make -j 2 > /tmp/benchmark_make.log 2>&1 && \
+    e_arrow installing ... && \
+    sudo make install > /tmp/benchmark_install.log && rm -fr $tmp_dir
+    res=$?
+    if [ $res -ne 0 ]
+    then
+      e_error "benchmark installaton done with error code $res"
+      e_arrow Check log files /tmp/benchmark_*
+    else
+      e_arrow "benchmark installaton done with error code $res"
+    fi
+  fi
+fi
+# End Google Benchmark installation
