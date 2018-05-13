@@ -54,3 +54,8 @@ if [ -d ~/Software/bin ]
 then
   export PATH=$HOME/Software/bin:$PATH
 fi
+
+if [ -d ~/Software/go ]
+then
+  export PATH=$HOME/Software/go/bin:$PATH
+fi
