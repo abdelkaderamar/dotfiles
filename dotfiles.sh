@@ -75,6 +75,7 @@ then
     apt_packages+=(libncurses5-dev cmake cmake-curses-gui)
     apt_packages+=(ruby-dev)
     apt_packages+=(clang-format)
+    apt_packages+=(libxerces-c-dev)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi

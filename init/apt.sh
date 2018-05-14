@@ -10,8 +10,10 @@ apt_packages+=(virtualbox-qt)
 # vim, emacs, latex
 apt_packages+=(vim emacs)
 apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra texlive-extra-utils)
+
+
 # some tools
-apt_packages+=(tree ttyrec calibre curl unrar smplayer)
+apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
