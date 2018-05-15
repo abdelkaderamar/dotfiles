@@ -76,6 +76,8 @@ then
     apt_packages+=(ruby-dev)
     apt_packages+=(clang-format)
     apt_packages+=(libxerces-c-dev)
+    apt_packages+=(qtcreator kdevelop)
+    apt_packages+=(libcpprest-dev)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi

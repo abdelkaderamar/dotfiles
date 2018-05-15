@@ -35,7 +35,29 @@ function create_tmp_and_download()
   return 1
 }
 
-
+function build_with_cmake()
+{
+  local SRC_DIR="$1"
+  local SOFT_NAME="$2"
+  e_arrow building .. && \
+  cd "$SRC_DIR" && \
+  mkdir build && \
+  cd build && \
+  cmake .. -DCMAKE_BUILD_TYPE=RELEASE && \
+  make -j 2 > /tmp/"$SOFT_NAME"_make.log 2>&1 && \
+  e_arrow installing ... && \
+  sudo make install > /tmp/"$SOFT_NAME"_install.log && rm -fr $tmp_dir
+  res=$?
+  if [ $res -ne 0 ]
+  then
+    e_error "$SOFT_NAME installaton done with error code $res"
+    e_arrow Check log files /tmp/"$SOFT_NAME"_*
+    return 0
+  else
+    e_arrow "$SOFT_NAME installaton done with error code $res"
+    return 1
+  fi
+}
 
 # Go language
 GO_VERSION=1.10.1
@@ -178,3 +200,4 @@ else
   fi
 fi
 # End JSON for Modern C++ (nlohmann)
+
