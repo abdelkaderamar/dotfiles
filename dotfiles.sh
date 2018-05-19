@@ -78,6 +78,7 @@ then
     apt_packages+=(libxerces-c-dev)
     apt_packages+=(qtcreator kdevelop)
     apt_packages+=(libcpprest-dev)
+    apt_packages+=(dh-make bzr-builddeb texinfo)
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi

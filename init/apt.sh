@@ -13,7 +13,7 @@ apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive
 
 
 # some tools
-apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome)
+apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome pstack)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')

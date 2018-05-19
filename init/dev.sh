@@ -193,11 +193,10 @@ else
     if [ $res -ne 0 ]
     then
       e_error "JSON(nlohmann) installaton done with error code $res"
-      e_arrow Check log files /tmp/benchmark_*
+      e_arrow Check log files /tmp/json_*
     else
       e_arrow "JSON(nlohman) installaton done with error code $res"
     fi
   fi
 fi
 # End JSON for Modern C++ (nlohmann)
-
