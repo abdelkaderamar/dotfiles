@@ -33,3 +33,7 @@ alias hubic_mv='rclone_mv.sh hubic default/Media'
 
 # dev aliases
 alias mk='make -j 2'
+
+# python3 as default
+alias python='python3'
+

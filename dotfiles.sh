@@ -76,7 +76,7 @@ then
     apt_packages+=(ruby-dev)
     apt_packages+=(clang-format)
     apt_packages+=(libxerces-c-dev)
-    apt_packages+=(qtcreator kdevelop)
+    apt_packages+=(qtcreator kdevelop  qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev)
     apt_packages+=(libcpprest-dev)
     apt_packages+=(dh-make bzr-builddeb texinfo)
   fi
