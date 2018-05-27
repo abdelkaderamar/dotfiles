@@ -79,6 +79,8 @@ then
     apt_packages+=(qtcreator kdevelop  qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev)
     apt_packages+=(libcpprest-dev)
     apt_packages+=(dh-make bzr-builddeb texinfo)
+    apt_packages+=(libspdlog-dev)
+
   fi
   source "$DOTFILES_DIR/init/apt.sh"
 fi
