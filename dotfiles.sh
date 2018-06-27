@@ -66,7 +66,7 @@ then
   then
     apt_packages+=(gcc clang)
     # To compile gcc from sources
-    apt_packages+=(libgmp-dev libmpc-dev libmpfr-dev gcc-multilib libc6-dev-i386)
+    apt_packages+=(libgmp-dev libmpc-dev libmpfr-dev gcc-multilib g++-multilib libc6-dev-i386)
     apt_packages+=(git)
     apt_packages+=(lcov)
     apt_packages+=(gcovr)
