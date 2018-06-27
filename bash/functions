@@ -39,3 +39,31 @@ function dirndmv()
 
   mkdir -p "$dir" && mv -vi "$@" "$dir"
 }
+
+function gpull_all()
+{
+    for i in *
+    do
+      if [ -d "$i" ]
+      then
+        echo "$i"
+        cd "$i"
+        git pull
+        cd ..
+      fi
+    done
+}
+
+function gstatus_all()
+{
+    for i in *
+    do
+      if [ -d "$i" ]
+      then
+        echo "$i"
+        cd "$i"
+        git status -s
+        cd ..
+      fi
+    done
+}
