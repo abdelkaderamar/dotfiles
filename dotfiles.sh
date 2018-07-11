@@ -73,7 +73,7 @@ then
     apt_packages+=(libboost-all-dev)
     apt_packages+=(libtool autoconf)
     apt_packages+=(libncurses5-dev cmake cmake-curses-gui)
-    apt_packages+=(ruby-dev)
+    apt_packages+=(ruby-dev ruby-bundler)
     apt_packages+=(clang-format)
     apt_packages+=(libxerces-c-dev)
     apt_packages+=(qtcreator kdevelop  qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev)
