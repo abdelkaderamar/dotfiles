@@ -67,3 +67,12 @@ function gstatus_all()
       fi
     done
 }
+
+### Convert code to latex compatible text
+function code2tex()
+{
+  for i in "$@"
+  do
+    echo $i | sed 's/\([{}_$]\)/\\\1/g'
+  done
+}
