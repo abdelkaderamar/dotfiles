@@ -80,6 +80,7 @@ then
     apt_packages+=(libcpprest-dev)
     apt_packages+=(dh-make bzr-builddeb texinfo)
     apt_packages+=(libspdlog-dev)
+    apt_packages+=(python-pip)
 
   fi
   source "$DOTFILES_DIR/init/apt.sh"

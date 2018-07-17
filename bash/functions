@@ -42,28 +42,66 @@ function dirndmv()
 
 function gpull_all()
 {
-    for i in *
+  if [ $# -eq 0 ]
+  then
+    set -- *
+  fi
+    for i in "$@"
     do
       if [ -d "$i" ]
       then
         echo "$i"
         cd "$i"
         git pull
-        cd ..
+        cd - > /dev/null
       fi
     done
 }
 
 function gstatus_all()
 {
-    for i in *
+  if [ $# -eq 0 ]
+  then
+    set -- *
+  fi
+    for i in "$@"
     do
       if [ -d "$i" ]
       then
-        echo "$i"
         cd "$i"
-        git status -s
-        cd ..
+        res=$(git status -s)
+        if [ ! -z "$res" ]
+        then
+          e_arrow "$i modified file(s):"
+          echo "$res"
+          echo
+        fi
+
+        cd - > /dev/null
+      fi
+    done
+}
+
+function unpushed_commit()
+{
+  if [ $# -eq 0 ]
+  then
+    set -- *
+  fi
+    for i in "$@"
+    do
+      if [ -d "$i" ]
+      then
+        #echo "$i"
+        cd "$i"
+        res=$(git log origin/master..HEAD)
+        if [ ! -z "$res" ]
+        then
+          e_arrow "$i unpublished commit(s):"
+          echo "$res"
+          echo
+        fi
+        cd - > /dev/null
       fi
     done
 }

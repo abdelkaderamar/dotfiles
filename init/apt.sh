@@ -16,6 +16,7 @@ apt_packages+=(texlive-xetex)
 apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome pstack)
 apt_packages+=(lftp gimp)
 apt_packages+=(npm)
+apt_packages+=(docker.io)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
