@@ -10,7 +10,7 @@ apt_packages+=(virtualbox-qt)
 # vim, emacs, latex
 apt_packages+=(vim emacs)
 apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra texlive-extra-utils)
-apt_packages+=(texlive-xetex)
+apt_packages+=(texlive-xetex texlive-lang-french)
 
 # some tools
 apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome pstack)

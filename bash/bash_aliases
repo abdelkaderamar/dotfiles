@@ -17,9 +17,15 @@ alias rm='rm -vi'
 alias cp='cp -vi'
 alias ..='cd ..'
 
+# move to dirs
+alias gh="cd $HOME/Dev/Github"
+alias vs="cd $HOME/Dev/VisualStudio"
+alias bb="cd $HOME/Dev/Bitbucket"
+
 # git
 alias git_unpushed='git log origin/master..HEAD'
 alias git_diff_unpushed='git diff origin/master..HEAD'
+
 
 # misc
 alias dus='du -sm * | sort -n'
