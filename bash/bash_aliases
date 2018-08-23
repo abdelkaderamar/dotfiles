@@ -21,6 +21,7 @@ alias ..='cd ..'
 alias gh="cd $HOME/Dev/Github"
 alias vs="cd $HOME/Dev/VisualStudio"
 alias bb="cd $HOME/Dev/Bitbucket"
+alias gl="cd $HOME/Dev/Gitlab"
 
 # git
 alias git_unpushed='git log origin/master..HEAD'
