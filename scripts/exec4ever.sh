@@ -29,5 +29,5 @@ shift
 while (true)
 do
   $CMD "$@"
-  sleep 3
+  sleep 60
 done
