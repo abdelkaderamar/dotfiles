@@ -19,7 +19,7 @@ apt_packages+=(npm)
 apt_packages+=(docker.io)
 
 # maybe 
-apt_packages+=(apt-file hugoi pandoc)
+apt_packages+=(apt-file hugoi pandoc soundconverter mp3info)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
