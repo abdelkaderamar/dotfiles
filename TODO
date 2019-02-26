@@ -1,2 +1,4 @@
-rclone install (always) overwite current installation
-same for atom installation 
+- rclone install (always) overwite current installation
+- same for atom installation 
+- replace (or add as an alternative) unrar by 7z
+
