@@ -1,5 +1,16 @@
 #!/bin/bash
 
+function print_usage()
+{
+  echo "Available options :"
+  echo "  -dry  do not execute actions"
+  echo "  -dir  create directories structure"
+  echo "  -apt  install apt software"
+  echo "  -snap install snap software"
+  echo "  -soft install software from sources"
+  echo "  -dev  install development tools (to combine with -apt)"
+}
+
 [[ "$1" == "source" ]] || \
 
   echo 'Dotfiles - Abdelkader Amar - https://github.com/abdelkaderamar'
@@ -9,11 +20,15 @@ Usage: $(basename "$0")
 See the README for documentation.
 https://github.com/abdelkaderamar/dotfiles
 Licensed under the MIT license.
+
+$(print_usage)
+
 HELP
 exit; fi
 
 DO=""
 OPT_APT_INSTALL=false
+OPT_SNAP_INSTALL=false
 OPT_SOFT_INSTALL=false
 OPT_DEV_SETUP=false
 OPT_BASH_SETUP=true
@@ -24,6 +39,7 @@ do
     '-dry')  DO="echo" ;;
     '-dir')  OPT_CREATE_DIR=true ;;
     '-apt')  OPT_APT_INSTALL=true ;;
+    '-snap') OPT_SNAP_INSTALL=true ;;
     '-soft') OPT_SOFT_INSTALL=true ;;
     '-dev')  OPT_DEV_SETUP=true;;
     '-all')  OPT_CREATE_DIR=true
@@ -81,6 +97,7 @@ then
     apt_packages+=(dh-make bzr-builddeb texinfo)
     apt_packages+=(libspdlog-dev)
     apt_packages+=(python-pip)
+    apt_packages+=(rustc)
 
   fi
   source "$DOTFILES_DIR/init/apt.sh"
@@ -99,6 +116,11 @@ fi
 if ( $OPT_BASH_SETUP )
 then
   source "$DOTFILES_DIR/bash/bash_setup.sh"
+fi
+
+if ( $OPT_SNAP_INSTALL )
+then
+  source "$DOTFILES_DIR/init/snap.sh"
 fi
 
 e_header "dotfiles installation done"

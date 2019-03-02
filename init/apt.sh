@@ -18,8 +18,8 @@ apt_packages+=(lftp gimp)
 apt_packages+=(npm)
 apt_packages+=(docker.io)
 
-# maybe 
-apt_packages+=(apt-file hugoi pandoc soundconverter mp3info)
+# maybe
+apt_packages+=(apt-file pandoc soundconverter mp3info vlc)
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
