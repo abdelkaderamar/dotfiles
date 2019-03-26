@@ -42,6 +42,7 @@ done
 
 # rclone_mv aliases
 alias hubic_mv='rclone_mv.sh hubic default/Media'
+alias remote_mv_from_hubic='rclone_mv_from_remote.sh hubic default/Media'
 
 # dev aliases
 alias mk='make -j 2'
