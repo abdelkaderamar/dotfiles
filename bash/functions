@@ -113,3 +113,16 @@ function code2tex()
     echo $i | sed 's/\([{}_$]\)/\\\1/g'
   done
 }
+
+## Scan an A4 color page with hp-scan
+function hp-scan-a4() 
+{
+  [[ $# -lt 1 ]] && echo Missing filename && return
+  output_file="$1"
+  hp-scan -mcolor -r400 --size=a4 --file="$output_file"
+}
+
+## Reduce pdf size
+## TODO
+## gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+
