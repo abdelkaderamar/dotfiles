@@ -35,6 +35,8 @@ do
     -d) shift
     REMOTE_DIR=$1
     ;;
+    -q) 
+    ;;
     *) FILES+=("$1")
     ;;
   esac

@@ -84,6 +84,9 @@ do
     '-nolog')
     LOG=/dev/null
     ;;
+    '-q')
+    LOG=/dev/null
+    ;;
   esac
   shift
 done
