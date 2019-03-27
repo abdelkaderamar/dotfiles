@@ -37,6 +37,6 @@ else
 fi
 HOSTNAME=$(hostname)
 
-MSG_TO_SEND="$STATUS. Command [$CMD] $verb at $(date) on host [$HOSTNAME]"
+MSG_TO_SEND="$STATUS. Command {$CMD} $verb at $(date) on host {$HOSTNAME}"
 
 sms.sh "$MSG_TO_SEND"
