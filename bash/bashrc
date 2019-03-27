@@ -23,6 +23,12 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Aliases
+if [ -f ~/.bash_local ]; then
+    . ~/.bash_local
+fi
+
+
 # Functions
 if [ -f ~/.bash_functions ]; then
   . ~/.bash_functions
