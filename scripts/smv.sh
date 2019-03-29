@@ -76,6 +76,7 @@ do
   then
     append "$LOG_FILE" "... copying $file succeed => delete it"
     rm -fr "$file"  && append "$LOG_FILE"  "... $file deleted"
+    res=$?
   else
     append "$LOG_FILE"  "failed to copy remotely $file (error code=[$res])" >> $LOG_FILE
   fi
@@ -83,3 +84,6 @@ done
 
 append "$LOG_FILE" "Done at $(date)"
 append "$LOG_FILE" "###########################################################"
+
+exit $res
+
