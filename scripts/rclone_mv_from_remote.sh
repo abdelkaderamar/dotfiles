@@ -1,5 +1,7 @@
 #!/bin/bash -u
 
+res=0
+
 do_remote_mv()
 {
   DIR="$1"
@@ -11,10 +13,11 @@ do_remote_mv()
 
   echo  "Downloading (moving) $REMOTE to $DIR ..." >> remote_mv.log
 
-   rclone move -v --stats 15s --transfers 2 "$REMOTE" "$DIR" >> "$LOG" 2>&1
-
-   echo "done with error code $?" >> remote_mv.log
-   echo >> remote_mv.log
+  rclone move -v --stats 15s --transfers 2 "$REMOTE" "$DIR" >> "$LOG" 2>&1
+  res=$?
+  
+  echo "done with error code $?" >> remote_mv.log
+  echo >> remote_mv.log
 }
 
 function usage()
@@ -44,3 +47,6 @@ for dir in "$@"
 do
   do_remote_mv "$dir"
 done
+
+# The last status only ?
+exit $res
