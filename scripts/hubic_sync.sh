@@ -39,7 +39,7 @@ sync_hubic_dir()
     if ( $OPT_SMS)
     then
 	CMD="rclone sync"
-	send_sms $res "$CMD"
+	send_sms $res "$CMD" "$1"
     fi
 }
 

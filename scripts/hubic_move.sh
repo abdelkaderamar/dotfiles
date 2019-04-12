@@ -42,7 +42,7 @@ move_hubic_dir()
     if ( $OPT_SMS)
     then
 	CMD="rclone move"
-	send_sms $res "$CMD"
+	send_sms $res "$CMD" "$1"
     fi
 }
 
