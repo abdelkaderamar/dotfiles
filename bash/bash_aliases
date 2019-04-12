@@ -47,5 +47,5 @@ alias mk='make -j 2'
 alias python='python3'
 
 # rclone alias
-alias rclone_config="rclone config"
-alias rclone_lynx="lynx http://127.0.0.1:53682/auth"
+alias rcloneconfig="rclone config"
+alias rclonelynx="lynx http://127.0.0.1:53682/auth"
