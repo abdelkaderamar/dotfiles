@@ -68,3 +68,5 @@ do
     move_hubic_dir "$dir"
 done
 
+exit $sync_res
+
