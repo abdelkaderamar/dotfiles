@@ -32,7 +32,7 @@ date +'%Y-%m-%d-%H:%M:%S'
 CMD="$1"
 shift
 
-date=$(date +'%Y-%m-%d-%H:%M:%S')
+date=$(date +'%Y-%m-%d')
 LOG=`basename $0`-$CMD-$date.log
 ERR=${LOG%.log}.err
 
