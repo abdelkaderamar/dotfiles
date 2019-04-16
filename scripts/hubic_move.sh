@@ -2,8 +2,7 @@
 
 source _hubic_common.sh
 
-LOG=`basename $0`
-LOG=${LOG%.sh}.log
+BASE_LOG=`basename $0`
 
 usage()
 {
@@ -31,6 +30,9 @@ move_hubic_dir()
     local_dir="$dir"
     echo "Move $hubic_dir to $local_dir ..."
 
+    LOG=${BASE_LOG}-$(basename $local_dir).log
+
+    
     $DO rclone move -v --stats 15s --transfers 2 \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?

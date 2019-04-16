@@ -2,8 +2,7 @@
 
 source _hubic_common.sh
 
-LOG=`basename $0`
-LOG=${LOG%.sh}.log
+BASE_LOG=`basename $0`
 
 usage()
 {
@@ -27,6 +26,9 @@ sync_hubic_dir()
 {
     hubic_dir=hubic:default/Media/"$1"
     local_dir="$1"
+
+    LOG=${BASE_LOG}-$(basename $local_dir).log
+    
     echo "Sync $hubic_dir in $local_dir ..."
     $DO rclone sync -v --stats 15s \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
