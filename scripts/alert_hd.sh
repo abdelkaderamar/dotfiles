@@ -27,11 +27,22 @@ check_free_space()
 }
 
 dirs=()
+start_hour=9
+end_hour=21
+
 while [ $# -gt 0 ]
 do
   case "$1" in
     '-dry')  DO="echo" ;;
     '-sms')  OPT_SMS=true ;;
+    '-start')  shift
+	       start_hour=$1
+	       ;;
+    '-end')  shift
+	     end_hour=$1
+	     ;;
+    -*)  echo "Unknwon option $1"
+	 ;;
     *)  dirs+=($1)
 	;;
   esac
@@ -42,10 +53,15 @@ host=$(hostname)
 
 while (true)
 do
-    for dir in "${dirs[@]}"
-    do
-        check_free_space "$dir"
-    done
+    current_hour=$(date +'%H')
 
-    sleep 10
+    if [ $current_hour -ge $start_hour -a $current_hour -lt $end_hour ]
+    then
+	for dir in "${dirs[@]}"
+	do
+            check_free_space "$dir"
+	done
+    fi
+
+    sleep 1800
 done
