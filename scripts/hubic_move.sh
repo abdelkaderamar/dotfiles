@@ -33,7 +33,7 @@ move_hubic_dir()
     LOG=${BASE_LOG}-$(basename $local_dir).log
 
     
-    $DO rclone move -v --stats 15s --transfers 2 \
+    $DO rclone move -v --stats 15s --transfers 4 \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
     if [ $res -ne 0 ]
