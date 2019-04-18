@@ -40,8 +40,13 @@ sync_hubic_dir()
     
     if ( $OPT_SMS)
     then
-	CMD="rclone sync"
-	send_sms $res "$CMD" "$1"
+	current_hour=$(date +'%H')
+
+	if [ $current_hour -ge $start_hour -a $current_hour -lt $end_hour ]
+	then
+	    CMD="rclone sync"
+	    send_sms $res "$CMD" "$1"
+	fi
     fi
 }
 
@@ -49,11 +54,22 @@ DO=''
 OPT_SMS=false
 
 dirs=()
+start_hour=9
+end_hour=22
+
 while [ $# -gt 0 ]
 do
   case "$1" in
     '-dry')  DO="echo" ;;
     '-sms')  OPT_SMS=true ;;
+    '-start')  shift
+	       start_hour=$1
+	       ;;
+    '-end')  shift
+	     end_hour=$1
+	     ;;
+    -*)  echo "Unknwon option $1"
+	 ;;
     *)  dirs+=($1)
 	;;
   esac
