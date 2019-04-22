@@ -16,7 +16,7 @@ fi
 
 check_hubic_activity()
 {
-    ls \"$dir\"/hubic_move.sh-*.log | while read f  
+    ls "$dir"/hubic_move.sh-*.log | while read f  
     do
 	echo $f
     done
