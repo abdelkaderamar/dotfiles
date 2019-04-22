@@ -17,13 +17,13 @@ then
   usage "Please set FREE_USER and FREE_PASS variables"
   exit 1
 fi
-msg=`echo "$1" | sed -e 's/\n/%0A/g'`
+msg=`echo "${1}" | sed -e 's/\n/%0A/g'`
 echo $msg
 
 RETRY=3
 for((i=0;i<RETRY;++i))
 do
-  send=$(curl -i --insecure "https://smsapi.free-mobile.fr/sendmsg?user=$FREE_USER&pass=$FREE_PASS&msg=$msg" 2>&1)
+  send=$(curl -i --insecure "https://smsapi.free-mobile.fr/sendmsg?user=$FREE_USER&pass=$FREE_PASS&msg=${msg}" 2>&1)
   receive=$(echo "$send" | awk '/HTTP/ {print $2}')
   case $receive  in
     200)
