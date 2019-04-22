@@ -17,7 +17,7 @@ fi
 check_hubic_activity()
 {
     files=$(ls "$dir"/hubic_move.sh-*.log)
-    for f in ${files[@]}
+    for f in "${files[@]}"
     do
 	echo $f
     done
