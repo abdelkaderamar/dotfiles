@@ -39,7 +39,7 @@ check_free_space()
 	total_used=$((init-curr))
 	
 	echo "$curr_date - Used disk in [$dir] = $used"	
-	MSG_TO_SEND="Used disk=[${used}M] in {$host}/{${dir}}. Total=[${total_used}M]"
+	MSG_TO_SEND="Used disk={${used}M} in {$host}/{${dir}}. Total={${total_used}M}"
 	echo $MSG_TO_SEND
 	sms.sh "$MSG_TO_SEND"
     else
