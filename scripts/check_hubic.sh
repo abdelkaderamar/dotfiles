@@ -26,6 +26,9 @@ check_hubic_activity()
 
 	    MSG_TO_SEND="Hubic Status on $host"$'\n'
 	    MSG_TO_SEND+=$msg
+
+	    echo $MSG_TO_SEND
+	    
 	fi
     done
     
