@@ -24,10 +24,10 @@ check_hubic_activity()
 	    echo checking "$f"
 	    msg=$(grep '^Transferred:' "$f" | tail -2)
 
-	    MSG_TO_SEND="Hubic Status on $host"$'\n'
-	    MSG_TO_SEND+=${msg}
+	    MSG_TO_SEND="Hubic Status on $host."$'\n'
+	    MSG_TO_SEND+="${msg}"
 
-	    echo ${MSG_TO_SEND}
+	    echo "${MSG_TO_SEND}"
 
 	    #sms.sh "${MSG_TO_SEND}"
 	fi
