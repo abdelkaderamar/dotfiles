@@ -40,6 +40,7 @@ check_hubic_activity()
 }
 
 dir='.'
+start_hour=9
 end_hour=21
 delay=3600
 
