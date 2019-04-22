@@ -19,7 +19,7 @@ check_hubic_activity()
     ls "$dir"/hubic_move.sh-*.log | while read f  
     do
 	timestamp=$(stat -c%Z "$f")
-	if [ $timestamp -le $last_check ]
+	if [ $timestamp -ge $last_check ]
 	then
 	    echo checking "$f"
 	fi
