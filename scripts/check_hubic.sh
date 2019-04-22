@@ -18,7 +18,11 @@ check_hubic_activity()
 {
     ls "$dir"/hubic_move.sh-*.log | while read f  
     do
-	echo $f
+	timestamp=$(stat -c%Z "$f")
+	if [ $timestamp -le $last_check ]
+	then
+	    echo checking "$f"
+	fi
     done
     
 #    if [ $prev -ne 0 ]
@@ -66,6 +70,7 @@ do
 done
 
 host=$(hostname)
+last_check=$(date +%s)
 
 while (true)
 do
@@ -76,5 +81,7 @@ do
         check_hubic_activity
     fi
 
+    last_check=$(date +%s)
+    
     sleep $delay
 done
