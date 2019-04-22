@@ -26,7 +26,7 @@ check_free_space()
 
     prev=${prev_free_space[idx]}
     curr=${curr_free_space[idx]}
-
+    
     curr_date=$(date +'%Y-%m-%d %H:%M')
     echo "$curr_date - Previous free space of [$dir] = $prev"
     echo "$curr_date - Current free space of  [$dir] = $curr"
@@ -34,16 +34,24 @@ check_free_space()
     if [ $prev -ne 0 ]
     then
 	used=$((prev-curr))
+
+	init=${init_free_space[idx]}
+	total_used=$((init-curr))
+	
 	echo "$curr_date - Used disk in [$dir] = $used"	
-	MSG_TO_SEND="Used disk space in {$host}/{${dir}} = $used M"
+	MSG_TO_SEND="Used disk=[${used}M] in {$host}/{${dir}}. Total=[${total_used}M]"
 	echo $MSG_TO_SEND
 	sms.sh "$MSG_TO_SEND"
+    else
+	init_free_space[$idx]=$curr
+	echo "Initial free space of [$dir] = ${init_free_space[idx]} M"
     fi
 }
 
 dirs=()
 prev_free_space=()
 curr_free_space=()
+init_free_space=()
 start_hour=9
 end_hour=21
 delay=1800
@@ -64,7 +72,7 @@ do
 	      ;;
     -*)  echo "Unknwon option $1"
 	 ;;
-    *)  dirs+=($1)
+    *)  dirs+=("$1")
 	curr_free_space+=(0)
 	;;
   esac
