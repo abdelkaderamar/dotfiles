@@ -16,8 +16,8 @@ fi
 
 check_free_space()
 {
-    dir="$1"
-    idx=$2
+    idx=$1
+    dir="$2"
     free_space=`df -mP --total "$dir" | tail -1 | awk '{print $4}' | sed 's/%$//g'`
     free_space_readable=`df -hP --total "$dir" | tail -1 | awk '{print $4}' | sed 's/%$//g'`
 
@@ -81,7 +81,7 @@ do
     then
 	for((i=0;i<${#dirs[@]};++i))
 	do
-            check_free_space "${dirs[i]}" $i
+            check_free_space $i "${dirs[i]}"
 	done
     fi
 
