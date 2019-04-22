@@ -29,6 +29,8 @@ check_hubic_activity()
 
 	    echo "${MSG_TO_SEND}"
 
+	    MSG_TO_SEND=$(echo ${MSG_TO_SEND} | tr '\n' '. ')
+	    
 	    sms.sh "${MSG_TO_SEND}"
 	fi
     done
@@ -87,9 +89,8 @@ do
     if [ $current_hour -ge $start_hour -a $current_hour -lt $end_hour ]
     then
         check_hubic_activity
+	last_check=$(date +%s)
     fi
-
-    last_check=$(date +%s)
     
     sleep $delay
 done
