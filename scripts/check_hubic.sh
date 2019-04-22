@@ -29,7 +29,7 @@ check_hubic_activity()
 
 	    echo "${MSG_TO_SEND}"
 
-	    #sms.sh "${MSG_TO_SEND}"
+	    sms.sh "${MSG_TO_SEND}"
 	fi
     done
     
