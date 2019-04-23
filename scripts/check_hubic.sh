@@ -23,7 +23,8 @@ check_hubic_activity()
 	then
 	    echo checking "$f"
 
-	    name=${f%.log}
+	    name=$(basename "$f")
+	    name=${name%.log}
 	    name=${name#hubic_move.sh-}
 	    
 	    msg=$(grep '^Transferred:' "$f" | tail -2)
