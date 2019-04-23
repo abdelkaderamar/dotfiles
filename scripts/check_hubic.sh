@@ -22,9 +22,13 @@ check_hubic_activity()
 	if [ $timestamp -ge $last_check ]
 	then
 	    echo checking "$f"
+
+	    name=${f%.log}
+	    name=${name#hubic_move.sh-}
+	    
 	    msg=$(grep '^Transferred:' "$f" | tail -2)
 
-	    MSG_TO_SEND="Hubic Status on $host."$'\n'
+	    MSG_TO_SEND="Hubic Status $name / $host."$'\n'
 	    MSG_TO_SEND+="${msg}"
 
 	    echo "${MSG_TO_SEND}"
