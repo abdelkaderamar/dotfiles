@@ -28,9 +28,10 @@ check_hubic_activity()
 	    name=${name#hubic_move.sh-}
 	    
 	    msg=$(grep '^Transferred:' "$f" | tail -2)
-
-	    MSG_TO_SEND="Hubic Status $name / $host."$'\n'
-	    MSG_TO_SEND+="${msg}"
+	    error_msg=$(grep 'Attempt ./. failed with ' "$f"  | sed 's|.*Attempt ./. failed with \(.* errors\).*|\1|' | tail -1)
+	    
+	    MSG_TO_SEND="Hubic Status ${name}/${host}."$'\n'
+	    MSG_TO_SEND+="${msg}. ${error_msg}"
 
 	    echo "${MSG_TO_SEND}"
 
