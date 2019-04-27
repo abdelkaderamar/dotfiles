@@ -28,11 +28,11 @@ move_hubic_dir()
     dir="${dir%/}"
     hubic_dir=hubic:default/Media/"$dir"
     local_dir="$dir"
-    echo "Move $hubic_dir to $local_dir ..." >> "$LOG" 2>&1
 
     LOG=${BASE_LOG}-$(basename $local_dir).log
 
-    
+    echo "Move $hubic_dir to $local_dir ..." >> "$LOG" 2>&1
+
     $DO rclone move -v --stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
