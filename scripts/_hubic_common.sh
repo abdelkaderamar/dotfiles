@@ -22,3 +22,6 @@ send_sms()
     
 }
     
+export RETRY=3
+export TRANSFER=4
+export STAT=15

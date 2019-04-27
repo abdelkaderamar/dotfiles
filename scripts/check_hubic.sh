@@ -40,22 +40,6 @@ check_hubic_activity()
 	    sms.sh "${MSG_TO_SEND}"
 	fi
     done
-    
-#    if [ $prev -ne 0 ]
-#    then
-#	used=$((prev-curr))
-#
-#	init=${init_free_space[idx]}
-#	total_used=$((init-curr))
-#	
-#	echo "$curr_date - Used disk in [$dir] = $used"	
-#	MSG_TO_SEND="Used disk={${used}M} in {$host}/{${dir}}. Total={${total_used}M}"
-#	echo $MSG_TO_SEND
-#	sms.sh "$MSG_TO_SEND"
-#    else
-#	init_free_space[$idx]=$curr
-#	echo "Initial free space of [$dir] = ${init_free_space[idx]} M"
-#    fi
 }
 
 dir='.'

@@ -33,7 +33,7 @@ move_hubic_dir()
     LOG=${BASE_LOG}-$(basename $local_dir).log
 
     
-    $DO rclone move -v --stats 15s --transfers 4 \
+    $DO rclone move -v --stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
     if [ $res -ne 0 ]
@@ -57,6 +57,17 @@ do
   case "$1" in
     '-dry')  DO="echo" ;;
     '-sms')  OPT_SMS=true ;;
+    '-retry') shift
+	      RETRY=$1
+	      ;;
+    '-transfer') shift
+		 TRANSFER=$1
+		 ;;
+    '-stat') shift
+	     STAT=$1
+	     ;;
+    '-*') echo "Unknown option $1"
+	  ;;
     *)  dirs+=($1)
 	;;
   esac
