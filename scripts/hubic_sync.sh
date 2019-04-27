@@ -29,52 +29,29 @@ sync_hubic_dir()
 
     LOG=${BASE_LOG}-$(basename $local_dir).log
     
-    echo "Sync $hubic_dir in $local_dir ..."
-    $DO rclone sync -v --stats 15s \
+    echo "Sync $hubic_dir in $local_dir ..."  >> "$LOG" 2>&1
+    $DO rclone sync -v  \
+	--stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
     if [ $res -ne 0 ]
     then
-	sync_res=2
+	sync_res=$res
     fi
     
     if ( $OPT_SMS)
     then
 	current_hour=$(date +'%H')
 
-	if [ $current_hour -ge $start_hour -a $current_hour -lt $end_hour ]
+	if [ $current_hour -ge $START_HOUR -a $current_hour -lt $END_HOUR ]
 	then
 	    CMD="rclone sync"
-	    send_sms $res "$CMD" "$1"
+	    $DO send_sms $res "$CMD" "$1" >> "$LOG" 2>&1
 	fi
     fi
 }
 
-DO=''
-OPT_SMS=false
-
-dirs=()
-start_hour=9
-end_hour=22
-
-while [ $# -gt 0 ]
-do
-  case "$1" in
-    '-dry')  DO="echo" ;;
-    '-sms')  OPT_SMS=true ;;
-    '-start')  shift
-	       start_hour=$1
-	       ;;
-    '-end')  shift
-	     end_hour=$1
-	     ;;
-    -*)  echo "Unknwon option $1"
-	 ;;
-    *)  dirs+=($1)
-	;;
-  esac
-  shift
-done
+parse_arguments "$@"
 
 sync_res=0
 

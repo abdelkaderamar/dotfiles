@@ -28,7 +28,7 @@ move_hubic_dir()
     dir="${dir%/}"
     hubic_dir=hubic:default/Media/"$dir"
     local_dir="$dir"
-    echo "Move $hubic_dir to $local_dir ..."
+    echo "Move $hubic_dir to $local_dir ..." >> "$LOG" 2>&1
 
     LOG=${BASE_LOG}-$(basename $local_dir).log
 
@@ -38,48 +38,29 @@ move_hubic_dir()
     res=$?
     if [ $res -ne 0 ]
     then
-	sync_res=2
+	move_res=$res
     fi
 
     if ( $OPT_SMS)
     then
-	CMD="rclone move"
-	send_sms $res "$CMD" "$1"
+	current_hour=$(date +'%H')
+
+	if [ $current_hour -ge $START_HOUR -a $current_hour -lt $END_HOUR ]
+	then
+	    CMD="rclone move"
+	    $DO send_sms $res "$CMD" "$1" >> "$LOG" 2>&1
+	fi
     fi
 }
 
-DO=''
-OPT_SMS=false
+parse_arguments "$@"
 
-dirs=()
-while [ $# -gt 0 ]
-do
-  case "$1" in
-    '-dry')  DO="echo" ;;
-    '-sms')  OPT_SMS=true ;;
-    '-retry') shift
-	      RETRY=$1
-	      ;;
-    '-transfer') shift
-		 TRANSFER=$1
-		 ;;
-    '-stat') shift
-	     STAT=$1
-	     ;;
-    '-*') echo "Unknown option $1"
-	  ;;
-    *)  dirs+=($1)
-	;;
-  esac
-  shift
-done
-
-sync_res=0
+move_res=0
 
 for dir in "${dirs[@]}"
 do
     move_hubic_dir "$dir"
 done
 
-exit $sync_res
+exit $move_res
 
