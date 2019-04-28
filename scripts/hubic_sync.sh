@@ -30,7 +30,7 @@ sync_hubic_dir()
     LOG=${BASE_LOG}-$(basename $local_dir).log
     
     echo "Sync $hubic_dir in $local_dir ..."  >> "$LOG" 2>&1
-    $DO rclone sync -v  \
+    $DO rclone sync -v -P \
 	--stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
