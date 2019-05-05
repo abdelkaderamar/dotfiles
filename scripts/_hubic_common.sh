@@ -59,6 +59,6 @@ parse_arguments()
 
 RETRY=3
 TRANSFER=4
-STAT=5
+STAT=10
 START_HOUR=9
 END_HOUR=22
