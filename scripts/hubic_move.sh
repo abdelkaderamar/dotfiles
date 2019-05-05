@@ -33,7 +33,7 @@ move_hubic_dir()
 
     echo "Move $hubic_dir to $local_dir ..." >> "$LOG" 2>&1
 
-    $DO rclone move --stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
+    $DO rclone move -v --stats ${STAT}s --transfers $TRANSFER --retries $RETRY \
 	"$hubic_dir" "$local_dir" >> "$LOG" 2>&1
     res=$?
     if [ $res -ne 0 ]
