@@ -16,7 +16,7 @@ send_sms()
     fi
     HOSTNAME=$(hostname)
 	
-    MSG_TO_SEND="$STATUS. Command {$CMD} $verb at $(date) on host {$HOSTNAME}. Arguments=$ARGS"
+    MSG_TO_SEND="$STATUS. Command {$CMD}@{$HOSTNAME} ${verb}. Args=$ARGS. Time=$(date)"
 	
     sms.sh "$MSG_TO_SEND"
     
