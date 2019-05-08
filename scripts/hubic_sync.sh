@@ -27,7 +27,7 @@ sync_hubic_dir()
     hubic_dir=hubic:default/Media/"$1"
     local_dir="$1"
 
-    LOG=${BASE_LOG}-$(basename $local_dir).log
+    LOG=${BASE_LOG}-$(basename "$local_dir").log
     
     echo "Sync $hubic_dir in $local_dir ..."  >> "$LOG" 2>&1
     $DO rclone sync -v -P \
