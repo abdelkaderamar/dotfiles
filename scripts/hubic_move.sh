@@ -29,7 +29,7 @@ move_hubic_dir()
     hubic_dir=hubic:default/Media/"$dir"
     local_dir="$dir"
 
-    LOG=${BASE_LOG}-$(basename $local_dir).log
+    LOG=${BASE_LOG}-$(basename "$local_dir").log
 
     echo "Move $hubic_dir to $local_dir ..." >> "$LOG" 2>&1
 
