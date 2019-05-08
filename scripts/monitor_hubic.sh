@@ -30,37 +30,33 @@ monitor_hubic_activity()
     
     ls "$dir"/hubic_move.sh-*.log | while read f  
     do
-	timestamp=$(stat -c%Z "$f")
-	if [ $timestamp -ge $last_check ]
+	echo checking "$f"
+
+	name=$(basename "$f")
+	name=${name%.log}
+	name=${name#hubic_move.sh-}
+	
+	error_count=$(grep 'Attempt ./.' "$f"  | \
+			  tail -1 | \
+			  sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
+	if [ -z $error_count ]
 	then
-	    echo checking "$f"
-
-	    name=$(basename "$f")
-	    name=${name%.log}
-	    name=${name#hubic_move.sh-}
-
-	    error_count=$(grep 'Attempt ./.' "$f"  | \
-			      tail -1 | \
-			      sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
-	    if [ -z $error_count ]
-	    then
-		error_count=0
-	    fi
+	    error_count=0
+	fi
 	    
-	    if [ ${errors_dico[$name]+_} ]
+	if [ ${errors_dico[$name]+_} ]
+	then
+	    prev=errors_dico[$name]
+	    if [ $prev -ne $error_count ]
 	    then
-		prev=errors_dico[$name]
-		if [ $prev -ne $error_count ]
-		then
-		    errors_dico[$name]=$error_count
-		    MSG_TO_SEND+=" ${name}:${error_count}(${prev})"
-		    send=true
-		fi
-	    else
 		errors_dico[$name]=$error_count
-		MSG_TO_SEND+=" ${name}:${error_count}"
+		MSG_TO_SEND+=" ${name}:${error_count}(${prev})"
 		send=true
 	    fi
+	else
+	    errors_dico[$name]=$error_count
+	    MSG_TO_SEND+=" ${name}:${error_count}"
+	    send=true
 	fi
     done
 
