@@ -13,6 +13,25 @@ then
     exit 1
 fi
 
+send_summary_sms()
+{
+    sum=0
+    while read l
+    do
+	i=$(echo $l |cut -f2 -d':');
+	sum=$((i+sum));
+    done < "$summary"
+
+    if [ $prev_sum -eq 0 ]
+    then
+	prev_sum=$sum
+    fi
+    
+    sms.sh "Hubic Summary : $sum ERRORS (prev sum = $prev_sum)"
+
+    prev_sum=$sum
+}
+
 persist_data()
 {
     cp /dev/null "$summary"
@@ -68,9 +87,9 @@ monitor_hubic_activity()
 
     if ( $updated )
     then
-        echo "persisting data"
+        echo "persisting data and sending summary"
 	persist_data
-
+	send_summary_sms
     fi
 }
 
@@ -103,6 +122,7 @@ done
 
 host=$(hostname)
 summary=hubic_summary.txt
+prev_sum=0
 
 declare -A errors_dico
 
