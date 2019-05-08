@@ -19,16 +19,15 @@ persist_data()
     
     for key in "${!errors_dico[@]}";
     do
-	echo $key --- ${errors_dico[$key]} >> "$summary"
+	echo $key:${errors_dico[$key]} >> "$summary"
     done
 }
 
 monitor_hubic_activity()
 {
-    MSG_TO_SEND="Hubic Status:"
-    send=false
+    updated=false
     
-    ls "$dir"/hubic_move.sh-*.log | while read f  
+    for f in $(ls "$dir"/hubic_move.sh-*.log)  
     do
 	echo checking "$f"
 
@@ -39,6 +38,9 @@ monitor_hubic_activity()
 	error_count=$(grep 'Attempt ./.' "$f"  | \
 			  tail -1 | \
 			  sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
+
+	echo $name $error_count
+
 	if [ -z $error_count ]
 	then
 	    error_count=0
@@ -47,24 +49,26 @@ monitor_hubic_activity()
 	if [ ${errors_dico[$name]+_} ]
 	then
 	    prev=errors_dico[$name]
+            echo "$name found => compare with previous value $prev"
 	    if [ $prev -ne $error_count ]
 	    then
 		errors_dico[$name]=$error_count
-		MSG_TO_SEND+=" ${name}:${error_count}(${prev})"
-		send=true
+		MSG_TO_SEND="Hubic Status: ${name} ${error_count} (Prev=${prev})"
+	        sms.sh "$MSG_TO_SEND"
+		updated=true
 	    fi
 	else
+            echo "$name not found"
 	    errors_dico[$name]=$error_count
-	    MSG_TO_SEND+=" ${name}:${error_count}"
-	    send=true
+	    updated=true
 	fi
     done
 
-    if ( $send )
+    if ( $updated )
     then
+        echo "persisting data"
 	persist_data
 
-	sms.sh "$MSG_TO_SEND"
     fi
 }
 
