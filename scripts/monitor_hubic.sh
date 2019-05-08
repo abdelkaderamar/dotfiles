@@ -48,7 +48,7 @@ monitor_hubic_activity()
 	    
 	if [ ${errors_dico[$name]+_} ]
 	then
-	    prev=errors_dico[$name]
+	    prev=${errors_dico[$name]}
             echo "$name found => compare with previous value $prev"
 	    if [ $prev -ne $error_count ]
 	    then
@@ -56,6 +56,8 @@ monitor_hubic_activity()
 		MSG_TO_SEND="Hubic Status: ${name} ${error_count} (Prev=${prev})"
 	        sms.sh "$MSG_TO_SEND"
 		updated=true
+            else
+                echo "--> No change"
 	    fi
 	else
             echo "$name not found"
@@ -106,12 +108,12 @@ declare -A errors_dico
 
 if [ -f "$summary" ]
 then
-    cat "$summary" | while read l
+    while read l
     do
 	n=$(echo "$l" | cut -f1 -d':')
 	c=$(echo "$l" | cut -f2 -d':')
 	errors_dico[$n]=$c
-    done	
+    done < "$summary"	
 fi
 
 
