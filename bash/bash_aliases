@@ -17,6 +17,12 @@ alias rm='rm -vi'
 alias cp='cp -vi'
 alias ..='cd ..'
 
+# tail
+alias tailf='tail -f'
+
+# df (current dir)
+alias dfc='df -h .'
+
 # move to dirs
 alias gh="cd $HOME/Dev/Github"
 alias vs="cd $HOME/Dev/VisualStudio"
