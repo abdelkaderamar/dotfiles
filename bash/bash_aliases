@@ -54,4 +54,4 @@ alias python='python3'
 
 # rclone alias
 alias rcloneconfig="rclone config"
-alias rclonelynx="lynx http://127.0.0.1:53682/auth"
+alias rclonelynx="lynx http://127.0.0.1:53682/auth -accept_all_cookies=1"
