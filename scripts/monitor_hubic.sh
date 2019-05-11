@@ -62,7 +62,7 @@ monitor_hubic_activity()
 			  tail -1 | \
 			  sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
 
-	log $name $error_count
+	log $name Error count $error_count
 
 	if [ -z $error_count ]
 	then
@@ -72,9 +72,10 @@ monitor_hubic_activity()
 	if [ ${errors_dico[$name]+_} ]
 	then
 	    prev=${errors_dico[$name]}
-            log "$name found => compare with previous value $prev"
+            log "  $name => compare $error_count with previous value $prev"
 	    if [ $prev -ne $error_count ]
 	    then
+		log "    --> CHANGE"
 		errors_dico[$name]=$error_count
 		MSG_TO_SEND="Hubic Status: ${name} ${error_count} (Prev=${prev})"
 	        sms.sh "$MSG_TO_SEND"
