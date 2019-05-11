@@ -102,7 +102,7 @@ monitor_hubic_activity()
 	persist_data
 	send_summary_sms
     else
-	log "No change found ($ ERRORS)"
+	log "No change found ($sum ERRORS)"
     fi
     log "######################################"	
 }
