@@ -17,7 +17,7 @@ then
     exit 1
 fi
 
-send_summary_sms()
+compute_sum()
 {
     sum=0
     while read l
@@ -30,7 +30,10 @@ send_summary_sms()
     then
 	prev_sum=$sum
     fi
-    
+}
+
+send_summary_sms()
+{    
     sms.sh "Hubic Summary : $sum ERRORS (prev sum = $prev_sum)"
 
     prev_sum=$sum
@@ -90,6 +93,8 @@ monitor_hubic_activity()
 	fi
     done
 
+    compute_sum
+    
     log "######################################"
     if ( $updated )
     then
@@ -97,7 +102,7 @@ monitor_hubic_activity()
 	persist_data
 	send_summary_sms
     else
-	log "No change found ($sum ERRORS)"
+	log "No change found ($ ERRORS)"
     fi
     log "######################################"	
 }
