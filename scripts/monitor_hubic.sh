@@ -6,6 +6,10 @@ usage()
     echo "    `basename $0` <dir>"
 }
 
+log()
+{
+    echo "$(date +'%Y/%m/%d:%H:%M:%S') $@"
+}
 
 if [ $# -lt 1 ]
 then
@@ -48,7 +52,7 @@ monitor_hubic_activity()
     
     for f in $(ls "$dir"/hubic_move.sh-*.log)  
     do
-	echo checking "$f"
+	log checking "$f"
 
 	name=$(basename "$f")
 	name=${name%.log}
@@ -58,7 +62,7 @@ monitor_hubic_activity()
 			  tail -1 | \
 			  sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
 
-	echo $name $error_count
+	log $name $error_count
 
 	if [ -z $error_count ]
 	then
@@ -68,7 +72,7 @@ monitor_hubic_activity()
 	if [ ${errors_dico[$name]+_} ]
 	then
 	    prev=${errors_dico[$name]}
-            echo "$name found => compare with previous value $prev"
+            log "$name found => compare with previous value $prev"
 	    if [ $prev -ne $error_count ]
 	    then
 		errors_dico[$name]=$error_count
@@ -76,21 +80,25 @@ monitor_hubic_activity()
 	        sms.sh "$MSG_TO_SEND"
 		updated=true
             else
-                echo "--> No change"
+                log "    --> No change"
 	    fi
 	else
-            echo "$name not found"
+            log "$name not found"
 	    errors_dico[$name]=$error_count
 	    updated=true
 	fi
     done
 
+    log "######################################"
     if ( $updated )
     then
-        echo "persisting data and sending summary"
+        log "persisting data and sending summary"
 	persist_data
 	send_summary_sms
+    else
+	log "No change found"
     fi
+    log "######################################"	
 }
 
 dir='.'
