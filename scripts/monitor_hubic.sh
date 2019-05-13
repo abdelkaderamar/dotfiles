@@ -20,11 +20,11 @@ fi
 compute_sum()
 {
     sum=0
-    while read l
+    for key in "${!errors_dico[@]}";
     do
-	i=$(echo $l |cut -f2 -d':');
-	sum=$((i+sum));
-    done < "$summary"
+	n=${errors_dico[$key]}
+	sum=$((n+sum));
+    done
 
     if [ $prev_sum -eq 0 ]
     then
