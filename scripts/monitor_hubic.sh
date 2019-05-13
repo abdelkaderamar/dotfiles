@@ -65,6 +65,13 @@ monitor_hubic_activity()
 			  tail -1 | \
 			  sed 's|.*Attempt ./. failed with \(.*\) errors.*|\1|')
 
+
+	success=$(tail -1 "$f")
+	if [ $success = "SUCCESS" ]
+	then
+	    error_count=0
+	fi
+	
 	log $name Error count $error_count
 
 	if [ -z $error_count ]
