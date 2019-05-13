@@ -63,9 +63,9 @@ do
 
     if [ $move_res -eq 0 ]
     then
-	echo "SUCCESS"
+	echo "SUCCESS" >> "$LOG"
     else
-	echo "FAILED"
+	echo "FAILED" >> "$LOG"
     fi
 done
 
