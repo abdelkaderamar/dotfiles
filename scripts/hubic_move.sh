@@ -60,6 +60,13 @@ move_res=0
 for dir in "${dirs[@]}"
 do
     move_hubic_dir "$dir"
+
+    if [ $mov_res -eq 0 ]
+    then
+	echo "SUCCESS"
+    else
+	echo "FAILED"
+    fi
 done
 
 exit $move_res
