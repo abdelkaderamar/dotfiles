@@ -1,57 +1,52 @@
 # For ccmake
 
-# CIFS filesystem (freebox disk mount), ssh, ocr, cpupower, ...
-apt_packages+=(openssh-server net-tools cifs-utils cuneiform linux-tools-common)
-apt_packages+=(linux-tools-4.15.0-20-generic)
-
-# virtualbox
-apt_packages+=(virtualbox-qt)
-
-# vim, emacs, latex
-apt_packages+=(vim emacs)
-apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base texlive-latex-extra texlive-extra-utils)
-apt_packages+=(texlive-xetex texlive-lang-french)
-
-# some tools
-apt_packages+=(tree ttyrec calibre curl unrar smplayer mplayer backintime-gnome pstack)
-apt_packages+=(lftp gimp)
-apt_packages+=(npm)
-apt_packages+=(docker.io)
-
-# maybe
-apt_packages+=(apt-file pandoc soundconverter mp3info vlc mkvtoolnix gparted keepass2 libimage-exiftool-perl)
+source init/apt_common.sh
+source init/apt_functions.sh
 
 # Ubuntu distro release name, eg. "xenial"
 release_name=$(lsb_release -c | awk '{print $2}')
 
 e_header "Release name: $release_name"
 
-function add_package_source()
-{
-    apt_keys+=("$1")
-    apt_sources["$2"]="$3"
-    apt_packages+=("$4")
-}
+if ( $arm32_profile )
+then
+    e_header "ARM32 profile"
+    source init/apt_arm32.sh
+fi
 
-add_package_source "https://dl-ssl.google.com/linux/linux_signing_key.pub" \
-                   "google-chrome" \
-                   "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" \
-                   "google-chrome-stable"
+if ( $server32_profile )
+then
+    e_header "Server x86 profile"
+    source init/apt_server32.sh
+fi
 
+if ( $server64_profile )
+then
+    e_header "Server 64 profile"
+    source init/apt_server64.sh
+fi
+
+if ( $dev_profile )
+then
+    e_header "Dev profile"
+    source init/apt_dev.sh
+fi
+
+if ( $netbook32_profile )
+then
+    e_header "Netbook x86 profile"
+    source init/apt_netbook32.sh
+fi
 
 for key in "${apt_keys[@]}"
 do
-    $DO wget -q -O - "$key" | sudo apt-key add -
+    $DO wget -q -O - "$key" | $DO sudo apt-key add -
 done
 
 for source in "${!apt_sources[@]}"
 do
     $DO sudo sh -c "echo '${apt_sources[$source]}' >  /etc/apt/sources.list.d/$source.list"
 done
-
-# Oracle Java PPA
-sudo add-apt-repository -y ppa:webupd8team/java
-apt_packages+=(oracle-java8-installer)
 
 # Updating APT
 e_header "Updating APT"

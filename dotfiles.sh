@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 function print_usage()
 {
@@ -6,25 +6,70 @@ function print_usage()
   echo "  -dry  do not execute actions"
   echo "  -dir  create directories structure"
   echo "  -apt  install apt software"
-  echo "  -snap install snap software"
-  echo "  -soft install software from sources"
-  echo "  -dev  install development tools (to combine with -apt)"
+  echo "  -snap     install snap software"
+  echo "  -soft     install software from sources"
+  echo "  -dev      install development tools (to combine with -apt)"
+  echo "  -profile  the profile of the host. Available profiles are"
+  echo "             - arm32"  
+  echo "             - server32"  
+  echo "             - server64"  
+  echo "             - dev"  
+  echo "             - netbook32"  
 }
 
-[[ "$1" == "source" ]] || \
+function read_profile()
+{
+    PROFILE=$1
+    case "$PROFILE" in
+	'arm32')
+	    arm32_profile=true
+	    ;;
+	'server32')
+	    server32_profile=true
+	    ;;
+	'server64')
+	    server64_profile=true
+	    ;;
+	'dev')
+	    dev_profile=true
+	    ;;
+	'netbook32')
+	    netbook32_profile=true
+	    ;;
+	*)
+	    e_error "Unknown profile $PROFILE"
+	    exit 3
+	    ;;
+    esac
+}
 
-  echo 'Dotfiles - Abdelkader Amar - https://github.com/abdelkaderamar'
+echo 'Dotfiles - Abdelkader Amar - https://github.com/abdelkaderamar'
 
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+for arg in "$@"
+do
+    if [[ "$arg" == "-h" || "$arg" == "--help" ]];
+    then
+	cat <<HELP
 Usage: $(basename "$0")
 See the README for documentation.
 https://github.com/abdelkaderamar/dotfiles
 Licensed under the MIT license.
-
-$(print_usage)
-
 HELP
-exit; fi
+
+	print_usage
+	
+	exit
+    fi
+done
+
+### Logging ################################################
+function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
+function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
+function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
+function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
+############################################################
+
 
 DO=""
 OPT_APT_INSTALL=false
@@ -32,6 +77,15 @@ OPT_SNAP_INSTALL=false
 OPT_SOFT_INSTALL=false
 OPT_DEV_SETUP=false
 OPT_BASH_SETUP=true
+PROFILE=''
+
+# Profiles #################################################
+arm32_profile=false
+server32_profile=false
+server64_profile=false
+dev_profile=false
+netbook32_profile=false
+############################################################
 
 while [ $# -gt 0 ]
 do
@@ -47,18 +101,24 @@ do
       OPT_SOFT_INSTALL=true
       OPT_DEV_SETUP=true
       ;;
-
+    '-profile')
+	shift
+        read_profile $1
+	;;
   esac
   shift
 done
 
-### Logging ################################################
-function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
-function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
-function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
-function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
-function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
-############################################################
+
+if ( $OPT_APT_INSTALL )
+then
+    if [ -z "$PROFILE" ]
+    then
+	e_error "Set a profile for -opt option"
+	exit 2
+    fi
+    echo $PROFILE
+fi
 
 apt_keys=()
 declare -A apt_sources
@@ -76,10 +136,9 @@ e_header "Starting dotfile installation ..."
 
 source "$DOTFILES_DIR/init/create_dirs.sh"
 
-if ( $OPT_APT_INSTALL )
+
+if ( $OPT_DEV_SETUP )
 then
-  if ( $OPT_DEV_SETUP )
-  then
     apt_packages+=(gcc clang)
     # To compile gcc from sources
     apt_packages+=(libgmp-dev libmpc-dev libmpfr-dev gcc-multilib g++-multilib libc6-dev-i386)
@@ -98,8 +157,10 @@ then
     apt_packages+=(libspdlog-dev)
     apt_packages+=(python-pip)
     apt_packages+=(rustc)
+fi
 
-  fi
+if ( $OPT_APT_INSTALL )
+then
   source "$DOTFILES_DIR/init/apt.sh"
 fi
 
