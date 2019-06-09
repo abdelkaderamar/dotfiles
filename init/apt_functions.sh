@@ -25,3 +25,8 @@ add_emacs()
     apt_packages+=(emacs)
 }
 
+add_docker()
+{
+    apt_packages+=(docker.io)
+    apt_packages+=(docker-compose)
+}
