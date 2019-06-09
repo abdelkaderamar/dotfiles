@@ -4,7 +4,7 @@ apt_packages+=(linux-tools-4.15.0-20-generic)
 
 
 # some tools
-apt_packages+=(tree ttyrec calibre curl smplayer mplayer backintime-gnome pstack)
+apt_packages+=(tree ttyrec calibre smplayer mplayer backintime-gnome pstack)
 apt_packages+=(lftp gimp)
 apt_packages+=(npm)
 apt_packages+=(docker.io)

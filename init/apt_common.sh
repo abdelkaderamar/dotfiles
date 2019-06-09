@@ -9,4 +9,5 @@ apt_packages+=(p7zip-full)
 
 apt_packages+=(cifs-utils)
 
+apt_packages+=(curl)
 
