@@ -11,3 +11,5 @@ apt_packages+=(cifs-utils)
 
 apt_packages+=(curl)
 
+apt_packages+=(lynx)
+
