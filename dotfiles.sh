@@ -77,6 +77,7 @@ OPT_SNAP_INSTALL=false
 OPT_SOFT_INSTALL=false
 OPT_DEV_SETUP=false
 OPT_BASH_SETUP=true
+OPT_APT_MULTIMEDIA=false
 PROFILE=''
 
 # Profiles #################################################
@@ -96,6 +97,7 @@ do
     '-snap') OPT_SNAP_INSTALL=true ;;
     '-soft') OPT_SOFT_INSTALL=true ;;
     '-dev')  OPT_DEV_SETUP=true;;
+    '-media') OPT_APT_MULTIMEDIA=true;;
     '-all')  OPT_CREATE_DIR=true
       OPT_APT_INSTALL=true
       OPT_SOFT_INSTALL=true
@@ -159,6 +161,13 @@ then
     apt_packages+=(rustc)
 fi
 
+
+if ( $OPT_APT_MULTIMEDIA )
+then
+  source "$DOTFILES_DIR/init/multimedia.sh"
+fi
+
+
 if ( $OPT_APT_INSTALL )
 then
   source "$DOTFILES_DIR/init/apt.sh"
@@ -183,6 +192,7 @@ if ( $OPT_SNAP_INSTALL )
 then
   source "$DOTFILES_DIR/init/snap.sh"
 fi
+
 
 e_header "dotfiles installation done"
 echo
