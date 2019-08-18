@@ -202,24 +202,29 @@ fi
 # End JSON for Modern C++ (nlohmann)
 
 # Emscripten SDK
-create_tmp_and_clone "Emscripten SDK" "https://github.com/juj/emsdk.git"
-if [ $? -eq 0 ]
+if [ -f $SOFT_DIR/emsdk/emsdk ]
 then
-  e_arrow installing .. && \
-  cd emsdk && \
-  ./emsdk install latest && \
-  e_arrow activating .. && \
-  ./emsdk activate latest
-  res=$?
-  if [ $res -ne 0 ]
-  then
-    e_error "Emscripten SDK installaton done with error code $res"
-  else
-    cd ..
-    mv emsdk $SOFT_DIR/ 
-    e_success "Emscripten SDK installaton done with error code $res"
-  fi
+  e_arrow "EMSDK is already installed"
 else
-  e_warn "Error when cloning git repository $?d "
+    create_tmp_and_clone "Emscripten SDK" "https://github.com/juj/emsdk.git"
+    if [ $? -eq 0 ]
+    then
+	e_arrow installing .. && \
+	    cd emsdk && \
+	    ./emsdk install latest && \
+	    e_arrow activating .. && \
+	    ./emsdk activate latest
+	res=$?
+	if [ $res -ne 0 ]
+	then
+	    e_error "Emscripten SDK installaton done with error code $res"
+	else
+	    cd ..
+	    mv emsdk $SOFT_DIR/ 
+	    e_success "Emscripten SDK installaton done with error code $res"
+	fi
+    else
+	e_warn "Error when cloning git repository $?d "
+    fi
 fi
 # End Emscripten SDK
