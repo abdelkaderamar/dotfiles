@@ -22,6 +22,9 @@ add_package_source "https://dl-ssl.google.com/linux/linux_signing_key.pub" \
 $DO sudo add-apt-repository -y ppa:webupd8team/java
 apt_packages+=(oracle-java8-installer)
 
+# Android
+apt_packages+=(qemu-kvm)
+
 add_latex
 add_virtualbox 
 add_emacs
