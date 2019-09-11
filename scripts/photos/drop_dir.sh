@@ -14,10 +14,12 @@ check_backup_drive()
 create_directories()
 {
     RAW_DIR="${DRIVE}/Photos/Photos - Raw"
-    PROCESSING_DIR="${DRIVE}/Photos/Photos To Process"
+    PROCESSING_DIR1="${DRIVE}/Photos/Photos To Process1"
+    PROCESSING_DIR2="${DRIVE}/Photos/Photos To Process2"
 
     mkdir -pv "$RAW_DIR"
-    mkdir -pv "$PROCESSING_DIR"
+    mkdir -pv "$PROCESSING_DIR1"
+    mkdir -pv "$PROCESSING_DIR2"
     
 }
 
@@ -32,13 +34,20 @@ check_target_dir_dont_exist()
 	return 1
     fi
 
-    target_dir_processing="$PROCESSING_DIR"/"$1"
-    if [ -d "$target_dir_processing" ]
+    target_dir_processing1="$PROCESSING_DIR1"/"$1"
+    if [ -d "$target_dir_processing1" ]
     then
-	e_error "Directory $dir already exists in $target_dir_processing"
+	e_error "Directory $dir already exists in $target_dir_processing1"
 	return 1
     fi
 
+    target_dir_processing2="$PROCESSING_DIR2"/"$1"
+    if [ -d "$target_dir_processing2" ]
+    then
+	e_error "Directory $dir already exists in $target_dir_processing2"
+	return 1
+    fi
+    
     success=true
 }
 
@@ -67,9 +76,10 @@ do
 
     if ( $success )
     then
-	e_info processing "$dir"
-	e_info "Target directory (raw) = $target_dir_raw"
-	e_info "Target directory (processing) = $target_dir_processing"
+	e_arrow processing "$dir"
+	e_arrow "Target directory (raw) = $target_dir_raw"
+	e_arrow "Target directory (processing1) = $target_dir_processing1"
+	e_arrow "Target directory (processing2) = $target_dir_processing2"
 
 	e_header "Starting rsync with raw directory ...."
 	rsync -aXS --relative "$dir" "$RAW_DIR" 
@@ -83,16 +93,29 @@ do
 	fi
 	e_success "Rsync done"
 		
-	e_header "Starting rsync with processing directory ...."
-	rsync -aXS --relative --remove-source-files "$dir" "$PROCESSING_DIR"
+	e_header "Starting rsync with first processing directory ...."
+	rsync -aXS --relative "$dir" "$PROCESSING_DIR1"
 	e_success "Rsync done"
 
-	diff -r "$target_dir_raw" "$target_dir_processing"
+	diff -r "$target_dir_raw" "$target_dir_processing1"
 	if [ $? -ne 0 ]
 	then
-	    echo_and_exit 1 "Error when checking [$target_dir_raw] vs [$target_dir_processing]"
+	    echo_and_exit 1 "Error when checking [$target_dir_raw] vs [$target_dir_processing1]"
 	fi
 	e_success "Diff done"
+
+	e_header "Starting rsync with second processing directory ...."
+	rsync -aXS --relative --remove-source-files "$dir" "$PROCESSING_DIR2"
+	e_success "Rsync done"
+
+	diff -r "$target_dir_raw" "$target_dir_processing2"
+	if [ $? -ne 0 ]
+	then
+	    echo_and_exit 1 "Error when checking [$target_dir_raw] vs [$target_dir_processing2]"
+	fi
+	e_success "Diff done"
+
+	find "$dir" -type d -empty -delete
 
 	find "$dir" -type d -empty -delete
     else
