@@ -116,8 +116,6 @@ do
 	e_success "Diff done"
 
 	find "$dir" -type d -empty -delete
-
-	find "$dir" -type d -empty -delete
     else
 	exit 1
     fi
