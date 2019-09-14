@@ -27,8 +27,6 @@ e_header "Looking for file without creation date"
 
 exiftool -filename -filemodifydate -createdate -r -if '(not $datetimeoriginal) and $filetype eq "JPEG"' "$dir"
 
-#exiftool  '-FileName<./${CreateDate}' -d '%Y-%m-%d_%H%M%S.%%e'  -P -r -progress "$dir"
-
 e_header "Looking for file with creation date before $year"
 
-exiftool -s *jpg | grep '^CreateDate'  | grep -v "${year}:"
+exiftool -s -filename -createdate -r "$dir" | grep -B 2 "^CreateDate[ ]\+ : ${year}"
