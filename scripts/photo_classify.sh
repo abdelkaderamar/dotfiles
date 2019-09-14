@@ -19,7 +19,7 @@ fi
 
 dir="$1"
 
-current_dir=$(basename $(pwd))
+current_dir=$(basename "$(pwd)")
 
 echo "Current dir = $current_dir"
 if [ "$current_dir" != "$PROCESSING_DIR" ]
