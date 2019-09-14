@@ -31,4 +31,4 @@ exiftool -filename -filemodifydate -createdate -r -if '(not $datetimeoriginal) a
 
 e_header "Looking for file with creation date before $year"
 
-exiftool -s *jpg | '^CreateDate'  | grep -v "${year}:"
+exiftool -s *jpg | grep '^CreateDate'  | grep -v "${year}:"
