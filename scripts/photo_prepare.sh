@@ -29,9 +29,8 @@ fi
 
 e_header "Do you confirm the following ? "
 e_arrow  "The directory to process [$dir]"
-e_arrow  "The target directory     [Classified]"
 
-echo "yes/no ?"
+echo -n "yes/no ? "
 
 read l
 
@@ -40,5 +39,5 @@ then
     exit 2
 fi
 
-exiftool  '-FileName<./${CreateDate}' -d '%Y-%m-%d_%H%M%S.%%e'  -P -r -progress "$dir"
+exiftool  '-FileName<./${DateTimeOriginal}' -d '%Y-%m-%d_%H%M%S.%%e'  -P -r -progress "$dir"
 
