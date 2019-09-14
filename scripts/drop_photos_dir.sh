@@ -22,12 +22,12 @@ check_directories()
     success=false
     
     DRIVE_BASE_DIR="${DRIVE}/Photos"
-    RAW_DIR="${DRIVE_BASE_DIR}/Photos - Raw"
-    PROCESSING_DIR1="${DRIVE_BASE_DIR}/Photos To Process1"
-    PROCESSING_DIR2="${DRIVE_BASE_DIR}/Photos To Process2"
+    RAW_DIR="${DRIVE_BASE_DIR}/Raw"
+    PROCESSING_DIR1="${DRIVE_BASE_DIR}/To Process1"
+    PROCESSING_DIR2="${DRIVE_BASE_DIR}/To Process2"
 
     BACKUP_DRIVE_BASE_DIR="${DRIVE_BACKUP}/Photos_Backup"
-    BACKUP_RAW_DIR="${BACKUP_DRIVE_BASE_DIR}/Photos - Raw"
+    BACKUP_RAW_DIR="${BACKUP_DRIVE_BASE_DIR}/Raw"
 
     for d in "$RAW_DIR" "$PROCESSING_DIR1" "$PROCESSING_DIR2" "$BACKUP_RAW_DIR"
     do
