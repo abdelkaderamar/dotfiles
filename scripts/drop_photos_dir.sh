@@ -95,7 +95,7 @@ do_rsync()
 
     if [ $? -ne 0 ]
     then
-	echo_and_exit 1 "rsync failed with error code $?"
+	echo_sms_and_exit 1 "rsync failed with error code $?"
 	return 1
     fi
     
@@ -105,10 +105,21 @@ do_rsync()
     diff -r "$source_dir" "$target_dir"
     if [ $? -ne 0 ]
     then
-	echo_and_exit 1 "Error when checking [$source_dir] vs [$target_dir]"
+	echo_sms_and_exit 1 "Error when checking [$source_dir] vs [$target_dir]"
     fi
     e_success "Diff done"
     
+}
+
+################################################################
+
+echo_sms_and_exit()
+{
+  exit_code=$1
+  shift
+  e_error "$@"
+  sms.sh "$@. Error code = $exit_code"
+  exit $exit_code
 }
 
 ################################################################
@@ -118,18 +129,30 @@ check_backup_drive
 
 if ( ! $success )
 then
-    echo_and_exit 1 "Check DRIVE and DRIVE_BACKUP variables is set to the directories where photos are stored"
+    echo_sms_and_exit 1 "Check DRIVE and DRIVE_BACKUP variables is set to the directories where photos are stored"
 fi
 
 check_directories
 
 if ( ! $success )
 then
-    echo_and_exit 1 "Check DRIVE and DRIVE_BACKUP contains all the required directories"
+    echo_sms_and_exit 1 "Check DRIVE and DRIVE_BACKUP contains all the required directories"
 fi
 
 
-dirs=("$@")
+SEND_SMS=false
+dirs=()
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+	'-sms') SEND_SMS=true
+		;;
+	*) dirs+=("$1")
+	   ;;
+    esac
+    shift
+done
 
 e_header "Start processing ${dir[@]} ..."
 
@@ -174,7 +197,7 @@ do
 	
 	if [ $? -ne 0 ]
 	then
-	    echo_and_exit 1 "rsync failed with error code $?"
+	    echo_sms_and_exit 1 "rsync failed with error code $?"
 	    return 1
 	fi
 	
@@ -185,7 +208,7 @@ do
 	diff -r "$target_dir_raw" "$backup_target_dir_raw"
 	if [ $? -ne 0 ]
 	then
-	    echo_and_exit 1 "Error when checking [$target_dir_raw] vs [$target_dir_processing2]"
+	    echo_sms_and_exit 1 "Error when checking [$target_dir_raw] vs [$target_dir_processing2]"
 	fi
 
 	e_success "Diff done"
