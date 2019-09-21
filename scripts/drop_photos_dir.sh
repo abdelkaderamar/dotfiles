@@ -113,12 +113,22 @@ do_rsync()
 
 ################################################################
 
+send_sms()
+{
+  if ( $SEND_SMS )
+  then
+      sms.sh "$@. Error code = $exit_code"
+  fi
+}
+    
+
 echo_sms_and_exit()
 {
   exit_code=$1
   shift
   e_error "$@"
-  sms.sh "$@. Error code = $exit_code"
+  #sms.sh "$@. Error code = $exit_code"
+  send_sms.sh "$@"
   exit $exit_code
 }
 
@@ -213,6 +223,8 @@ do
 
 	e_success "Diff done"
 
+	send_sms 0 "Droping $dir done successfuly"
+	
 	find "$dir" -type d -empty -delete
     else
 	exit 1
