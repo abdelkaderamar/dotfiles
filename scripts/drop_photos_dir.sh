@@ -128,7 +128,7 @@ echo_sms_and_exit()
   shift
   e_error "$@"
   #sms.sh "$@. Error code = $exit_code"
-  send_sms.sh "$@"
+  send_sms "$@"
   exit $exit_code
 }
 
@@ -223,7 +223,7 @@ do
 
 	e_success "Diff done"
 
-	send_sms 0 "Droping $dir done successfuly"
+	send_sms "Droping $dir done successfuly"
 	
 	find "$dir" -type d -empty -delete
     else
