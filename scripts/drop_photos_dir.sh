@@ -117,7 +117,7 @@ send_sms()
 {
   if ( $SEND_SMS )
   then
-      sms.sh "$@. Error code = $exit_code"
+      sms.sh "$@"
   fi
 }
     
