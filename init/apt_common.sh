@@ -13,3 +13,5 @@ apt_packages+=(curl)
 
 apt_packages+=(lynx)
 
+apt_packages+=(unzip)
+
