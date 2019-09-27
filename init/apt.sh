@@ -1,10 +1,9 @@
-# For ccmake
+# Ubuntu distro release name, eg. "xenial"
+release_name=$(lsb_release -c | awk '{print $2}')
 
 source init/apt_common.sh
 source init/apt_functions.sh
 
-# Ubuntu distro release name, eg. "xenial"
-release_name=$(lsb_release -c | awk '{print $2}')
 
 e_header "Release name: $release_name"
 
