@@ -36,4 +36,5 @@ add_php()
     apt_package+=( php )
     apt_package+=( libapache2-mod-php  )
     apt_package+=( php-mysql )
+    apt_package+=( php-curl php-gd php-intl php-json php-mbstring php-xml php-zip )
 }
