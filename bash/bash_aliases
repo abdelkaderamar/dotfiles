@@ -14,7 +14,7 @@ alias egrep='egrep --color=auto'
 # file cp/mv/rm
 alias mv='mv -vi'
 alias rm='rm -vi'
-alias cp='cp -vi'
+alias cp='cp -vip'
 alias ..='cd ..'
 
 # tail
