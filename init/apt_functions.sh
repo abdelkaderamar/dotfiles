@@ -30,3 +30,10 @@ add_docker()
     apt_packages+=(docker.io)
     apt_packages+=(docker-compose)
 }
+
+add_php()
+{
+    apt_package+=( php )
+    apt_package+=( libapache2-mod-php  )
+    apt_package+=( php-mysql )
+}
