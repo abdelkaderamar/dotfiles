@@ -14,3 +14,11 @@ apt_packages+=( imagemagick )
 apt_packages+=( mongodb )
 
 install_node
+
+# For piwigo
+apt_packages+=( libimage-exiftool-perl )
+apt_packages+=( ffmpeg )
+apt_packages+=( libjpeg-progs )
+apt_packages+=( poppler-utils )
+
+############
