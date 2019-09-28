@@ -37,6 +37,7 @@ add_php()
     apt_packages+=( libapache2-mod-php  )
     apt_packages+=( php-mysql )
     apt_packages+=( php-curl php-gd php-intl php-json php-mbstring php-xml php-zip )
+    apt_packages+=( php-tidy php-bcmath )
 }
 
 install_node()

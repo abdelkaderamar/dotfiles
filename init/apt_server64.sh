@@ -24,3 +24,4 @@ apt_packages+=( poppler-utils )
 ############
 
 apt_packages+=( make )
+apt_packages+=( composer )
