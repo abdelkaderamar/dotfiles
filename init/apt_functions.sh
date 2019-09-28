@@ -38,3 +38,24 @@ add_php()
     apt_packages+=( php-mysql )
     apt_packages+=( php-curl php-gd php-intl php-json php-mbstring php-xml php-zip )
 }
+
+install_node()
+{
+    command -v node
+    res1=$?
+    
+    command -v npm
+    res2=$?
+
+    if [ $res1 -eq 0 ] && [ $res2 -eq 0 ]
+    then
+	e_arrow "Node already installed"
+	return
+    fi
+
+    e_arrow "Installing node"
+
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+
+}
