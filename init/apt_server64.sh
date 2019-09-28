@@ -25,3 +25,6 @@ apt_packages+=( poppler-utils )
 
 apt_packages+=( make )
 apt_packages+=( composer )
+
+# Paperless
+apt_packages+=( python-pip virtualenv gnupg2 tesseract-ocr unpaper libpoppler-cpp-dev optipng )
