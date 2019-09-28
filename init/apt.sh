@@ -23,6 +23,7 @@ if ( $server64_profile )
 then
     e_header "Server 64 profile"
     source init/apt_server64.sh
+    source init/snap_server64.sh
 fi
 
 if ( $dev_profile )
