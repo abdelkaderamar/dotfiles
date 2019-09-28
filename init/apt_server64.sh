@@ -11,4 +11,6 @@ add_php
 
 apt_packages+=( imagemagick )
 
+apt_packages+=( mongodb )
+
 install_node
