@@ -22,3 +22,5 @@ apt_packages+=( libjpeg-progs )
 apt_packages+=( poppler-utils )
 
 ############
+
+apt_packages+=( make )
