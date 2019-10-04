@@ -27,6 +27,9 @@ apt_packages+=( make )
 apt_packages+=( composer )
 
 # Paperless
-apt_packages+=( python-pip virtualenv gnupg2 tesseract-ocr unpaper libpoppler-cpp-dev optipng )
-apt_packages+=( ghostscript libmagic )
+apt_packages+=( python-pip python3-pip virtualenv gnupg2 tesseract-ocr unpaper libpoppler-cpp-dev optipng )
+apt_packages+=( ghostscript libmagic1 )
+
+apt_packages+=( lxc )
+
 
