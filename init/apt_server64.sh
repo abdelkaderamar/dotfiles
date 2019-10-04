@@ -31,5 +31,6 @@ apt_packages+=( python-pip python3-pip virtualenv gnupg2 tesseract-ocr unpaper l
 apt_packages+=( ghostscript libmagic1 )
 
 apt_packages+=( lxc )
+apt_packages+=( syncthing )
 
 
