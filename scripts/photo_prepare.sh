@@ -11,13 +11,23 @@ usage()
     echo "    $(basename $0) <dir>"
 }
 
-if [ $# -ne 1 ]
+if [ $# -lt 1 ]
 then
     usage
     exit 1
 fi
 
 dir="$1"
+
+use_millisecond=false
+
+if [ $# -ge 2 ]
+then
+  if [ "$2" == "-ms" ]
+  then
+    use_millisecond=true
+  fi
+fi
 
 current_dir=$(basename "$(pwd)")
 
@@ -39,5 +49,10 @@ then
     exit 2
 fi
 
-exiftool  '-FileName<./${DateTimeOriginal}' -d '%Y-%m-%d_%H%M%S.%%e'  -P -r -progress "$dir"
-
+if ( $use_millisecond )
+then
+  exiftool  '-FileName<./${DateTimeOriginal}${subsectimeoriginal;$_.=0 x(3-length)}.%e' -d '%Y-%m-%d_%H%M%S%%-C'  -P -r -progress "$dir"
+else
+  exiftool  '-FileName<./${DateTimeOriginal}' -d '%Y-%m-%d_%H%M%S%%-c.%%e'  -P -r -progress "$dir"
+  exiftool  '-FileName<./${CreateDate}' -d '%Y-%m-%d_%H%M%S%%-c.%%e'  -P -r -progress "$dir"
+fi
