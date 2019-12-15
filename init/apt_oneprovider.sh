@@ -14,3 +14,6 @@ install_node
 apt_packages+=( make )
 
 apt_packages+=( syncthing )
+
+# For magento
+apt_packages+=( php-soap )
