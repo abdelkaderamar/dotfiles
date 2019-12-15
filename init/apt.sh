@@ -38,6 +38,12 @@ then
     source init/apt_netbook32.sh
 fi
 
+if ( $oneprovider_profile )
+then
+    e_header "OneProvider profile"
+    source init/apt_oneprovider.sh
+fi
+
 for key in "${apt_keys[@]}"
 do
     $DO wget -q -O - "$key" | $DO sudo apt-key add -
