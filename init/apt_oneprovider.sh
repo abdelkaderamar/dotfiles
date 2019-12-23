@@ -17,3 +17,7 @@ apt_packages+=( syncthing )
 
 # For magento
 apt_packages+=( php-soap )
+
+# For alltube
+apt_packages+=( youtube-dl )
+
