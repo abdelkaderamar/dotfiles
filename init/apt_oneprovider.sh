@@ -20,6 +20,6 @@ apt_packages+=( php-soap )
 
 ##############
 
-apt_packages+=( postgre )
+apt_packages+=( postgresql )
 
 
