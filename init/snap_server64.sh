@@ -1,6 +1,6 @@
 snap_packages=()
 
-snap_packages+=( )
+snap_packages+=( hugo )
 snap_classic_packages+=( go )
 
 for package in "${snap_packages[@]}"; do
