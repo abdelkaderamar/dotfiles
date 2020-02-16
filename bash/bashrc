@@ -65,3 +65,6 @@ if [ -d ~/Software/go ]
 then
   export PATH=$HOME/Software/go/bin:$PATH
 fi
+
+# notes (https://github.com/pimterry/notes) configuration
+export NOTES_DIRECTORY=$HOME/share/notes
