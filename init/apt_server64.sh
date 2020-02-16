@@ -33,4 +33,5 @@ apt_packages+=( ghostscript libmagic1 )
 apt_packages+=( lxc )
 apt_packages+=( syncthing )
 
+apt_packages+=( nfs-kernel-server )
 
