@@ -22,6 +22,7 @@ alias tailf='tail -f'
 
 # df (current dir)
 alias dfc='df -h .'
+alias dfh='df -h'
 
 # move to dirs
 alias gh="cd $HOME/Dev/Github"
@@ -55,3 +56,7 @@ alias python='python3'
 # rclone alias
 alias rcloneconfig="rclone config"
 alias rclonelynx="lynx http://127.0.0.1:53682/auth -accept_all_cookies=1"
+
+#
+alias youtube-dl-mp3='youtube-dl --extract-audio --audio-format mp3'
+
