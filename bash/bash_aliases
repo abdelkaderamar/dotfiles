@@ -11,10 +11,11 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# file cp/mv/rm
+# file cp/mv/rm/scp
 alias mv='mv -vi'
 alias rm='rm -vi'
 alias cp='cp -vip'
+alias scp='scp -p'
 alias ..='cd ..'
 
 # tail
