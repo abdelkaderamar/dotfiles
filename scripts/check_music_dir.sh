@@ -181,7 +181,8 @@ process_artist_dir() {
 	    then
 		process_album "$d" "$artist"
 	    fi
-	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" ]
+	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" \
+	     "$album_name" = "artist - Singles" -o "$album_name" = "$artist - EPs" ]
 	then
 	    if ( $process_files )
 	    then
