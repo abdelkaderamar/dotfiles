@@ -182,7 +182,7 @@ process_artist_dir() {
 	    then
 		process_album "$d" "$artist"
 	    fi
-	elif [[ "$album_name" =~ $regexp ]]
+	elif [[ "$album_name" =~ $regexp2 ]]
 	then
 	    if ( $process_files )
 	    then
