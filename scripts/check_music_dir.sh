@@ -176,7 +176,13 @@ process_artist_dir() {
 	regexp="$artist - ([12][0-9][0-9][0-9]) - (.*)"
 	regexp2="$artist - ([12][0-9]{3}-[12][0-9]{3}) - (.*)"
 	#echo "$regexp vs $album_name"
-	if [ "$album_name" =~ "$regexp" -o "$album_name" =~ "$regexp2" ]
+	if {[ "$album_name" =~ $regexp ]]
+	then
+	    if ( $process_files )
+	    then
+		process_album "$d" "$artist"
+	    fi
+	elif [[ "$album_name" =~ $regexp ]]
 	then
 	    if ( $process_files )
 	    then
