@@ -181,6 +181,12 @@ process_artist_dir() {
 	    then
 		process_album "$d" "$artist"
 	    fi
+	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" ]
+	then
+	    if ( $process_files )
+	    then
+		process_album "$d" "$artist"
+	    fi
 	else
 	    malformed_dirs+=( "$artist_dir_path/$album_name" )
 	fi
