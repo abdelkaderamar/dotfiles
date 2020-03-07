@@ -196,6 +196,12 @@ process_artist_dir() {
 	    then
 		process_album "$d" "$artist"
 	    fi	    
+	elif [[ "$album_name" =~ (^Tribute To $artist$)  ]]
+	then
+	    if ( $process_files )
+	    then
+		process_album "$d" "$artist"
+	    fi	    
 	elif [ "$album_name" != "Photos" ]
 	then
 	    malformed_dirs+=( "$artist_dir_path/$album_name" )
