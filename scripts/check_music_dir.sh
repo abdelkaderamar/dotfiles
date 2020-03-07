@@ -3,7 +3,11 @@
 source $HOME/.bash_logging
 
 interactive=false
+process_dirs=false
+process_files=false
+
 special_dirs=(OST Singles VA World Compilation Arabic Instrumental Classical Misc)
+
 usage() {
     e_header "$@"
     echo
@@ -173,7 +177,10 @@ process_artist_dir() {
 	#echo "$regexp vs $album_name"
 	if [[ "$album_name" =~ $regexp ]]
 	then
-	    process_album "$d" "$artist"
+	    if ( $process_files )
+	    then
+		process_album "$d" "$artist"
+	    fi
 	else
 	    malformed_dirs+=( "$artist_dir_path/$album_name" )
 	fi
@@ -195,6 +202,12 @@ do
 	    ;;
 	'-i')
 	    interactive=true
+	    ;;
+	'-f')
+	    process_files=true
+	    ;;
+	'-a')
+	    process_dirs=true
 	    ;;
     esac
     shift
@@ -246,7 +259,15 @@ artists_known=( "${sorted[@]}" )
 malformed_dirs=()
 for a in "${artists_known[@]}"
 do
-    process_artist_dir "$a"
-#    read l
+    if ( $process_dirs )
+    then
+	process_artist_dir "$a"
+    fi
 done
-# find unwanted file (.url
+
+for d in "${malformed_dirs[@]}"
+do
+    e_warn "$d" malformed.
+done
+
+#TODO: find unwanted file (.url
