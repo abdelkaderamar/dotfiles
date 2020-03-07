@@ -188,8 +188,9 @@ process_artist_dir() {
 	    if ( $process_files )
 	    then
 		process_album "$d" "$artist"
-	    fi
-	else
+	    fi	    
+	elif [ "$album_name" != "Photos" ]
+	then
 	    malformed_dirs+=( "$artist_dir_path/$album_name" )
 	fi
     done < "$temp_file"
