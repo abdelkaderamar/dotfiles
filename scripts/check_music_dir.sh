@@ -270,4 +270,6 @@ do
     e_warn "$d" malformed.
 done
 
+e_header "${#malformed_dirs[@]} malformed album dirname"
+
 #TODO: find unwanted file (.url
