@@ -183,8 +183,7 @@ process_artist_dir() {
 	    fi
 	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" -o \
 			     "$album_name" = "$artist - Singles" -o "$album_name" = "$artist - EPs" -o \
-			     "$album_name" = "$artist - The Best Of"
-	     ]
+			     "$album_name" = "$artist - The Best Of"  ]
 	then
 	    if ( $process_files )
 	    then
