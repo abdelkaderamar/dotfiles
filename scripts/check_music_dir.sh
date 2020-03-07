@@ -1,16 +1,18 @@
 #! /bin/bash -u
 
+source $HOME/.bash_logging
+
 interactive=false
 special_dirs=(OST Singles VA World Compilation Arabic Instrumental Classical Misc)
 usage() {
-    echo "$@"
+    e_header "$@"
     echo
-    echo "Usage $(basename $0) -d <dir>"
+    e_header "Usage $(basename $0) -d <dir>"
 }
 
 directory_not_set()
 {
-    usage "Directory not set"
+    e_error "Directory not set"
     exit 1
 }
 
@@ -24,7 +26,7 @@ read_artists() {
 
 ask_to_add() {
     artist_dir="$1"
-    echo -n "Do you want to add [$artist_dir] to artists file (y/n) "
+    e_arrow -n "Do you want to add [$artist_dir] to artists file (y/n) "
     read answer
     if [ $answer != "y" ]
     then
@@ -59,6 +61,17 @@ is_music_file() {
     return 1
 }
 
+rename_file() {
+    filename="$1"
+    newfilename="$2"
+    file_path="$3"
+    tag="$4"
+    file_dir=$(dirname "$file_path")
+    newfile_path="$file_dir"/"$newfilename"
+    e_arrow Renaming [$tag] from "$file_path" to "$newfile_path"
+    mv -i "$file_path"  "$newfile_path"
+}
+
 process_file() {
     fullfilename="$1"
     filename=$(basename -- "$fullfilename")
@@ -66,49 +79,62 @@ process_file() {
     name="${filename%.*}"
 
     filename_regex="^[0-9]{2} - (.*)$"
+    newfilename=""
     if ( is_music_file $extension )
     then
 	if [[ "$filename" =~ $filename_regex ]]
 	then
-	    echo "$filename wellformed"
+	    e_arrow "$filename wellformed"
 	elif [[ "$filename" =~ (^([0-9]{2}) ([a-Z].*)$) ]]
 	then
-	    echo "RENAME01 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 01
 	elif [[ "$filename" =~ (^([0-9])[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME02 [$filename] TO [0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 02
 	elif [[ "$filename" =~ (^([0-9])\.[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME03 [$filename] TO [0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 03
 	elif [[ "$filename" =~ (^([0-9])-[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME04 [$filename] TO [0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 04	    
 	elif [[ "$filename" =~ (^([0-9]) - ([a-Z].*)$) ]]
 	then
-	    echo "RENAME05 [$filename] TO [0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="0${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 05
 	elif [[ "$filename" =~ (^([0-9]{2})\.[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME06 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 06	    
 	elif [[ "$filename" =~ (^([0-9]{2})-([a-Z].*)$) ]]
 	then
-	    echo "RENAME07 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 07
 	elif [[ "$filename" =~ (^([0-9]{2})\.([a-Z].*)$) ]]
 	then
-	    echo "RENAME08 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 08
 	elif [[ "$filename" =~ (^\[([0-9]{2})\][ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME09 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 09
 	elif [[ "$filename" =~ (^\(([0-9]{2})\)[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME10 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 10
 	elif [[ "$filename" =~ (^([0-9]{2})[ ]+([a-Z].*)$) ]]
 	then
-	    echo "RENAME11 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 11
 	elif [[ "$filename" =~ (^${artist}[ ]*-[ ]*([0-9]{2})[ ]*-[ ]*([a-Z].*)$) ]]
 	then
-	    echo "RENAME12 [$filename] TO [${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}]"
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 12
 	else
-	    echo "Unknown format $filename"
+	    e_warn "Unknown format $filename"
 	fi
 	    
     fi
@@ -118,7 +144,7 @@ process_album() {
     album_path="$1"
     artist="$2"
     
-    echo "Process album $album_path"
+    e_header "Process album $album_path"
 
     album_content=$(mktemp)
     find "$album_path" -maxdepth 1 -mindepth 1 > "$album_content"
@@ -201,13 +227,13 @@ do
     check_artist_dir "$base_dir"
 done
 
-echo "${#artists_known[@]} known artists"
+e_header "${#artists_known[@]} known artists"
 
-echo "${#artists_unknown[@]} unknown artists"
+e_header "${#artists_unknown[@]} unknown artists"
 
 for a in "${artists_unknown[@]}"
 do
-    echo "[$a]"
+    e_warn "Unknown artist [$a]"
 done
 
 
