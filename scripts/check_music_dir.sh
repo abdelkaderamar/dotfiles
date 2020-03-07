@@ -188,6 +188,12 @@ process_artist_dir() {
 	    if ( $process_files )
 	    then
 		process_album "$d" "$artist"
+	    fi
+	elif [[ "$album_name" =~ (^$artist #[0-9]{2}# (.*)$)  ]]
+	then
+	    if ( $process_files )
+	    then
+		process_album "$d" "$artist"
 	    fi	    
 	elif [ "$album_name" != "Photos" ]
 	then
