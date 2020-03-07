@@ -174,8 +174,9 @@ process_artist_dir() {
 	album_name=$(basename "$d")
 	#echo "Checking subdir [$album_name]"
 	regexp="$artist - ([12][0-9][0-9][0-9]) - (.*)"
+	regexp2="$artist - ([12][0-9]{3}-[12][0-9]{3}) - (.*)"
 	#echo "$regexp vs $album_name"
-	if [[ "$album_name" =~ $regexp ]]
+	if [[ "$album_name" =~ $regexp -o "$album_name" =~ $regexp2 ]]
 	then
 	    if ( $process_files )
 	    then
