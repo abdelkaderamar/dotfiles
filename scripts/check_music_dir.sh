@@ -189,6 +189,8 @@ process_artist_dir() {
 		process_album "$d" "$artist"
 	    fi
 	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" -o \
+			     "$album_name" = "Lives" -o "$album_name" = "Bootlegs" -o \
+			     "$album_name" = "Specials" -o \
 			     "$album_name" = "$artist - Singles" -o "$album_name" = "$artist - EPs" -o \
 			     "$album_name" = "$artist - The Best Of"  -o \
 			     "$album_name" = "$artist - The Best Songs"  ]
