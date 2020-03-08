@@ -162,6 +162,8 @@ process_album() {
 	    process_album "$f" "$artist"
 	fi
     done < "$album_content"
+
+    rm -f "$album_content"
 }
 
 process_artist_dir() {
@@ -193,7 +195,8 @@ process_artist_dir() {
 			     "$album_name" = "Specials" -o \
 			     "$album_name" = "$artist - Singles" -o "$album_name" = "$artist - EPs" -o \
 			     "$album_name" = "$artist - The Best Of"  -o \
-			     "$album_name" = "$artist - The Best Songs"  ]
+			     "$album_name" = "$artist - The Best Songs" -o \
+	     		     "$album_name" = "$artist - Anthologie" ]
 	then
 	    if ( $process_files )
 	    then
@@ -263,6 +266,8 @@ while read l
 do
     subdirs+=( "$l" )
 done < "$temp_file"
+
+rm -f "$temp_file"
 
 for d in "${subdirs[@]}"
 do
