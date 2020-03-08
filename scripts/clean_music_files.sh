@@ -15,7 +15,7 @@ replace_special_character() {
     while read f
     do
 	new_filename=$(echo "$f" | sed "s/${char}/${new_char}/g")
-        mv "$f" "$new_filename"
+        mv -vi "$f" "$new_filename"
     done < "$temp_file"
     rm -f "$temp_file"
     
