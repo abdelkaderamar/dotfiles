@@ -147,7 +147,11 @@ process_file() {
 	elif [[ "$filename" =~ (^([0-9]{2})\._([a-Z].*)$) ]]
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
-	    rename_file "$filename" "$newfilename" "$fullfilename" 08
+	    rename_file "$filename" "$newfilename" "$fullfilename" 14
+	elif [[ "$filename" =~ (^([0-9]{2})_([a-Z].*)$) ]]
+	then
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 15
 	else
 	    e_warn "Unknown format $filename [$fullfilename]"
 	fi
