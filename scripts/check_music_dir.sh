@@ -166,6 +166,9 @@ process_album() {
     rm -f "$album_content"
 }
 
+# Special dirs (prefixed with artist name) :
+#   - EPs, Singles, Bootlegs, Lives, Specials, The Best Of, The Best Songs, Anthologie
+#  
 process_artist_dir() {
     artist="$1"
     artist_dir_path="$dir/$artist"
@@ -190,10 +193,11 @@ process_artist_dir() {
 	    then
 		process_album "$d" "$artist"
 	    fi
-	elif [ "$album_name" = "Singles" -o "$album_name" = "EPs" -o \
-			     "$album_name" = "Lives" -o "$album_name" = "Bootlegs" -o \
-			     "$album_name" = "Specials" -o \
-			     "$album_name" = "$artist - Singles" -o "$album_name" = "$artist - EPs" -o \
+	elif [ "$album_name" = "$artist - Lives" -o \
+			     "$album_name" = "$artist - Bootlegs" -o \
+			     "$album_name" = "$artist - Specials" -o \
+			     "$album_name" = "$artist - Singles" -o \
+			     "$album_name" = "$artist - EPs" -o \
 			     "$album_name" = "$artist - The Best Of"  -o \
 			     "$album_name" = "$artist - The Best Songs" -o \
 	     		     "$album_name" = "$artist - Anthologie" ]
