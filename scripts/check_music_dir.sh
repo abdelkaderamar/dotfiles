@@ -8,6 +8,8 @@ process_files=false
 
 special_dirs=(OST Singles VA World Compilation Arabic Instrumental Classical Misc)
 
+dirs_to_ignore=()
+
 usage() {
     e_header "$@"
     echo
@@ -26,6 +28,14 @@ read_artists() {
     #TODO: check file exists
 
     readarray -t artists < "$data_file"
+}
+
+read_dirs_to_ignore() {
+    data_file="$1"
+    
+    #TODO: check file exists
+
+    readarray -t dirs_to_ignore < "$data_file"
 }
 
 ask_to_add() {
@@ -152,6 +162,10 @@ process_file() {
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
 	    rename_file "$filename" "$newfilename" "$fullfilename" 15
+	elif [[ "$filename" =~ (^([0-9]{2})-[ ]*([a-Z].*)$) ]]
+	then
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 07
 	else
 	    e_warn "Unknown format $filename [$fullfilename]"
 	fi
@@ -273,6 +287,8 @@ fi
 # read artists file
 read_artists $HOME/share/data/zik/artists.lst
 
+read_dirs_to_ignore $HOME/share/data/zik/dirs_to_ignore.lst
+
 printf '%s; ' "${artists[@]}"
 echo
 
@@ -315,6 +331,12 @@ for a in "${artists_known[@]}"
 do
     if ( $process_dirs )
     then
+	if [[ " ${dirs_to_ignore[@]} " =~ " ${a} " ]]
+	then
+	    e_arrow "Artist ${a} already processed"
+            continue
+	fi
+
 	process_artist_dir "$a"
     fi
 done
