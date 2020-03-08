@@ -167,7 +167,8 @@ process_file() {
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
 	    rename_file "$filename" "$newfilename" "$fullfilename" 07
 	else
-	    e_warn "Unknown format $filename [$fullfilename]"
+	    file_dir=$(dirname "$fullfilename")
+	    e_warn "Unknown format $filename dir=[$file_dir]"
 	fi
     fi # end if ( is_music_file
 }
