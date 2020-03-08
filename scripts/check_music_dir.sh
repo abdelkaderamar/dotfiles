@@ -77,6 +77,9 @@ rename_file() {
 }
 
 process_file() {
+    echo "# FILE [$1]"
+#    return 0
+    
     fullfilename="$1"
     filename=$(basename -- "$fullfilename")
     extension="${filename##*.}"
@@ -137,11 +140,18 @@ process_file() {
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
 	    rename_file "$filename" "$newfilename" "$fullfilename" 12
+	elif [[ "$filename" =~ (^[1-9]-([0-9]{2})[ ]+([a-Z].*)$) ]]
+	then
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 13	    
+	elif [[ "$filename" =~ (^([0-9]{2})\._([a-Z].*)$) ]]
+	then
+	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+	    rename_file "$filename" "$newfilename" "$fullfilename" 08
 	else
-	    e_warn "Unknown format $filename"
+	    e_warn "Unknown format $filename [$fullfilename]"
 	fi
-	    
-    fi
+    fi # end if ( is_music_file
 }
 
 process_album() {
@@ -312,4 +322,3 @@ done
 
 e_header "${#malformed_dirs[@]} malformed album dirname"
 
-#TODO: find unwanted file (.url
