@@ -20,6 +20,12 @@ fi
 msg=`echo "${1}" | sed -e 's/\n/%0A/g'`
 echo $msg
 
+if [ ${#msg} -gt 200 ]
+then
+  echo "Truncating $msg"
+  msg="${msg:0:200} ......"
+  echo "Truncated value = [$msg]"
+fi
 RETRY=3
 for((i=0;i<RETRY;++i))
 do
