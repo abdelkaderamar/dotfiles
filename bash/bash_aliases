@@ -37,7 +37,7 @@ alias git_diff_unpushed='git diff origin/master..HEAD'
 
 
 # misc
-alias dus='du -sm * | sort -n'
+alias dus='du -sh * | sort -h'
 alias filezilla='filezilla -a="$(pwd)"'
 alias video_find="find -name '*mp4' -o -name '*mkv' -o -name '*avi' | sort"
 
