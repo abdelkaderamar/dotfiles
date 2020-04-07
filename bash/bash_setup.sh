@@ -15,6 +15,7 @@ do_link "$DOTFILES_DIR/bash/bash_aliases" "$HOME/.bash_aliases"
 e_header "Creating link to function files"
 do_link "$DOTFILES_DIR"/bash/functions "$HOME/.bash_functions"
 do_link "$DOTFILES_DIR"/bash/bash_logging "$HOME/.bash_logging"
+do_link "$DOTFILES_DIR"/bash/zik_functions.sh "$HOME/.zik_functions"
 
 e_header "Creating links to scripts"
 mkdir -p "$HOME"/share/bash

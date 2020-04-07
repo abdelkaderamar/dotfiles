@@ -50,7 +50,7 @@ ask_to_add() {
 }
 
 check_artist_dir() {
-    artist_dir=$1
+    artist_dir="$1"
     if [[ " ${artists[@]} " =~ " ${artist_dir} " ]]
     then
 	artists_known+=( "$artist_dir" )
