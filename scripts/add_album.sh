@@ -114,7 +114,7 @@ detect_artist() {
 	read answer
 	if [[ "$answer" == "y" || "$answer" == "yes" ]]
 	then
-	    album="${BASH_REMATCH[1]}"
+	    artist="${BASH_REMATCH[1]}"
 	fi
     fi
 }
