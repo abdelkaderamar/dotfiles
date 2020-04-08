@@ -142,8 +142,14 @@ process_album_dir "$artist" "$album"
 if ( $album_valid )
 then
     e_arrow "Moving [$album] the album"
-    mkdir -p "$dir/$artist"
-    echo mv "$album" "$dir/$artist/"
+    dest="$dir/$artist"
+    e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
+    read answer
+    if [ "$answer" == "yes" ]
+    then
+	mkdir -p "$dest" 
+	echo mv "$album" "$dir/$artist/"
+    fi
 else
     e_warn "The album [$album] cannot be moved"
 fi
