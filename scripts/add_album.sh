@@ -105,6 +105,13 @@ process_album_dir() {
 dir=''
 artist=''
 album=''
+
+if [ ! -z "${ZIK_DRIVE+x}" ]
+then
+    dir="$ZIK_DRIVE"
+fi
+
+
 while [ $# -gt 0 ]
 do
     case "$1" in
