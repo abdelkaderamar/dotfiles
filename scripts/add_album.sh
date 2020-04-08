@@ -128,7 +128,7 @@ do
     shift
 done
 		      
-if [ -z "$dir" -o -z "$album" -o -z "artist" ]
+if [ -z "$dir" -o -z "$album" -o -z "$artist" ]
 then
     usage "Syntax error"
     exit 1
