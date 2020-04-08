@@ -78,14 +78,13 @@ check_artist() {
     else
         e_error "Artist [$artist] not found"
 	album_valid=false
+	exit 3
     fi
 }
 
 process_album_dir() {
     local artist="$1"
     local album="$2"
-
-    check_artist "$artist"
 
     album_name=$(basename "$album")
     regexp="$artist - ([12][0-9][0-9][0-9]) - (.*)"
@@ -135,6 +134,9 @@ fi
 #TODO: If unknown or the directory of the artists doesn't exist => ask to create it
 
 album_valid=true
+
+check_artist "$artist"
+
 process_album_dir "$artist" "$album"
 
 if ( $album_valid )
