@@ -86,19 +86,36 @@ process_album_dir() {
     local artist="$1"
     local album="$2"
 
-    album_name=$(basename "$album")
-    regexp="$artist - ([12][0-9][0-9][0-9]) - (.*)"
-    regexp2="$artist - ([12][0-9]{3}-[12][0-9]{3}) - (.*)"
+    local album_name=$(basename "$album")
+    local regexp="$artist - ([12][0-9][0-9][0-9]) - (.*)"
+    local regexp2="$artist - ([12][0-9]{3}-[12][0-9]{3}) - (.*)"
 
     if [[ "$album_name" =~ $regexp || \
 	      "$album_name" =~ $regexp2 || \
 	      "$album_name" =~ "(^$artist #[0-9]{2}# (.*)$)"  ]]
     then
-	:
 	e_success "Correct dir format"
 	process_album_content "$artist" "$album"
     else
 	e_error "Unknown format $album"
+    fi
+}
+
+detect_artist() {
+    local album_name="$1"
+    local regexp1="^(.*) - ([12][0-9][0-9][0-9]) - (.*)"
+    local regexp2="^(.*) - ([12][0-9]{3}-[12][0-9]{3}) - (.*)"
+    
+    if [[ "$album_name" =~ $regexp1 || \
+	      "$album_name" =~ $regexp2 ]]
+    then
+	e_arrow "Is this the correct artist name [${BASH_REMATCH[1]}] ?"
+	echo -n "y/n ? "
+	read answer
+	if [[ "$answer" == "y" || "$answer" == "yes" ]]
+	then
+	    album="${BASH_REMATCH[1]}"
+	fi
     fi
 }
 
@@ -127,8 +144,9 @@ do
     esac
     shift
 done
-		      
-if [ -z "$dir" -o -z "$album" -o -z "$artist" ]
+
+
+if [ -z "$dir" -o -z "$album" ]
 then
     usage "Syntax error"
     exit 1
@@ -137,8 +155,17 @@ fi
 [ ! -d "$album" ] &&  e_error "The dir [$album] was not found" && exit 2 
 [ ! -d "$dir" ] &&  e_error "The dir [$dir] was not found" && exit 3 
 
-#TODO: check artist is known and its directory exists
-#TODO: If unknown or the directory of the artists doesn't exist => ask to create it
+if [ -z "$artist" ]
+then
+    detect_artist "$album"
+fi
+
+if [ -z "$artist" ]
+then
+    usage "Syntax error"
+    exit 1
+fi
+
 
 album_valid=true
 
