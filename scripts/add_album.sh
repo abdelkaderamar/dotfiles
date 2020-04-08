@@ -18,13 +18,14 @@ process_file() {
 #    echo "# FILE [$1]"
 #    return 0
     
-    fullfilename="$1"
-    filename=$(basename -- "$fullfilename")
-    extension="${filename##*.}"
-    name="${filename%.*}"
+    local fullfilename="$1"
+    local filename=$(basename -- "$fullfilename")
+    local extension="${filename##*.}"
+    local name="${filename%.*}"
 
-    filename_regex="^[0-9]{2} - (.*)$"
-    newfilename=""
+    local filename_regex="^[0-9]{2} - (.*)$"
+    local newfilename=""
+    
     if ( is_music_file $extension )
     then
 	if [[ "$filename" =~ $filename_regex ]]
@@ -48,8 +49,8 @@ process_file() {
 ##
 process_album_content()
 {
-    artist="$1"
-    album="$2"
+    local artist="$1"
+    local album="$2"
     
     readarray -d '' dir_content < <(find "$album" -maxdepth 1 -mindepth 1 -print0)
     for f in "${dir_content[@]}"
@@ -81,8 +82,8 @@ check_artist() {
 }
 
 process_album_dir() {
-    artist="$1"
-    album="$2"
+    local artist="$1"
+    local album="$2"
 
     check_artist "$artist"
 
@@ -140,7 +141,7 @@ if ( $album_valid )
 then
     e_arrow "Moving [$album] the album"
     mkdir -p "$dir/$artist"
-    mv "$album" "$dir/$artist/"
+    echo mv "$album" "$dir/$artist/"
 else
     e_warn "The album [$album] cannot be moved"
 fi
