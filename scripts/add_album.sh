@@ -162,6 +162,7 @@ fi
 
 if [ -z "$artist" ]
 then
+    e_error "Artist not defined"
     usage "Syntax error"
     exit 1
 fi
