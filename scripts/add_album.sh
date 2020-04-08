@@ -62,7 +62,7 @@ process_album_content()
 	    process_file "$f" "$artist"
 	elif [ -d "$f" ]
 	then
-	    process_album_content "$f" "$artist"
+	    process_album_content "$artist" "$f"
 	fi
 
     done
