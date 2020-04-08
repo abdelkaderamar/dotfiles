@@ -148,7 +148,7 @@ then
     if [ "$answer" == "yes" ]
     then
 	mkdir -p "$dest" 
-	echo mv "$album" "$dir/$artist/"
+	mv "$album" "$dir/$artist/"
     fi
 else
     e_warn "The album [$album] cannot be moved"
