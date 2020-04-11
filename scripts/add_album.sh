@@ -39,6 +39,9 @@ process_file() {
     elif ( is_cover_file "$extension")
     then
 	e_success "Cover file [$filename]"
+    elif ( is_video_file "$extension")
+    then
+	e_success "Cover file [$filename]"
     else
 	file_dir=$(dirname "$fullfilename")
 	e_error "Unknown file type [$filename] dir=[$file_dir]"

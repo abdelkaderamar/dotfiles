@@ -18,6 +18,15 @@ is_cover_file() {
     return 1
 }
 
+is_video_file() {
+    ext="${1,,}"
+    if [ "$ext" == "mp4" -o "$ext" == "avi" -o "$ext" == "m4v" ]
+    then
+	return 0
+    fi
+    return 1
+}
+
 read_artists() {
     data_file="$1"
     
@@ -28,3 +37,4 @@ read_artists() {
 	artists=()
     fi
 }
+
