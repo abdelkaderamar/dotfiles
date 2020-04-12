@@ -11,7 +11,7 @@ is_music_file() {
 
 is_cover_file() {
     ext="${1,,}"
-    if [ "$ext" == "jpg" -o "$ext" == "bmp" -o "$ext" == "png" ]
+    if [ "$ext" == "jpg" -o "$ext" == "jpeg" -o "$ext" == "bmp" -o "$ext" == "png"  ]
     then
 	return 0
     fi
