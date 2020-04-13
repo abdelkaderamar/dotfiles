@@ -108,7 +108,7 @@ process_album_dir() {
     fi
 }
 
-process_album_dir() {
+process_single_dir() {
     local artist="$1"
     local album="$2"
 
