@@ -42,6 +42,9 @@ process_file() {
     elif ( is_video_file "$extension")
     then
 	e_success "Video file [$filename]"
+    elif ( is_booklet_file "$extension")
+    then
+	e_success "Booklet file [$filename]"
     else
 	file_dir=$(dirname "$fullfilename")
 	e_error "Unknown file type [$filename] dir=[$file_dir]"

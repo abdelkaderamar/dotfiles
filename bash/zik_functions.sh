@@ -27,6 +27,16 @@ is_video_file() {
     return 1
 }
 
+is_booklet_file() {
+    ext="${1,,}"
+    if [ "$ext" == "pdf" ]
+    then
+	return 0
+    fi
+    return 1
+}
+
+
 read_artists() {
     data_file="$1"
     
