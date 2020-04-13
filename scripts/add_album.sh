@@ -125,6 +125,30 @@ detect_artist() {
     fi
 }
 
+move_album() {
+    e_arrow "Moving [$album] the album"
+    dest="$dir/$artist"
+    e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
+    read answer
+    if [ "$answer" == "yes" ]
+    then
+	mkdir -p "$dest" 
+	mv "$album" "$dir/$artist/"
+    fi
+}
+
+move_single() {
+    e_arrow "Moving the single [$album]"
+    dest="$dir/$artist/$artist - Singles"
+    e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
+    read answer
+    if [ "$answer" == "yes" ]
+    then
+	mkdir -p "$dest" 
+	mv "$album" "$dir/$artist/"
+    fi
+}
+
 dir=''
 artist=''
 album=''
@@ -134,6 +158,7 @@ then
     dir="$ZIK_DRIVE"
 fi
 
+is_single=false
 
 while [ $# -gt 0 ]
 do
@@ -147,6 +172,9 @@ do
 	'-z') shift
 	     if [ $# -gt 0 ]; then album="$1"; fi
 	     ;;
+	'-single')
+	    is_single=true
+	    ;;
     esac
     shift
 done
@@ -182,14 +210,11 @@ process_album_dir "$artist" "$album"
 
 if ( $album_valid )
 then
-    e_arrow "Moving [$album] the album"
-    dest="$dir/$artist"
-    e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
-    read answer
-    if [ "$answer" == "yes" ]
+    if ( ! $is_single )
     then
-	mkdir -p "$dest" 
-	mv "$album" "$dir/$artist/"
+	move_album
+    else
+	move_single
     fi
 else
     e_warn "The album [$album] cannot be moved"
