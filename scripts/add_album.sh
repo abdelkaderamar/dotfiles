@@ -163,7 +163,7 @@ move_single() {
     if [ "$answer" == "yes" ]
     then
 	mkdir -p "$dest" 
-	mv "$album" "$dir/$artist/"
+	mv "$album" "$dest/"
     fi
 }
 
