@@ -108,6 +108,23 @@ process_album_dir() {
     fi
 }
 
+process_album_dir() {
+    local artist="$1"
+    local album="$2"
+
+    local album_name=$(basename "$album")
+    local regexp="$artist - Single - ([12][0-9][0-9][0-9]) - (.*)"
+
+    if [[ "$album_name" =~ $regexp ]] 
+    then
+	e_success "Correct dir format"
+	process_album_content "$artist" "$album"
+    else
+	e_error "Unknown format $album"
+	album_valid=false
+    fi
+}
+
 detect_artist() {
     local album_name="$1"
     local regexp1="^(.*) - ([12][0-9][0-9][0-9]) - (.*)"
@@ -159,6 +176,7 @@ then
     dir="$ZIK_DRIVE"
 fi
 
+is_album=true
 is_single=false
 
 while [ $# -gt 0 ]
@@ -175,6 +193,7 @@ do
 	     ;;
 	'-single')
 	    is_single=true
+	    is_album=false
 	    ;;
     esac
     shift
@@ -190,7 +209,7 @@ fi
 [ ! -d "$album" ] &&  e_error "The dir [$album] was not found" && exit 2 
 [ ! -d "$dir" ] &&  e_error "The dir [$dir] was not found" && exit 3 
 
-if [ -z "$artist" ]
+if [ -z "$artist" -a $is_album ]
 then
     detect_artist "$album"
 fi
@@ -207,16 +226,24 @@ album_valid=true
 
 check_artist "$artist"
 
-process_album_dir "$artist" "$album"
-
-if ( $album_valid )
+if ( $is_album )
 then
-    if ( ! $is_single )
+    process_album_dir "$artist" "$album"
+    if ( $album_valid )
     then
 	move_album
     else
-	move_single
+	e_warn "The album [$album] cannot be moved"
     fi
-else
-    e_warn "The album [$album] cannot be moved"
+fi
+
+if ( $is_single )
+then
+    process_single_dir "$artist" "$album"
+    if ( $album_valid )
+    then
+	move_single
+    else
+	e_warn "The single [$album] cannot be moved"
+    fi
 fi
