@@ -104,6 +104,7 @@ process_album_dir() {
 	process_album_content "$artist" "$album"
     else
 	e_error "Unknown format $album"
+	album_valid=false
     fi
 }
 
