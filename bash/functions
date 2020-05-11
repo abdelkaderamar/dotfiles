@@ -122,6 +122,121 @@ function hp-scan-a4()
   hp-scan -mcolor -r400 --size=a4 --file="$output_file"
 }
 
+img2pdfa4portrait() {
+    if [ $# -ne 1 -a $# -ne 2 ]
+    then
+	e_error "Usage: img2pdfa4 <input file> [<output file>]"
+	return 1
+    fi
+    
+    local in="$1"
+    local ext="${in##*.}"
+    local out="${in%$ext}pdf"
+    if [ $# -eq 2 ]
+    then
+	out="$2"
+    fi
+    convert "$in" -background white -page a4 "$out"
+}
+
+img2pdfa4landscape() {
+    if [ $# -ne 1 -a $# -ne 2 ]
+    then
+	e_error "Usage: img2pdfa4 <input file> [<output file>]"
+	return 1
+    fi
+    
+    local in="$1"
+    local ext="${in##*.}"
+    local out="${in%$ext}pdf"
+    if [ $# -eq 2 ]
+    then
+	out="$2"
+    fi
+    convert "$in" -background white -page a4 -rotate 90 "$out"
+}
+
+pdf2a4() {
+    for i in "$@"
+    do
+	echo pdfjam --outfile "a4-${i}" --paper a4paper "$i"
+    done
+}
+
+merge_pdf() {
+    local output="${@:$#}"
+    if [ -f "$output" ]
+    then
+	e_warn "$output exists. Do you want to overwrite it (y/n)?"
+	read l
+	if [ "$l" != "y" ]
+	then
+	    return 1
+	fi
+    fi
+    local prev_last="${#@}"
+    prev_last=$((prev_last-1))
+    local input=( "$@" )
+    input=( "${input[@]:0:$prev_last}" )
+    e_header "Concatenating files ${input[@]} ..."
+    pdftk "${input[@]}" cat output "$output"
+    res=$?
+    if [ $res -eq 0 ]
+    then
+	e_success "File $output generated successfuly"
+    else
+	e_error "Failed to generate the file $output"
+    fi
+    return $res
+}
+
+mkv2mp4() {
+    if [ $# -ne 1 -a $# -ne 2 ]
+    then
+	e_error "Usage: mkv2mp4 <input file> [<output file>]"
+	return 1
+    fi
+    
+    local in="$1"
+    local ext="${in##*.}"
+    local out="${in%$ext}mp4"
+    if [ $# -eq 2 ]
+    then
+	out="$2"
+    fi
+    ffmpeg -i "$in" -codec copy -strict -2 "$out"
+    res=$?
+    if [ $res -eq 0 ]
+    then
+	e_success "File $out generated successfuly"
+    else
+	e_error "Failed to generate the file $out"
+    fi
+    return $res
+}
+
+audiotrack2mp3() {
+    if [ $# -ne 2 ]
+    then
+	e_error "Usage: audiotrack2mp3 <input file> <output file>"
+	return 1
+    fi
+    
+    local in="$1"
+    local out="$2"
+
+    ffmpeg -i "$in" -c:v copy -c:a mp3 "$out"
+    res=$?
+    if [ $res -eq 0 ]
+    then
+	e_success "File $out generated successfuly"
+    else
+	e_error "Failed to generate the file $out"
+    fi
+    return $res
+}
+
+
 ## Reduce pdf size
 ## TODO
 ## gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
