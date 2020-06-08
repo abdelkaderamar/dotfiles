@@ -121,7 +121,7 @@ if ( $OPT_APT_INSTALL )
 then
     if [ -z "$PROFILE" ]
     then
-	e_error "Set a profile for -opt option"
+        e_error "Set a profile for -apt option (-profile <profile>)"
 	exit 2
     fi
     echo $PROFILE

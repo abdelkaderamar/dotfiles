@@ -35,3 +35,9 @@ apt_packages+=( syncthing )
 
 apt_packages+=( nfs-kernel-server )
 
+# Searx
+#apt_packages+=( libxslt-dev python-virtualenv python-babel zlib1g-dev )
+#apt_packages+=( libffi-dev libssl-dev )
+#apt_packages+=( uwsgi uwsgi-plugin-python libapache2-mod-uwsgi )
+# needed by searx but already installed 
+#apt_packages+=( git build-essential python-dev )
