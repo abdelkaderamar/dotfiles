@@ -74,15 +74,17 @@ do
     itemurl=${article_urls[$i]}
     commenturl=${hn_urls[$i]}
 
-    id=$(echo "$commenturl"  | sed 's/^.*item?id=\(.*\)"/\1/')
+    id=$(echo "$commenturl"  | sed 's/^.*item?id=\(.*\)/\1/')
     timestamp=$(curl -s "https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty" | jq -r '.time')
+
+    curl -s "https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty"
     
     echo Title  = $title
     echo URL    = $itemurl
     echo HN URL = $commenturl
     echo timestamp   = $timestamp
-    echo -n "Proceed (y/n) "
-    read l
+    #echo -n "Proceed (y/n) "
+    #read l
     l=y
     if [ "$l" == "y" ]
     then
