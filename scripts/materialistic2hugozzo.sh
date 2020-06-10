@@ -76,8 +76,6 @@ do
 
     id=$(echo "$commenturl"  | sed 's/^.*item?id=\(.*\)/\1/')
     timestamp=$(curl -s "https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty" | jq -r '.time')
-
-    curl -s "https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty"
     
     echo Title  = $title
     echo URL    = $itemurl
