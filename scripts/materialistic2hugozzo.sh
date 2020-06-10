@@ -21,11 +21,21 @@ function create_post()
     title="$1"
     itemurl="$2"
     commenturl="$3"
+    timestamp="$4"
 
-    publish_time=$(date +'%Y-%m-%dT%H:%M:%S%z')
+    
+    #publish_time=$(date +'%Y-%m-%dT%H:%M:%S%z')
+    
+    publish_date=$(date -d "@$timestamp" +'%Y-%m-%dT%H:%M:%S%z')
+    file_date=$(date -d "@$timestamp" +'%Y%m%d')
+
+    dir=$(date -d "@$timestamp" +'%Y-%m-%d')
+    post_dir="$HUGO_HOME"/content/hn/"${dir}"
+
+    mkdir -p "$post_dir"
     
     sanitize "$title"
-    post_filename="$HUGO_HOME/content/hn/$(date +'%Y%m%d')-${CLEAN}.md"
+    post_filename="${post_dir}/${file_date}-${CLEAN}.md"
     echo "---" > "$post_filename"
     echo "title: \"$title\"" >> "$post_filename"
     echo "itemurl: \"$itemurl\"" >> "$post_filename"
@@ -63,6 +73,10 @@ do
     title=${titles[$i]}
     itemurl=${article_urls[$i]}
     commenturl=${hn_urls[$i]}
+
+    id=$(echo "$commenturl"  | sed 's/^.*item?id=\(.*\)"/\1/')
+    timestamp=$(curl -s "https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty" | jq -r '.time')
+    
     echo Title  = $title
     echo URL    = $itemurl
     echo HN URL = $commenturl
@@ -71,7 +85,7 @@ do
     l=y
     if [ "$l" == "y" ]
     then
-	create_post "$title" "$itemurl" "$commenturl"
+	create_post "$title" "$itemurl" "$commenturl" "$timestamp"
     fi
     echo
 done
