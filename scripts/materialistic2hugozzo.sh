@@ -29,7 +29,7 @@ function create_post()
     publish_date=$(date -d "@$timestamp" +'%Y-%m-%dT%H:%M:%S%z')
     file_date=$(date -d "@$timestamp" +'%Y%m%d')
 
-    dir=$(date -d "@$timestamp" +'%Y-%m-%d')
+    dir=$(date -d "@$timestamp" +'%Y-%m')
     post_dir="$HUGO_HOME"/content/hn/"${dir}"
 
     mkdir -p "$post_dir"
