@@ -40,7 +40,7 @@ function create_post()
     echo "title: \"$title\"" >> "$post_filename"
     echo "itemurl: \"$itemurl\"" >> "$post_filename"
     echo "commenturl: \"$commenturl\"" >> "$post_filename"
-    echo "date: $publish_time" >> "$post_filename"
+    echo "date: $publish_date" >> "$post_filename"
     echo "---" >> "$post_filename"
 
 }
