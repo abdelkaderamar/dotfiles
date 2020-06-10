@@ -80,8 +80,9 @@ do
     echo Title  = $title
     echo URL    = $itemurl
     echo HN URL = $commenturl
+    echo timestamp   = $timestamp
     echo -n "Proceed (y/n) "
-    #read l
+    read l
     l=y
     if [ "$l" == "y" ]
     then
