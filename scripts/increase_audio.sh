@@ -73,8 +73,9 @@ check_file_exist "$input_video" || (e_error "[$input_video] doesn't exist"; exit
 
 check_file_exist "$output_video" && (e_error "[$output_video] exists already"; exit 2)
 
-e_arrow "Input video:  $input_video"
-e_arrow "Output video: $output_video"
+e_arrow "Input video:   $input_video"
+e_arrow "Output video:  $output_video"
+e_arrow "Volume factor: $volume_factor"
 
 
 answer=y
