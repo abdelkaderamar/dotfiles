@@ -117,9 +117,36 @@ function code2tex()
 ## Scan an A4 color page with hp-scan
 function hp-scan-a4() 
 {
-  [[ $# -lt 1 ]] && echo Missing filename && return
+  [[ $# -lt 1 ]] && echo Missing filename && return 1
   output_file="$1"
   hp-scan -mcolor -r400 --size=a4 --file="$output_file"
+}
+function hp-scan-a4-device()
+{
+  [[ $# -lt 2 ]] && echo Missing filename or device && return 1
+  output_file="$1"
+
+  if [ -f "$output_file" ]
+  then
+      e_warn "File [$output_file] exists. Overwrite (y/n) ? "
+      read answer
+      if [ "$answer" != "y" ]
+      then
+	  return 1
+      fi
+  fi
+  
+  device="$2"
+  hp-scan --device="$device" -mcolor -r400 --size=a4 --file="$output_file"
+}
+function hp-scan-a4-hp5200() 
+{
+  [[ $# -lt 1 ]] && echo Missing filename && return 1
+  output_file="$1"
+  device="hpaio:/net/officejet_5200_series?ip=192.168.0.37"
+  device="hpaio:/net/OfficeJet_5200_series?ip=192.168.0.37"
+  #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
+  hp-scan-a4-device "$output_file" "$device"
 }
 
 img2pdfa4portrait() {
@@ -159,7 +186,7 @@ img2pdfa4landscape() {
 pdf2a4() {
     for i in "$@"
     do
-	echo pdfjam --outfile "a4-${i}" --paper a4paper "$i"
+	pdfjam --outfile "a4-${i}" --paper a4paper "$i"
     done
 }
 
@@ -204,7 +231,7 @@ mkv2mp4() {
     then
 	out="$2"
     fi
-    ffmpeg -i "$in" -codec copy -strict -2 "$out"
+    ffmpeg -i "$in" -vcodec copy -acodec aac -strict -2 "$out"
     res=$?
     if [ $res -eq 0 ]
     then
@@ -235,7 +262,6 @@ audiotrack2mp3() {
     fi
     return $res
 }
-
 
 ## Reduce pdf size
 ## TODO
