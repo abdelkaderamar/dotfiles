@@ -11,6 +11,7 @@ add_latex()
     apt_packages+=(texlive-publishers texlive-fonts-extra texlive-latex-base)
     apt_packages+=(texlive-latex-extra texlive-extra-utils)
     apt_packages+=(texlive-xetex texlive-lang-french)
+    apt_packages+=(texlive-humanities)
 }
 
 
