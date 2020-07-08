@@ -1,5 +1,18 @@
 #!/bin/bash 
 
+function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
+function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
+function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
+function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
+function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
+function echo_and_exit()
+{
+  exit_code=$1
+  shift
+  e_error "$@"
+  exit $exit_code
+}
+
 function print_usage()
 {
   echo "Available options :"
@@ -10,7 +23,8 @@ function print_usage()
   echo "  -soft     install software from sources"
   echo "  -dev      install development tools (to combine with -apt)"
   echo "  -profile  the profile of the host. Available profiles are"
-  echo "             - arm32"  
+  echo "             - pi3 (raspberry 3 used as a server)"  
+  echo "             - pi4 (raspberry 4 used as a media center and a server)"  
   echo "             - server32"  
   echo "             - server64"  
   echo "             - dev"  
@@ -22,8 +36,11 @@ function read_profile()
 {
     PROFILE=$1
     case "$PROFILE" in
-	'arm32')
-	    arm32_profile=true
+	'pi3')
+	    pi3_profile=true
+	    ;;
+	'pi4')
+	    pi4_profile=true
 	    ;;
 	'server32')
 	    server32_profile=true
@@ -85,7 +102,8 @@ OPT_APT_MULTIMEDIA=false
 PROFILE=''
 
 # Profiles #################################################
-arm32_profile=false
+pi3_profile=false
+pi4_profile=false
 server32_profile=false
 server64_profile=false
 dev_profile=false

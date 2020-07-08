@@ -43,6 +43,10 @@ apt_packages+=( keepass2 )
 apt_packages+=( hplip-gui )
 
 # For gcc
-apt_packages+=( libgmp-dev libmpfr-dev libmpc-dev gcc-multilib )
+apt_packages+=( libgmp-dev libmpfr-dev libmpc-dev gcc-multilib autogen )
+
+apt_packages+=( python-is-python3 )
+
+apt_packages+=( resolvconf iperf )
 
 

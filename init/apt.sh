@@ -7,10 +7,16 @@ source init/apt_functions.sh
 
 e_header "Release name: $release_name"
 
-if ( $arm32_profile )
+if ( $pi3_profile )
 then
-    e_header "ARM32 profile"
-    source init/apt_arm32.sh
+    e_header "Raspberry 3 profile"
+    source init/apt_pi3.sh
+fi
+
+if ( $pi4_profile )
+then
+    e_header "Raspberry 4 profile"
+    source init/apt_pi4.sh
 fi
 
 if ( $server32_profile )
