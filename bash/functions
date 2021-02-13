@@ -143,8 +143,7 @@ function hp-scan-a4-hp5200()
 {
   [[ $# -lt 1 ]] && echo Missing filename && return 1
   output_file="$1"
-  device="hpaio:/net/officejet_5200_series?ip=192.168.0.37"
-  device="hpaio:/net/OfficeJet_5200_series?ip=192.168.0.37"
+  device="hpaio:/net/OfficeJet_5200_series?ip=192.168.1.31"
   #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
   hp-scan-a4-device "$output_file" "$device"
 }
@@ -191,6 +190,11 @@ pdf2a4() {
 }
 
 merge_pdf() {
+    if [ $# -lt 3 ]
+    then
+	e_error "Usage: merge_pdf {<input files>} <output file>"
+	return 1
+    fi
     local output="${@:$#}"
     if [ -f "$output" ]
     then
@@ -261,6 +265,52 @@ audiotrack2mp3() {
 	e_error "Failed to generate the file $out"
     fi
     return $res
+}
+
+odd_even_merge() {
+    if [ $# -ne 3 ]
+    then
+	e_error "Usage: odd_even_merge <odd file> <even file> <output file>"
+	e_arrow '       odd = impair &&   even = pair'
+	return 1
+    fi
+    local odd="$1"
+    local even="$2"
+    local output="$3"
+    
+    pdftk A="$odd" B="$even" shuffle A B output "$output"
+    
+}
+
+pdf_one_per_page() {
+    if [ $# -ne 1 ]
+    then
+	e_error "Usage: pdf_one_per_page <input file>"
+	return 1
+    fi
+    
+    local input="$1"
+    local output_format="${input,,}"
+    output_format="${output_format%.pdf}"-page-%d.pdf
+    
+    pdftk "$input" burst output "$output_format"
+}
+
+extract_pdf_pages() {
+    if [ $# -lt 2 ]
+    then
+	e_error "Usage extract_pdf_pages <input file> {intervals ...}"
+	return 1
+    fi
+    local input="$1"
+    shift
+    local output=${input,,}
+    output=pages_$@.pdf
+    output=${output// /+}
+    local tmp=${input,,}
+    tmp=${tmp%.pdf}
+    output=$tmp-$output
+    pdftk "$input" cat $@ output "$output"
 }
 
 ## Reduce pdf size
