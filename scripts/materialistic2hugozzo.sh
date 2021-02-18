@@ -5,6 +5,11 @@ function usage()
   e_header "Usage $(basename $0) <materialistic url file>"
   echo
   e_arrow "$@"
+  echo
+  e_header "This script is used to import materialistic exported links of hackernews to hugo blog"
+  e_header "Materialistic is an open source android app to read Hackernews"
+  e_arrow  "     https://play.google.com/store/apps/details?id=io.github.hidroh.materialistic"
+  e_arrow  "     https://github.com/hidroh/materialistic"
 }
 
 function sanitize() 
