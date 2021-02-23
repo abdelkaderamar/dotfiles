@@ -16,7 +16,7 @@ usage() {
     e_arrow  "   <zik dir>   Album directory"
     echo
     e_header "Help:"
-    e_arrow  "   DRIVE_DIR : environment variable to set automatically music repository directory"
+    e_arrow  "   ZIK_DRIVE : environment variable to set automatically music repository directory"
     e_arrow  "   Data file of artists is stored here $HOME/share/data/zik/artists.lst" 
     e_arrow  "   Album directory name pattern is [Artist] - [Year] - [Album title]"
     e_arrow  "   If not provided, artist name can be automatically deduced from album directory"
