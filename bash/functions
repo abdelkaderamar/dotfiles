@@ -313,6 +313,69 @@ extract_pdf_pages() {
     pdftk "$input" cat $@ output "$output"
 }
 
+iso_mount() {
+    if [ $# -ne 2 ]
+    then
+      e_error "Syntax error"
+      e_error "Usage: ${FUNCNAME[0]} <iso file> <mount dir>"
+      return 1
+    fi
+    e_header "Mount iso file to a directory (sudo mount -o loop -t iso9660 <iso file> <mounting dir>)"
+    echo
+    echo
+    sudo mount -o loop -t iso9660 "$1" "$2"
+    return $?
+}
+
+iso_make() {
+    if [ $# -ne 2 -a $# -ne 1 ]
+    then
+      e_error "Syntax error"
+      e_error "Usage: ${FUNCNAME[0]} <dir> [<iso file>]"
+      return 1
+    fi
+    local dir="$1"
+    dir="${dir%/}"
+    if [ $# -eq 1 ]
+    then
+      local iso_file="${dir}".iso
+    else
+      local iso_file="$2"
+    fi
+    e_header "Create an iso file from a directory (mkisofs <iso file> <dir>)"
+    echo 
+    genisoimage -o "$iso_file" -J -R -l -joliet-long "$dir"
+    return $?
+}
+
+dv2mp4() {
+    local help_message="Usage: dv2mp4 {<dv file>}"
+    if [ $# -eq 0 ]
+    then
+	e_header "$help_message"
+	return 1
+    fi
+
+    local files=( )
+    while [ $# -gt 0 ]
+    do
+	case "$1" in
+	    -h|--help)
+		e_header "$help_message"
+		;;
+	    *)   files+=("$1")
+		 ;;
+	esac
+	shift
+    done
+    for f in "${files[@]}"
+    do
+	e_header "Processing $f"
+        ffmpeg -i  "$f" -deinterlace -vcodec h264 -acodec mp3 \
+	       "${f%.dv}.mp4"
+    done
+
+}
 ## Reduce pdf size
 ## TODO
 ## gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
