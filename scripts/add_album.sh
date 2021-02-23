@@ -20,6 +20,14 @@ usage() {
     e_arrow  "   Data file of artists is stored here $HOME/share/data/zik/artists.lst" 
     e_arrow  "   Album directory name pattern is [Artist] - [Year] - [Album title]"
     e_arrow  "   If not provided, artist name can be automatically deduced from album directory"
+    e_arrow  "   Singles are stored in <Artist>/Artist - Singles/<Single directory>"
+    e_arrow  "   Singles directory name pattern is <Artist> - <Single> - <Year> - <Single title>"
+    echo
+    e_header "Options:"
+    e_arrow  "   -single : process a directory for a single"
+    e_arrow  "   -a      : artist name"
+    e_arrow  "   -d      : music repository"
+    e_arrow  "   -z      : album directory"
 }
 
 process_file() {
