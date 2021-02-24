@@ -141,6 +141,23 @@ process_single_dir() {
     fi
 }
 
+process_bootleg_dir() {
+    local artist="$1"
+    local album="$2"
+
+    local album_name=$(basename "$album")
+    local regexp="$artist - Bootleg - ([12][0-9][0-9][0-9]) - (.*)"
+
+    if [[ "$album_name" =~ $regexp ]] 
+    then
+	e_success "Correct dir format"
+	process_album_content "$artist" "$album"
+    else
+	e_error "Unknown format $album"
+	album_valid=false
+    fi
+}
+
 detect_artist() {
     local album_name="$1"
     local regexp1="^(.*) - ([12][0-9][0-9][0-9]) - (.*)"
@@ -183,6 +200,18 @@ move_single() {
     fi
 }
 
+move_bootleg() {
+    e_arrow "Moving the bootleg [$album]"
+    dest="$dir/$artist/$artist - Bootlegs"
+    e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
+    read answer
+    if [ "$answer" == "yes" ]
+    then
+	mkdir -p "$dest" 
+	mv "$album" "$dest/"
+    fi
+}
+
 dir=''
 artist=''
 album=''
@@ -194,6 +223,7 @@ fi
 
 is_album=true
 is_single=false
+is_bootleg=false
 
 while [ $# -gt 0 ]
 do
@@ -209,6 +239,10 @@ do
 	     ;;
 	'-single')
 	    is_single=true
+	    is_album=false
+	    ;;
+	'-bootleg')
+	    is_bootleg=true
 	    is_album=false
 	    ;;
     esac
@@ -261,5 +295,16 @@ then
 	move_single
     else
 	e_warn "The single [$album] cannot be moved"
+    fi
+fi
+
+if ( $is_bootleg )
+then
+    process_bootleg_dir "$artist" "$album"
+    if ( $album_valid )
+    then
+	move_bootleg
+    else
+	e_warn "The bootleg [$album] cannot be moved"
     fi
 fi
