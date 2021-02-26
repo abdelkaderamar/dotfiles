@@ -41,3 +41,6 @@ apt_packages+=( nfs-kernel-server )
 #apt_packages+=( uwsgi uwsgi-plugin-python libapache2-mod-uwsgi )
 # needed by searx but already installed 
 #apt_packages+=( git build-essential python-dev )
+
+apt_packages+=(html-xml-utils jq)
+
