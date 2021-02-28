@@ -373,9 +373,57 @@ dv2mp4() {
 	e_header "Processing $f"
         ffmpeg -i  "$f" -deinterlace -vcodec h264 -acodec mp3 \
 	       "${f%.dv}.mp4"
+	if [ $? -ne 0 ]
+	then
+		echo "Error processing [$f]" >> dv2mp4.err
+	fi
     done
 
 }
+
+function remove_duplicates() {
+    local usage_message="Usage: ${FUNCNAME[0]} <favorite dir> <dir> [-r]"
+    if [ $# -eq 1 -a "$1" = "-h" ]
+    then
+	e_header "$usage_message"
+	echo
+	return 0
+    fi
+    if [ $# -ne 2 -a $# -ne 3 ]
+    then
+	e_error "$usage_message"
+	return	1
+    fi
+    if [ $# -eq 3 -a "$3" != "-r" ]
+    then
+	e_error "$usage_message"
+	return 1
+    fi
+    local recursive=false
+    if [ $# -eq 3 -a "$3" = "-r" ]
+    then
+	recursive=true
+    fi
+
+    local fav_path=$(realpath "$1")
+    fav_path="/"$fav_path
+    local second_path="$2"
+    echo "Favorite path = [$fav_path]"
+    e_header "You are going to remove duplicate files from $second_path"
+    echo -n "Do you confirm (yes/no) "
+    read response
+    if [ "$response" != "yes" ]
+    then
+	return 1
+    fi
+    if ( $recursive )
+    then
+	fdupes -r --omitfirst -o name  --delete --noprompt  "$fav_path" "$second_path"
+    else
+	fdupes --omitfirst -o name  --delete --noprompt  "$fav_path" "$second_path"
+    fi
+}
+
 ## Reduce pdf size
 ## TODO
 ## gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
