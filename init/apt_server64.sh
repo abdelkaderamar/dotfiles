@@ -45,3 +45,6 @@ apt_packages+=( nfs-kernel-server )
 # Some network/wifi tools
 apt_packages+=( ifmetric )
 apt_packages+=( iperf iftop vnstat cbm nload nethogs speedtest-cli )
+
+apt_packages+=(html-xml-utils jq)
+
