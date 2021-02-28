@@ -41,3 +41,7 @@ apt_packages+=( nfs-kernel-server )
 #apt_packages+=( uwsgi uwsgi-plugin-python libapache2-mod-uwsgi )
 # needed by searx but already installed 
 #apt_packages+=( git build-essential python-dev )
+
+# Some network/wifi tools
+apt_packages+=( ifmetric )
+apt_packages+=( iperf iftop vnstat cbm nload nethogs speedtest-cli )
