@@ -345,7 +345,7 @@ fi
 
 if ( $is_ost )
 then
-    process_ost_dir "$artist" "$album"
+    process_ost_dir "$album"
     if ( $album_valid )
     then
 	move_ost
