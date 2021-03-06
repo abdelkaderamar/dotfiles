@@ -139,7 +139,7 @@ process_dir() {
     do
 	if [ -f "$f" ]
 	then
-	    process_file "$f" "$artist"
+	    process_file "$f"
 	else
 	    e_warn "Ignore [$f]"
 	fi
