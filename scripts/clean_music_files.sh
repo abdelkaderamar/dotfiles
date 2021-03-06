@@ -84,10 +84,6 @@ process_file() {
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
 	    rename_file "$filename" "$newfilename" "$fullfilename" 11
-	elif [[ "$filename" =~ (^${artist}[ ]*-[ ]*([0-9]{2})[ ]*-[ ]*([a-Z].*)$) ]]
-	then
-	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
-	    rename_file "$filename" "$newfilename" "$fullfilename" 12
 	elif [[ "$filename" =~ (^[1-9]-([0-9]{2})[ ]+([a-Z].*)$) ]]
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
