@@ -22,12 +22,14 @@ usage() {
     e_arrow  "   If not provided, artist name can be automatically deduced from album directory"
     e_arrow  "   Singles are stored in <Artist>/Artist - Singles/<Single directory>"
     e_arrow  "   Singles directory name pattern is <Artist> - <Single> - <Year> - <Single title>"
+    e_arrow  "   OST albums are stored in \${ZIK_DRIVE}/OST. The name pattern is 'OST - [Album name]'"
     echo
     e_header "Options:"
     e_arrow  "   -single : process a directory for a single"
     e_arrow  "   -a      : artist name"
     e_arrow  "   -d      : music repository"
     e_arrow  "   -z      : album directory"
+    e_arrow  "   -ost    : process an OST album"
 }
 
 process_file() {
@@ -71,8 +73,7 @@ process_file() {
 ##
 process_album_content()
 {
-    local artist="$1"
-    local album="$2"
+    local album="$1"
     
     readarray -d '' dir_content < <(find "$album" -maxdepth 1 -mindepth 1 -print0)
     for f in "${dir_content[@]}"
@@ -81,10 +82,10 @@ process_album_content()
 
 	if [ -f "$f" ]
 	then
-	    process_file "$f" "$artist"
+	    process_file "$f"
 	elif [ -d "$f" ]
 	then
-	    process_album_content "$artist" "$f"
+	    process_album_content "$f"
 	fi
 
     done
@@ -117,7 +118,7 @@ process_album_dir() {
 	      "$album_name" =~ "(^$artist #[0-9]{2}# (.*)$)"  ]]
     then
 	e_success "Correct dir format"
-	process_album_content "$artist" "$album"
+	process_album_content "$album"
     else
 	e_error "Unknown format $album"
 	album_valid=false
@@ -134,7 +135,23 @@ process_single_dir() {
     if [[ "$album_name" =~ $regexp ]] 
     then
 	e_success "Correct dir format"
-	process_album_content "$artist" "$album"
+	process_album_content "$album"
+    else
+	e_error "Unknown format $album"
+	album_valid=false
+    fi
+}
+
+process_ost_dir() {
+    local album="$1"
+
+    local album_name=$(basename "$album")
+    local regexp="OST - (.*)"
+
+    if [[ "$album_name" =~ $regexp ]] 
+    then
+	e_success "Correct dir format"
+	process_album_content "$album"
     else
 	e_error "Unknown format $album"
 	album_valid=false
@@ -151,7 +168,7 @@ process_bootleg_dir() {
     if [[ "$album_name" =~ $regexp ]] 
     then
 	e_success "Correct dir format"
-	process_album_content "$artist" "$album"
+	process_album_content "$album"
     else
 	e_error "Unknown format $album"
 	album_valid=false
@@ -174,6 +191,12 @@ detect_artist() {
 	    artist="${BASH_REMATCH[1]}"
 	fi
     fi
+
+    local ost_regexp="^OST - (.*)"
+    if [[ "$album_name" =~ $ost_regexp ]]
+    then
+	artist="OST"
+    fi
 }
 
 move_album() {
@@ -192,6 +215,18 @@ move_single() {
     e_arrow "Moving the single [$album]"
     dest="$dir/$artist/$artist - Singles"
     e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
+    read answer
+    if [ "$answer" == "yes" ]
+    then
+	mkdir -p "$dest" 
+	mv "$album" "$dest/"
+    fi
+}
+
+move_ost() {
+    e_arrow "Moving OST album [$album]"
+    dest="$dir/OST/"
+    e_header "Moving OST album [$album] to [$dest]. Do you confirm (yes/no) ? "
     read answer
     if [ "$answer" == "yes" ]
     then
@@ -223,6 +258,7 @@ fi
 
 is_album=true
 is_single=false
+is_ost=false
 is_bootleg=false
 
 while [ $# -gt 0 ]
@@ -239,6 +275,10 @@ do
 	     ;;
 	'-single')
 	    is_single=true
+	    is_album=false
+	    ;;
+	'-ost')
+	    is_ost=true
 	    is_album=false
 	    ;;
 	'-bootleg')
@@ -274,7 +314,12 @@ fi
 
 album_valid=true
 
-check_artist "$artist"
+if [ "$artist" != "OST" ]
+then
+    check_artist "$artist"
+else
+    e_arrow "The album [$album] will be processed as an OST"
+fi
 
 if ( $is_album )
 then
@@ -295,6 +340,17 @@ then
 	move_single
     else
 	e_warn "The single [$album] cannot be moved"
+    fi
+fi
+
+if ( $is_ost )
+then
+    process_ost_dir "$artist" "$album"
+    if ( $album_valid )
+    then
+	move_ost
+    else
+	e_warn "The OST [$album] cannot be moved"
     fi
 fi
 
