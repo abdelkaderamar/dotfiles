@@ -191,12 +191,6 @@ detect_artist() {
 	    artist="${BASH_REMATCH[1]}"
 	fi
     fi
-
-    local ost_regexp="^OST - (.*)"
-    if [[ "$album_name" =~ $ost_regexp ]]
-    then
-	artist="OST"
-    fi
 }
 
 move_album() {
@@ -280,6 +274,7 @@ do
 	'-ost')
 	    is_ost=true
 	    is_album=false
+	    artist="OST"
 	    ;;
 	'-bootleg')
 	    is_bootleg=true
@@ -299,7 +294,7 @@ fi
 [ ! -d "$album" ] &&  e_error "The dir [$album] was not found" && exit 2 
 [ ! -d "$dir" ] &&  e_error "The dir [$dir] was not found" && exit 3 
 
-if [ -z "$artist" -a $is_album ]
+if [ -z "$artist" ]
 then
     detect_artist "$album"
 fi
