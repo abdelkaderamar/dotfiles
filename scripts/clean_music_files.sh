@@ -156,7 +156,7 @@ process_dir() {
     rm -f "$album_content"
 }
 
-local dirs=( )
+dirs=( )
 while [ $# -gt 0 ]
 do
     case "$1" in
