@@ -3,8 +3,11 @@
 source $HOME/.bash_logging
 source $HOME/.zik_functions
 
+quiet=false
+
 ## Usage
 usage() {
+    # TODO add -q option
     e_header "Usage $(basename $0) <dir1> <dir2> ...."
     echo
     e_arrow  " replace special charcter – -"
@@ -19,7 +22,10 @@ rename_file() {
     tag="$4"
     file_dir=$(dirname "$file_path")
     newfile_path="$file_dir"/"$newfilename"
-    e_arrow Renaming [$tag] from "$file_path" to "$newfile_path"
+    if [ "$quiet" != "true" ]
+    then
+	e_arrow Renaming [$tag] from "$file_path" to "$newfile_path"
+    fi
     mv -i "$file_path"  "$newfile_path"
 }
 
@@ -144,8 +150,19 @@ process_dir() {
     rm -f "$album_content"
 }
 
-
-for d in "$@"
+local dirs=( )
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        -q|--quiet)
+            quiet=true
+            ;;
+        *)   dir+=("$1")
+             ;;
+    esac
+    shift
+done
+for d in "${dirs[@]}"
 do
     # replace_special_character – - "$1"
     process_dir "$d"
