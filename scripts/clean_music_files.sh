@@ -22,7 +22,7 @@ rename_file() {
     tag="$4"
     file_dir=$(dirname "$file_path")
     newfile_path="$file_dir"/"$newfilename"
-    if [ "$quiet" != "true" ]
+    if [ "$quiet" != true ]
     then
 	e_arrow Renaming [$tag] from "$file_path" to "$newfile_path"
     fi
@@ -163,7 +163,7 @@ do
         -q|--quiet)
             quiet=true
             ;;
-        *)   dir+=("$1")
+        *)   dirs+=("$1")
              ;;
     esac
     shift
