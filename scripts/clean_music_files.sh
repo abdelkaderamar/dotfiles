@@ -31,7 +31,10 @@ rename_file() {
 
 
 process_file() {
-    echo "# FILE [$1]"
+    if [ "$quiet" != true ]
+    then
+	echo "# FILE [$1]"
+    fi
 #    return 0
     
     fullfilename="$1"
@@ -45,7 +48,10 @@ process_file() {
     then
 	if [[ "$filename" =~ $filename_regex ]]
 	then
-	    e_arrow "$filename wellformed"
+	    if [ "$quiet" != true ]
+	    then
+		e_arrow "$filename wellformed"
+	    fi
 	elif [[ "$filename" =~ (^([0-9]{2}) ([a-Z].*)$) ]]
 	then
 	    newfilename="${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
