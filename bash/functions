@@ -424,7 +424,42 @@ function remove_duplicates() {
     fi
 }
 
-## Reduce pdf size
-## TODO
-## gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+reduce_pdf() {
+    help_message='Usage: ${FUNCNAME[0]} <quality> <input> <output>
+
+<quality> : screen(72dpi), ebook(150dpi), prepress(300dpi), printer (300dpi)
+<input>   : pdf input file
+<output>  : pdf output file
+'
+    if [ $# -eq 1 -a "$1" = "-h" ]
+    then
+        e_header "$help_message"
+	return 0;
+    fi
+    if [ $# -ne 3 ]
+    then
+	e_header "$help_message"
+	return 1;
+    fi
+    local pdfsettings="$1"
+    local input="$2"
+    local output="$3"
+
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 \
+       -dPDFSETTINGS=/"$pdfsettings" \
+       -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$output" "$input"
+
+    res=$?
+    if [ "$res" -eq 0 ]
+    then
+	e_success "[$output] generated successfully"
+	echo
+	e_arrow "$(du -sh $input)"
+	e_arrow "$(du -sh $output)"
+	return 0;
+    else
+	e_error "Failed to generate [$output]"
+	return $res
+    fi
+}
 
