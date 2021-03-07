@@ -194,6 +194,7 @@ detect_artist() {
 }
 
 move_album() {
+    echo
     e_arrow "Moving [$album] the album"
     dest="$dir/$artist"
     e_header "Moving [$album] to [$dest]. Do you confirm (yes/no) ? "
