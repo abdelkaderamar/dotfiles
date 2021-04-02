@@ -407,7 +407,7 @@ function remove_duplicates() {
 
     local fav_path=$(realpath "$1")
     fav_path="/"$fav_path
-    local second_path="$2"
+    local second_path="$(realpath "$2")"
     echo "Favorite path = [$fav_path]"
     e_header "You are going to remove duplicate files from $second_path"
     echo -n "Do you confirm (yes/no) "
@@ -454,12 +454,35 @@ reduce_pdf() {
     then
 	e_success "[$output] generated successfully"
 	echo
-	e_arrow "$(du -sh $input)"
-	e_arrow "$(du -sh $output)"
+	e_arrow $(du -sh "$input")
+	e_arrow $(du -sh "$output")
 	return 0;
     else
 	e_error "Failed to generate [$output]"
 	return $res
     fi
+}
+
+read_file_ext() {
+    if [ $# -ne 1 ]
+    then
+	e_error "Syntax error"
+	e_error "Usage: ${FUNCNAME[0]} <file>"
+	return 1
+    fi
+    local filename="$1"
+    file_ext="${filename##*.}"
+    return 0
+}
+
+read_filename_wo_ext() {
+    if [ $# -ne 1 ]
+    then
+	e_error "Syntax error"
+	return 1
+    fi
+    local filename="$1"
+    filename_wo_ext="${filename%.*}"
+    return 0
 }
 
