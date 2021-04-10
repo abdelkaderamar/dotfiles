@@ -16,7 +16,13 @@ then
   exit 1
 fi
 
-source $HOME/.bash_logging
+#source $HOME/.bash_logging
+
+function e_arrow()   {
+    echo -n -e " \033[1;32m✔\033[0m $1";
+    shift
+    echo -e " \033[1;34m➜\033[0m $@";
+}
 
 regexp1="$1"
 regexp2="$2"
