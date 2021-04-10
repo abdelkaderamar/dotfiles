@@ -8,7 +8,27 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
-
+all_encodings=(7bit-jis \
+	     AdobeStandardEncoding AdobeSymbol AdobeZdingbat ascii        \
+	     ascii-ctrl big5-eten big5-hkscs cp1006 cp1047 cp1250 cp1251  \
+	     cp1252 cp1253 cp1254 cp1255 cp1256 cp1257 cp1258 cp37 cp437  \
+	     cp500 cp737 cp775 cp850 cp852 cp855 cp856 cp857 cp858 cp860  \
+	     cp861 cp862 cp863 cp864 cp865 cp866 cp869 cp874 cp875 cp932  \
+	     cp936 cp949 cp950 dingbats euc-cn euc-jp euc-kr gb12345-raw  \
+	     gb2312-raw gsm0338 hp-roman8 hz iso-2022-jp iso-2022-jp-1    \
+	     iso-2022-kr iso-8859-1 iso-8859-10 iso-8859-11 iso-8859-13   \
+	     iso-8859-14 iso-8859-15 iso-8859-16 iso-8859-2 iso-8859-3    \
+	     iso-8859-4 iso-8859-5 iso-8859-6 iso-8859-7 iso-8859-8       \
+	     iso-8859-9 iso-ir-165 jis0201-raw jis0208-raw jis0212-raw    \
+	     johab koi8-f koi8-r koi8-u ksc5601-raw MacArabic             \
+	     MacCentralEurRoman MacChineseSimp MacChineseTrad MacCroatian \
+	     MacCyrillic MacDingbats MacFarsi MacGreek MacHebrew          \
+	     MacIcelandic MacJapanese MacKorean MacRoman MacRomanian      \
+	     MacRumanian MacSami MacSymbol MacThai MacTurkish             \
+	     MacUkrainian MIME-B MIME-Header MIME-Header-ISO_2022_JP      \
+	     MIME-Q nextstep null posix-bc shiftjis symbol UCS-2BE        \
+	     UCS-2LE UTF-16 UTF-16BE UTF-16LE UTF-32 UTF-32BE UTF-32LE    \
+	     UTF-7 utf-8-strict utf8 viscii)
 ### Logging ################################################
 function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
 function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
@@ -484,5 +504,44 @@ read_filename_wo_ext() {
     local filename="$1"
     filename_wo_ext="${filename%.*}"
     return 0
+}
+
+dus() {
+    if [ $# -eq 0 ]
+    then
+        du -sh * | sort -h
+    else
+        du -sh "$@" | sort -h
+    fi
+}
+
+test_filename_encoding() {
+    local recursive=false
+    local files=( )
+
+    while [ $# -gt 0 ]
+    do
+	case "$1" in
+	    -r)
+		recursive=true
+		;;
+	    *)   files+=("$1")
+		 ;;
+	esac
+	shift
+    done
+    for f in "${files[@]}"
+    do
+	for enc in "${all_encodings[@]}"
+	do
+	    e_header "Encoding: [$enc]"
+	    if ( $recursive)
+	    then
+		convmv -r -f "$enc" -t utf-8 "$f"
+	    else
+		convmv -f "$enc" -t utf-8 "$f"
+	    fi
+	done
+    done    
 }
 
