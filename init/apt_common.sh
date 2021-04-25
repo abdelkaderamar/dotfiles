@@ -15,5 +15,5 @@ apt_packages+=(lynx)
 
 apt_packages+=(unzip)
 
-apt_packages+=( fdupes )
+apt_packages+=(fdupes)
 
