@@ -12,6 +12,8 @@ apt_packages+=( imagemagick )
 
 install_node
 
+apt_packages+=( fail2ban )
+
 #apt_packages+=( mongodb )
 
 #apt_packages+=( make )
