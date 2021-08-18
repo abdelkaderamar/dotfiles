@@ -2,6 +2,49 @@
 
 source $HOME/.bash_logging
 
+usage() {
+    if [ $# -gt 0 ]
+    then
+        e_header "$@"
+        echo
+    fi
+    e_header "Usage $(basename $0) [-sms] {<dir>}"
+    e_arrow  "   <dir>       Directory to copy"
+    echo "
+                              .-----------------------.
+                              | hard drive #1         |
+                              |   - Raw directory     |
+                             .|   - Processing dir #1 |
+                            / |   - Processing dir #2 |
+             .-----.       /  '-----------------------'
+             | dir -------.
+             '-----'       \ 
+                            \  .------------------------.
+                             \ | hard drive #2 (Backup) |
+                              '|   - Raw directory      |
+                               '------------------------'
+"
+    e_header "Requirements"
+    e_arrow  "DRIVE variable set hard drive #1"
+    e_arrow  "DRIVE_BACKUP variable set hard drive #2"
+    e_arrow  "The following directories must exist"
+    echo     "   - \${DRIVE}/Photos/Raw"    
+    echo     "   - \${DRIVE}/Photos/To Process1"
+    echo     "   - \${DRIVE}/Photos/To Process2"
+    echo     "   - \${DRIVE_BACKUP}/Photos/Raw"
+
+    e_header "Description"
+    echo     " Copy one or more directories to two hard drives. Each directory "
+    echo     " is copied to the following locations:"
+    echo     "   - \${DRIVE}/Photos/Raw         : used to store raw photos"
+    echo     "   - \${DRIVE}/Photos/To Process1 : to feed Album directory"
+    echo     "   - \${DRIVE}/Photos/To Process2 : to feed Classified directory"
+    echo     "   - \${DRIVE_BACKUP}/Photos/Raw  : another copy of the directory"
+
+    echo
+
+}
+
 check_backup_drive()
 {
     success=false
@@ -133,7 +176,25 @@ echo_sms_and_exit()
 }
 
 ################################################################
+# Process arguments
 
+SEND_SMS=false
+dirs=()
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+	'-sms') SEND_SMS=true
+		;;
+	'-h') usage
+		;;
+	*) dirs+=("$1")
+	   ;;
+    esac
+    shift
+done
+
+################################################################
 
 check_backup_drive
 
@@ -148,21 +209,6 @@ if ( ! $success )
 then
     echo_sms_and_exit 1 "Check DRIVE and DRIVE_BACKUP contains all the required directories"
 fi
-
-
-SEND_SMS=false
-dirs=()
-
-while [ $# -gt 0 ]
-do
-    case "$1" in
-	'-sms') SEND_SMS=true
-		;;
-	*) dirs+=("$1")
-	   ;;
-    esac
-    shift
-done
 
 e_header "Start processing ${dir[@]} ..."
 
