@@ -5,7 +5,9 @@ source $HOME/.bash_logging
 usage()
 {
     echo "Usage"
-    echo "    $(basename $0) <dir>"
+    echo "    $(basename $0) <dir> [year]"
+    echo ""
+    echo " - year is the lowest accepted date"
 }
 
 if [ $# -lt 1 ]
