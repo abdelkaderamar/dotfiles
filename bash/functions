@@ -157,8 +157,11 @@ function hp-scan-a4-device()
   fi
   
   device="$2"
-  hp-scan --device="$device" -mcolor -r400 --size=a4 --file="$output_file"
+  shift
+  shift
+  hp-scan --device="$device" -mcolor -r400 --size=a4 "$@" --file="$output_file"
 }
+
 function hp-scan-a4-hp5200() 
 {
   [[ $# -lt 1 ]] && echo Missing filename && return 1
@@ -167,6 +170,16 @@ function hp-scan-a4-hp5200()
   #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
   hp-scan-a4-device "$output_file" "$device"
 }
+
+function hp-scan-a4-hp5200-adf()
+{
+  [[ $# -lt 1 ]] && echo Missing filename && return 1
+  output_file="$1"
+  device="hpaio:/net/OfficeJet_5200_series?ip=192.168.1.31"
+  #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
+  hp-scan-a4-device "$output_file" "$device" --adf
+}
+
 
 img2pdfa4portrait() {
     if [ $# -ne 1 -a $# -ne 2 ]
@@ -285,6 +298,18 @@ audiotrack2mp3() {
 	e_error "Failed to generate the file $out"
     fi
     return $res
+}
+
+pdf_reverse_order() {
+    if [ $# -ne 2 ]
+    then
+        e_error "Usage: ${FUNCNAME[0]} <input file> <output file>"
+        return 1
+    fi
+    local input_file="$1"
+    local output_file="$2"
+
+    pdftk "$input_file" cat end-1 output "$output_file"
 }
 
 odd_even_merge() {
@@ -515,7 +540,7 @@ dus() {
     fi
 }
 
-test_filename_encoding() {
+test_all_filename_encoding() {
     local recursive=false
     local files=( )
 
@@ -530,18 +555,43 @@ test_filename_encoding() {
 	esac
 	shift
     done
-    for f in "${files[@]}"
+    for enc in "${all_encodings[@]}"
     do
-	for enc in "${all_encodings[@]}"
-	do
-	    e_header "Encoding: [$enc]"
-	    if ( $recursive)
-	    then
-		convmv -r -f "$enc" -t utf-8 "$f"
-	    else
-		convmv -f "$enc" -t utf-8 "$f"
-	    fi
-	done
+	test_filename_encoding "$enc" "$recursive" "${files[@]}"
     done    
 }
 
+test_filename_encoding() 
+{
+    local enc="$1"
+    local recursive="$2"
+    shift
+    shift
+    
+    e_header "Encoding: [$enc]"
+
+    if ( $recursive)
+    then
+	for file in "$@"
+	do
+	    convmv -r -f "$enc" -t utf-8 "$file"
+	done
+    else
+	for file in "$@"
+	do
+	    convmv -f "$enc" -t utf-8 "$file"
+	done
+    fi
+}
+
+attach_webcam() 
+{
+  if [ $# -eq 0 ]
+  then
+    webcam=1
+  else
+    webcam="$1"
+  fi
+
+  VBoxManage controlvm 'Windows 10' webcam attach ."$webcam"
+}
