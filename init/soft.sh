@@ -70,3 +70,13 @@ then
 else
   install_rclone
 fi
+
+##
+# Install youtube-dl
+##
+
+function install_youtube-dl() {
+  sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+  sudo chmod a+rx /usr/local/bin/youtube-dl
+
+}
