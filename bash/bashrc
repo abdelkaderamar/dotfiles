@@ -68,3 +68,4 @@ fi
 
 # notes (https://github.com/pimterry/notes) configuration
 export NOTES_DIRECTORY=$HOME/share/notes
+source "$HOME/.cargo/env"
