@@ -61,5 +61,10 @@ alias rclonelynx="lynx http://127.0.0.1:53682/auth -accept_all_cookies=1"
 #
 alias youtube-dl-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias youtube-dl-mp4="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'"
-alias attach_webcam="VBoxManage controlvm 'Windows 10' webcam attach .1"
+#alias attach_webcam="VBoxManage controlvm 'Windows 10' webcam attach .1"
 
+#
+alias reduce_pdf-ebook='reduce_pdf ebook'
+
+# check the word after sudo for alias
+alias sudo='sudo '
