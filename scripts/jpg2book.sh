@@ -6,6 +6,11 @@ usage() {
     echo "Syntax error"
     echo "Usage "
     echo "  $0 <dir>"
+    echo "Convert a directory containing jpg images to a single pdf"
+    echo "The images filenames are in the form of 1.jpg, 10.jpg or 112.jpg"
+    echo "If the images filenames are not in this format, the order of the "
+    echo "pages is not guaranteed"
+    echo "The pages order is based on alphabetical order"
 }
 
 if [ $# -ne 1 ]
