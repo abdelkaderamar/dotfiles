@@ -4,7 +4,7 @@ apt_packages+=(net-tools cuneiform linux-tools-common)
 
 
 # some tools
-apt_packages+=(tree ttyrec calibre smplayer mplayer pstack)
+apt_packages+=(tree ttyrec smplayer mplayer pstack)
 apt_packages+=(lftp gimp)
 apt_packages+=(npm)
 apt_packages+=(docker.io)
@@ -47,6 +47,20 @@ apt_packages+=( libgmp-dev libmpfr-dev libmpc-dev gcc-multilib autogen )
 
 apt_packages+=( python-is-python3 )
 
-apt_packages+=( resolvconf iperf )
+apt_packages+=( resolvconf iperf nfs-common )
 
+apt_packages+=( pdftk )
+
+apt_packages+=( shntool cuetools )
+
+apt_packages+=( nextcloud-desktop )
+
+apt_packages+=( qt5-default qtcreator qttools5-dev )
+
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=952718
+apt_packages+=( libclang-common-8-dev )
+
+apt_packages+=( syncthing )
+
+apt_packages+=( smbclient )
 
