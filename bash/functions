@@ -595,3 +595,23 @@ attach_webcam()
 
   VBoxManage controlvm 'Windows 10' webcam attach ."$webcam"
 }
+
+ape2mp3()
+{
+    if [ $# -lt 2 ]
+    then
+        e_error "Usage: ${FUNCNAME[0]} <input file> <output file> [bitrate]"
+	echo
+	e_arrow "bitrate is 256 by default"
+        return 1
+    fi
+    local input="$1"
+    local output="$2"
+    local bitrate=256
+    if [ $# -eq 3 ]
+    then
+	bitrate="$3"
+    fi
+
+    ffmpeg -i "$input" -acodec libmp3lame -b:a "${bitrate}"k -id3v2_version 3 "$output"
+}
