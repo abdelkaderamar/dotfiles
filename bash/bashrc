@@ -67,5 +67,14 @@ then
 fi
 
 # notes (https://github.com/pimterry/notes) configuration
-export NOTES_DIRECTORY=$HOME/share/notes
-source "$HOME/.cargo/env"
+if [ -d "$HOME/share/notes" ]
+then
+  export NOTES_DIRECTORY=$HOME/share/notes
+fi
+
+# Rust
+if [ -f "$HOME/.cargo/env" ]
+then
+  source "$HOME/.cargo/env"
+fi
+
