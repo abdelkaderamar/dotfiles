@@ -29,7 +29,8 @@ function print_usage()
   echo "             - server64"  
   echo "             - dev"  
   echo "             - netbook32"
-  echo "             - oneprovider"
+  echo "             - homelab"
+  echo "             - ext-server"
 }
 
 function read_profile()
@@ -54,8 +55,8 @@ function read_profile()
 	'netbook32')
 	    netbook32_profile=true
 	    ;;
-	'oneprovider')
-	    oneprovider_profile=true
+	'ext-server')
+	    ext_server_profile=true
 	    ;;
 	*)
 	    e_error "Unknown profile $PROFILE"
@@ -108,7 +109,7 @@ server32_profile=false
 server64_profile=false
 dev_profile=false
 netbook32_profile=false
-oneprovider_profile=false
+ext_server_profile=false
 ############################################################
 
 while [ $# -gt 0 ]

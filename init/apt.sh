@@ -36,6 +36,7 @@ if ( $dev_profile )
 then
     e_header "Dev profile"
     source init/apt_dev.sh
+    source init/snap_dev.sh
 fi
 
 if ( $netbook32_profile )
@@ -44,10 +45,10 @@ then
     source init/apt_netbook32.sh
 fi
 
-if ( $oneprovider_profile )
+if ( $ext_server_profile )
 then
-    e_header "OneProvider profile"
-    source init/apt_oneprovider.sh
+    e_header "External server profile"
+    source init/apt_ext_server.sh
 fi
 
 for key in "${apt_keys[@]}"
