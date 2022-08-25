@@ -45,11 +45,18 @@ then
     source init/apt_netbook32.sh
 fi
 
+if ( $homelab_profile )
+then
+    e_header "Homelab profile"
+    source init/apt_homelab.sh
+fi
+
 if ( $ext_server_profile )
 then
     e_header "External server profile"
     source init/apt_ext_server.sh
 fi
+
 
 for key in "${apt_keys[@]}"
 do

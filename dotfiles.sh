@@ -55,6 +55,9 @@ function read_profile()
 	'netbook32')
 	    netbook32_profile=true
 	    ;;
+        'homelab')
+	    homelab_profile=true
+	    ;;
 	'ext-server')
 	    ext_server_profile=true
 	    ;;
@@ -109,6 +112,7 @@ server32_profile=false
 server64_profile=false
 dev_profile=false
 netbook32_profile=false
+homelab_profile=false
 ext_server_profile=false
 ############################################################
 
