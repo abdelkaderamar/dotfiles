@@ -144,7 +144,7 @@ function hp-scan-a4()
 function hp-scan-a4-device()
 {
   [[ $# -lt 2 ]] && echo Missing filename or device && return 1
-  output_file="$1"
+  local output_file="$1"
 
   if [ -f "$output_file" ]
   then
@@ -165,7 +165,7 @@ function hp-scan-a4-device()
 function hp-scan-a4-hp5200() 
 {
   [[ $# -lt 1 ]] && echo Missing filename && return 1
-  output_file="$1"
+  local output_file="$1"
   device="hpaio:/net/OfficeJet_5200_series?ip=192.168.1.31"
   #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
   hp-scan-a4-device "$output_file" "$device"
@@ -174,10 +174,28 @@ function hp-scan-a4-hp5200()
 function hp-scan-a4-hp5200-adf()
 {
   [[ $# -lt 1 ]] && echo Missing filename && return 1
-  output_file="$1"
+  local output_file="$1"
   device="hpaio:/net/OfficeJet_5200_series?ip=192.168.1.31"
   #device='hpaio:/net/OfficeJet_5200_series?hostname=HP84A93EBDF464.local'
   hp-scan-a4-device "$output_file" "$device" --adf
+}
+
+function hp-scan-a4-hp5200-adf-recto-verso()
+{
+    [[ $# -lt 1 ]] && echo Missing filename && return 1
+    local output_file="$1"
+    local temp_dir=`mktemp -d`
+    local recto_file="${temp_dir}/odd.pdf"
+    hp-scan-a4-hp5200-adf "$recto_file"
+    e_arrow "Put the document and press enter"
+    read l
+    local verso_r_file="${temp_dir}/even-r.pdf"
+    hp-scan-a4-hp5200-adf "$verso_r_file"
+    local verso_file="${temp_dir}/even.pdf"
+    pdf_reverse_order "$verso_r_file" "$verso_file"
+    local merged_file="${temp_dir}/out.pdf"
+    odd_even_merge "$recto_file" "$verso_file" "$merged_file"
+    reduce_pdf-ebook "$merged_file" "$output_file"
 }
 
 
@@ -558,10 +576,10 @@ test_all_filename_encoding() {
     for enc in "${all_encodings[@]}"
     do
 	test_filename_encoding "$enc" "$recursive" "${files[@]}"
-    done    
+    done
 }
 
-test_filename_encoding() 
+test_filename_encoding()
 {
     local enc="$1"
     local recursive="$2"
@@ -601,8 +619,8 @@ ape2mp3()
     if [ $# -lt 2 ]
     then
         e_error "Usage: ${FUNCNAME[0]} <input file> <output file> [bitrate]"
-	echo
-	e_arrow "bitrate is 256 by default"
+	    echo
+	    e_arrow "bitrate is 256 by default"
         return 1
     fi
     local input="$1"
@@ -614,4 +632,42 @@ ape2mp3()
     fi
 
     ffmpeg -i "$input" -acodec libmp3lame -b:a "${bitrate}"k -id3v2_version 3 "$output"
+}
+
+
+mkv_to_mp4_with_res() {
+    local fct_name=$1
+    shift
+    if [ $# -ne 4 -a $# -ne 3 -a $# -ne 2 ]
+    then
+        e_error "Arguments: $fct_name <input file> <output file> [<quantizer scale>] [<resolution>]"
+        echo
+        e_arrow "quantizer scale is 18 by default (ffmpeg default is 23)"
+        e_arrow "resolution is 576 by default"
+        return 1
+    fi
+    local in="$1"
+    local out="$2"
+    local crf="18"
+    local resolution="576"
+    if [ $# -gt 2 ]
+    then
+        resolution="$3"
+    fi
+    local crf="18"
+    if [ $# -gt 3 ]
+    then
+        crf="$4"
+    fi
+
+    ffmpeg -i "$in" -vf scale=-1:"$resolution" -c:v libx264 -crf "$crf" -preset veryslow -c:a copy -scodec copy "$out"
+    return $?
+}
+
+mkv_to_720p_mp4() {
+    mkv_to_mp4_with_res "${FUNCNAME[0]}" "$@" "720"
+}
+
+mkv_to_sd_mp4() {
+    mkv_to_mp4_with_res "${FUNCNAME[0]}" "$@" "576"
 }
