@@ -80,9 +80,9 @@ do
     append "$LOG_FILE"  "Start copying [$file] ...."
     if [ "$LIMIT" -eq 0 ]
     then
-	scp -r -p "$file" "$HOST":"$REMOTE_DIR" >> "$LOG_FILE" 2>&1
+	scp -r -p "$file" "$HOST":"$REMOTE_DIR" 
     else
-	scp -r -p -l "$LIMIT" "$file" "$HOST":"$REMOTE_DIR" >> "$LOG_FILE" 2>&1
+	scp -r -p -l "$LIMIT" "$file" "$HOST":"$REMOTE_DIR" 
     fi
     res=$?
     if [ $res -eq 0 ]
