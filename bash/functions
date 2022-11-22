@@ -671,3 +671,31 @@ mkv_to_720p_mp4() {
 mkv_to_sd_mp4() {
     mkv_to_mp4_with_res "${FUNCNAME[0]}" "$@" "576"
 }
+
+django_migration() {
+  if [ $# -ne 2 ]
+  then
+    e_error "Usage ${FUNCNAME[0]} <app> <migration_name>"
+    return 1
+  fi
+  python manage.py makemigrations "$1" -n "$2" && \
+    python manage.py sqlmigrate "$1" "$2" && \
+    python manage.py makemigrations 
+  return $?
+}
+
+m4a_to_mp3() {
+    if [ $# -ne 2 ]
+    then
+      e_error "${FUNCNAME[0]} <m4a filename> <bitrate (in KB)>"
+      return 1
+    fi
+    local input=$1
+    local output="${input%?m4a}".mp3
+    local bitrate=$2
+    if [ "${bitrate: -1}" != "k" ]
+    then
+      bitrate="${bitrate}"k
+    fi
+    ffmpeg -i "$input" -acodec libmp3lame -ac 2 -ab ${bitrate} "${output}"
+}
