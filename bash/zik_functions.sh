@@ -42,9 +42,22 @@ read_artists() {
     
     if [ -f "$data_file" ]
     then
-	readarray -t artists < "$data_file"
+	  readarray -t artists < "$data_file"
     else
-	artists=()
+	  artists=()
+    fi
+}
+
+zik_get_bitrate() {
+    local data_file="$1"
+
+    if [ -f "$data_file" ]
+    then
+        local result=$(ffprobe -show_format "$data_file" 2>&1 | grep '^bit_rate' | sed 's/^bit_rate=\(.*\)/\1/')
+        local result_in_kb=$((result/1000))
+        e_arrow "bitreate of [$data_file] = $(tput bold)$((result/1000))KB$(tput sgr0) ($result)"
+    else
+        e_error "File [$data_file] not found"
     fi
 }
 
