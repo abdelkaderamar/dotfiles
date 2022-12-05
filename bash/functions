@@ -640,10 +640,10 @@ mkv_to_mp4_with_res() {
     shift
     if [ $# -ne 4 -a $# -ne 3 -a $# -ne 2 ]
     then
-        e_error "Arguments: $fct_name <input file> <output file> [<quantizer scale>] [<resolution>]"
+        e_error "Arguments: $fct_name <input file> <output file> [<resolution>] [<quantizer scale>]"
         echo
-        e_arrow "quantizer scale is 18 by default (ffmpeg default is 23)"
         e_arrow "resolution is 576 by default"
+        e_arrow "quantizer scale is 18 by default (ffmpeg default is 23)"
         return 1
     fi
     local in="$1"
