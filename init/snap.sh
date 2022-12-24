@@ -1,7 +1,7 @@
 snap_packages=()
 
 snap_packages+=(hugo syncthing)
-snap_classic_packages+=(vscode atom pdftk)
+snap_classic_packages+=(pdftk)
 
 for package in "${snap_packages[@]}"; do
     e_arrow "Installing snap package: $package"

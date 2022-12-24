@@ -1,4 +1,8 @@
+
+apt_packages+=( snap snapd )
+
 add_docker
+
 
 apt_packages+=( composer )
 
