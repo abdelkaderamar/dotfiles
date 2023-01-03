@@ -14,7 +14,7 @@ if [ -z ${FREE_PASS+x} ]; then usage "Please set FREE_PASS variable"; exit 1; fi
 
 if [ $# -lt 1 ]
 then
-  usage "Please set FREE_USER and FREE_PASS variables"
+  usage "text: message to send"
   exit 1
 fi
 msg=`echo "${1}" | sed -e 's/\n/%0A/g'`
