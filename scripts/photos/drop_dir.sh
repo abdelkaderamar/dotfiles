@@ -6,16 +6,16 @@ check_backup_drive()
 {
     success=false
     # Check drive is set and is a directory
-    [[ -z ${DRIVE+x} ]] && return 1
-    [[ ! -d "${DRIVE}" ]] && return 1
+    [[ -z ${PHOTO_DRIVE+x} ]] && return 1
+    [[ ! -d "${PHOTO_DRIVE}" ]] && return 1
     success=true
 }
 
 create_directories()
 {
-    RAW_DIR="${DRIVE}/Photos/Photos - Raw"
-    PROCESSING_DIR1="${DRIVE}/Photos/Photos To Process1"
-    PROCESSING_DIR2="${DRIVE}/Photos/Photos To Process2"
+    RAW_DIR="${PHOTO_DRIVE}/Photos/Photos - Raw"
+    PROCESSING_DIR1="${PHOTO_DRIVE}/Photos/Photos To Process1"
+    PROCESSING_DIR2="${PHOTO_DRIVE}/Photos/Photos To Process2"
 
     mkdir -pv "$RAW_DIR"
     mkdir -pv "$PROCESSING_DIR1"
@@ -55,7 +55,7 @@ check_backup_drive
 
 if ( ! $success )
 then
-    echo_and_exit 1 "Check DRIVE variable is set to the directory where photos are stored"
+    echo_and_exit 1 "Check PHOTO_DRIVE variable is set to the directory where photos are stored"
 fi
 
 create_directories
