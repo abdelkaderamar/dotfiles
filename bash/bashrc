@@ -15,8 +15,13 @@ shopt -s checkwinsize
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# Git branch 
+show_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
 # Prompt
-export PS1='$(if [[ $? -eq 0 ]]; then echo "\[\033[0;32m\]:)"; else echo "\[\033[01;31m\]:("; fi) \[\033[1;35m\][\[\033[0;32m\]\u\[\033[1;35m\]@\[\033[1;34m\]\h\[\033[1;35m\]:\[\033[01;31m\]\w\[\033[1;35m\]]#\[\033[0m\] '
+export PS1='$(if [[ $? -eq 0 ]]; then echo "\[\033[0;32m\]:)"; else echo "\[\033[01;31m\]:("; fi) \[\033[1;35m\][\[\033[0;32m\]\u\[\033[1;35m\]@\[\033[1;34m\]\h\[\033[1;35m\]:\[\033[01;31m\]\w\[\033[1;35m\]]#\[\033[0m\]$(show_git_branch) '
 
 # Aliases
 if [ -f ~/.bash_aliases ]; then
@@ -61,6 +66,15 @@ then
   export PATH=$HOME/Software/bin:$PATH
 fi
 
+if [ -d /usr/local/softwares/ ]
+then
+    bin_dirs=$(ls -d /usr/local/softwares/*/bin)
+    for d in $bin_dirs
+    do
+        export PATH=$d:$PATH
+    done
+fi
+
 if [ -d ~/Software/go ]
 then
   export PATH=$HOME/Software/go/bin:$PATH
@@ -76,5 +90,11 @@ fi
 if [ -f "$HOME/.cargo/env" ]
 then
   source "$HOME/.cargo/env"
+fi
+
+# GCC
+if [ -f "$HOME/.gcc.sh" ]
+then
+  source "$HOME/.gcc.sh" ]
 fi
 
