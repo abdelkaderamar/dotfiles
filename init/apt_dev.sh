@@ -64,3 +64,5 @@ apt_packages+=( syncthing )
 
 apt_packages+=( smbclient )
 
+apt_packages+=( global )
+
