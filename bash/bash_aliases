@@ -49,7 +49,8 @@ do
 done
 
 # dev aliases
-alias mk='make -j 2'
+alias mk2='make -j 2'
+alias mk='make -j 4'
 
 # python3 as default
 alias python='python3'
@@ -68,3 +69,6 @@ alias reduce_pdf-ebook='reduce_pdf ebook'
 
 # check the word after sudo for alias
 alias sudo='sudo '
+
+# Download musescore sheet using https://github.com/Xmader/musescore-downloader 
+alias musescore-down='npx msdl'
