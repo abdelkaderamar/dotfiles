@@ -20,7 +20,7 @@ fi
 for f in *.7z
 do
   e_header "Processing file $f"
-  $CMD "$f" -d "$EXTRACT_DIR" >> "$LOG"
+  $CMD x "$f"  -o"$EXTRACT_DIR" >> "$LOG"
   res=$?
   if [ ! -z $SUFFIX ]
   then
