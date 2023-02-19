@@ -690,12 +690,31 @@ m4a_to_mp3() {
       e_error "${FUNCNAME[0]} <m4a filename> <bitrate (in KB)>"
       return 1
     fi
-    local input=$1
+    local input="$1"
     local output="${input%?m4a}".mp3
-    local bitrate=$2
+    local bitrate="$2"
     if [ "${bitrate: -1}" != "k" ]
     then
       bitrate="${bitrate}"k
     fi
     ffmpeg -i "$input" -acodec libmp3lame -ac 2 -ab ${bitrate} "${output}"
+}
+
+encode_to_mp4mp3() {
+    if [ $# -ne 2 -a $# -ne 1 ]
+    then
+      e_error "${FUNCNAME[0]} <input filename> <output filename>"
+      return 1
+    fi
+
+    local input="$1"
+    local output="";
+    if [ $# -eq 2 ]
+    then
+        output="$2"
+    else
+        output="${input%.*}".mp4
+    fi
+
+    ffmpeg -i "$input" -c:v libx264 -crf 18 -preset slow -c:a mp3 "$output"
 }
