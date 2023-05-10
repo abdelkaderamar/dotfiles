@@ -66,3 +66,5 @@ apt_packages+=( smbclient )
 
 apt_packages+=( global )
 
+apt_packages+=( libpoco-dev )
+
