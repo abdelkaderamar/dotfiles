@@ -1,3 +1,6 @@
+# some env variables
+export DEV_HOME=$HOME/dev
+
 # ls
 alias ls='ls --color=auto'
 alias l='ls -1'
@@ -26,10 +29,10 @@ alias dfc='df -h .'
 alias dfh='df -h'
 
 # move to dirs
-alias gh="cd $HOME/Dev/Github"
-alias vs="cd $HOME/Dev/VisualStudio"
-alias bb="cd $HOME/Dev/Bitbucket"
-alias gl="cd $HOME/Dev/Gitlab"
+alias gh="cd ${DEV_HOME}/github"
+alias vs="cd ${DEV_HOME}/VisualStudio"
+alias bb="cd ${DEV_HOME}/Bitbucket"
+alias gl="cd ${DEV_HOME}/Gitlab"
 
 # git
 alias git_unpushed='git log origin/master..HEAD'

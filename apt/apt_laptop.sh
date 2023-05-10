@@ -1,0 +1,8 @@
+apt_packages+=("${apt_common[@]}")
+apt_packages+=("${apt_files[@]}")
+apt_packages+=("${apt_cpp[@]}")
+apt_packages+=("${apt_latex[@]}")
+apt_packages+=("${apt_sys_tools[@]}")
+apt_packages+=("${apt_vs_code[@]}")
+apt_packages+=("${apt_chrome[@]}")
+apt_packages+=("${apt_edge[@]}")

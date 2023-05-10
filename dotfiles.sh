@@ -1,10 +1,13 @@
 #!/bin/bash 
 
+################### Logging ################################
 function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
 function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
 function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
 function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
 function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
+############################################################
+
 function echo_and_exit()
 {
   exit_code=$1
@@ -23,14 +26,13 @@ function print_usage()
   echo "  -soft     install software from sources"
   echo "  -dev      install development tools (to combine with -apt)"
   echo "  -profile  the profile of the host. Available profiles are"
-  echo "             - pi3 (raspberry 3 used as a server)"  
-  echo "             - pi4 (raspberry 4 used as a media center and a server)"  
-  echo "             - server32"  
-  echo "             - server64"  
-  echo "             - dev"  
-  echo "             - netbook32"
-  echo "             - homelab"
-  echo "             - ext-server"
+  echo "             - pi3:         raspberry 3 used as a server"  
+  echo "             - pi4:         raspberry 4 used as a media center and a server"  
+  echo "             - laptop:      my personal laptop"  
+  echo "             - desktop:     my personal desktop PC"
+  echo "             - homelab:     my main homelab"
+  echo "             - homelab2:    my secondary homelab"
+  echo "             - ext_homelab: my external homelab"
 }
 
 function read_profile()
@@ -43,23 +45,20 @@ function read_profile()
 	'pi4')
 	    pi4_profile=true
 	    ;;
-	'server32')
-	    server32_profile=true
+	'laptop')
+	    laptop_profile=true
 	    ;;
-	'server64')
-	    server64_profile=true
+	'desktop')
+	    desktop_profile=true
 	    ;;
-	'dev')
-	    dev_profile=true
-	    ;;
-	'netbook32')
-	    netbook32_profile=true
-	    ;;
-        'homelab')
+	'homelab')
 	    homelab_profile=true
 	    ;;
-	'ext-server')
-	    ext_server_profile=true
+	'homelab2')
+	    homelab2_profile=true
+	    ;;
+	'ext_homelab')
+	    ext_homelab_profile=true
 	    ;;
 	*)
 	    e_error "Unknown profile $PROFILE"
@@ -68,7 +67,7 @@ function read_profile()
     esac
 }
 
-echo 'Dotfiles - Abdelkader Amar - https://github.com/abdelkaderamar'
+e_header 'Dotfiles - Abdelkader Amar - https://github.com/abdelkaderamar'
 
 for arg in "$@"
 do
@@ -87,13 +86,6 @@ HELP
     fi
 done
 
-### Logging ################################################
-function e_header()  { echo -e "\n\033[1m$@\033[0m"; }
-function e_success() { echo -e " \033[1;32m✔\033[0m  $@"; }
-function e_error()   { echo -e " \033[1;31m✖\033[0m  $@"; }
-function e_arrow()   { echo -e " \033[1;34m➜\033[0m  $@"; }
-function e_warn()    { echo -e " \033[1;31m➜\033[0m  $@"; }
-############################################################
 
 
 DO=""
@@ -108,12 +100,11 @@ PROFILE=''
 # Profiles #################################################
 pi3_profile=false
 pi4_profile=false
-server32_profile=false
-server64_profile=false
-dev_profile=false
-netbook32_profile=false
+laptop_profile=false
+desktop_profile=false
 homelab_profile=false
-ext_server_profile=false
+homelab2_profile=false
+ext_homelab_profile=false
 ############################################################
 
 while [ $# -gt 0 ]
@@ -145,9 +136,9 @@ then
     if [ -z "$PROFILE" ]
     then
         e_error "Set a profile for -apt option (-profile <profile>)"
-	exit 2
+	      exit 2
     fi
-    echo $PROFILE
+    e_arrow "Profile: $PROFILE"
 fi
 
 apt_keys=()
@@ -160,12 +151,16 @@ export apt_packages
 
 DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo $DOTFILES_DIR
+e_arrow "dotfiles dir: $DOTFILES_DIR"
 
 e_header "Starting dotfile installation ..."
 
 source "$DOTFILES_DIR/init/create_dirs.sh"
 
+if ( $OPT_BASH_SETUP )
+then
+  source "$DOTFILES_DIR/bash/bash_setup.sh"
+fi
 
 if ( $OPT_DEV_SETUP )
 then
@@ -198,7 +193,7 @@ fi
 
 if ( $OPT_APT_INSTALL )
 then
-  source "$DOTFILES_DIR/init/apt.sh"
+  source "$DOTFILES_DIR/apt/apt.sh"
 fi
 
 if ( $OPT_SOFT_INSTALL )
@@ -209,11 +204,6 @@ fi
 if ( $OPT_DEV_SETUP )
 then
   source "$DOTFILES_DIR"/init/dev.sh
-fi
-
-if ( $OPT_BASH_SETUP )
-then
-  source "$DOTFILES_DIR/bash/bash_setup.sh"
 fi
 
 if ( $OPT_SNAP_INSTALL )
