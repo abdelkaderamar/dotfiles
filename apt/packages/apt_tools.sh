@@ -6,7 +6,6 @@ apt_files=( \
 )
 
 apt_security=( \
-  keepassx \
   keepass2 \
 )
 
