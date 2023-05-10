@@ -700,6 +700,23 @@ m4a_to_mp3() {
     ffmpeg -i "$input" -acodec libmp3lame -ac 2 -ab ${bitrate} "${output}"
 }
 
+flac_to_mp3() {
+    # TODO: refactor commun code with similar functions
+    if [ $# -ne 2 ]
+    then
+      e_error "${FUNCNAME[0]} <m4a filename> <bitrate (in KB)>"
+      return 1
+    fi
+    local input="$1"
+    local output="${input%?flac}".mp3
+    local bitrate="$2"
+    if [ "${bitrate: -1}" != "k" ]
+    then
+      bitrate="${bitrate}"k
+    fi
+    ffmpeg -i "$input" -ab ${bitrate} -acodec libmp3lame -map_metadata 0 -id3v2_version 3 "${output}"
+}
+
 encode_to_mp4mp3() {
     if [ $# -ne 2 -a $# -ne 1 ]
     then
