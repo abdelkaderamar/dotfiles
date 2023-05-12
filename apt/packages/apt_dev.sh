@@ -3,11 +3,14 @@ apt_cpp=( \
    clang \
    # to build gcc from sources
    libgmp-dev libmpc-dev libmpfr-dev gcc-multilib g++-multilib libc6-dev-i386 \
+   # to run gcc tests
+   autogen \
    # cmake
    cmake cmake-curses-gui \
 )
 
 apt_python=( \
+  python3-virtualenv \
 )
 
 prepare_vs_code() {

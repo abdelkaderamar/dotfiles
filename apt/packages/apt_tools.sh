@@ -9,3 +9,7 @@ apt_security=( \
   keepass2 \
 )
 
+apt_pdf=( \
+  pdftk \
+)
+

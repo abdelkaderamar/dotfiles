@@ -1,3 +1,1 @@
-apt_packages+=("${apt_common[@]}")
-apt_packages+=("${apt_files[@]}")
-apt_packages+=("${apt_cpp[@]}")
+source apt_main_pc.sh
