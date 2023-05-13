@@ -25,18 +25,12 @@ fi
 if ( $laptop_profile )
 then
     e_header "Laptop profile"
-    prepare_vs_code
-    prepare_chrome
-    prepare_edge
     source apt/apt_laptop.sh
 fi
 
 if ( $desktop_profile )
 then
     e_header "Desktop profile"
-    prepare_vs_code
-    prepare_chrome
-    prepare_edge
     source apt/apt_desktop.sh
 fi
 
