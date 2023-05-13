@@ -98,3 +98,9 @@ then
   source "$HOME/.gcc.sh" ]
 fi
 
+# JDK
+if [ -d "/opt/jdk" ]
+then
+  export JAVA_HOME=/opt/jdk
+  export PATH=$JAVA_HOME/bin:$PATH
+fi

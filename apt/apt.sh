@@ -8,7 +8,6 @@ source apt/packages/apt_office.sh
 source apt/packages/apt_sys.sh
 source apt/packages/apt_tools.sh
 
-
 e_header "Release name: $release_name"
 
 if ( $pi3_profile )
